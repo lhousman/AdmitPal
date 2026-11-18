@@ -87,12 +87,15 @@ Reply format (plain text, no markdown headings, no bold or italics markers):
 - End with one question that asks the candidate to pick an option, or that draws out a story you need.
 
 Rules:
-- Use only facts from the draft or the profile. Where a fact is missing, use a placeholder in square brackets such as [result], [team size] or [company]. Never invent names, numbers, events or school features.
+- Use only facts from the draft, the profile and the resume summary. Where a fact is missing, use a placeholder in square brackets such as [result], [team size] or [company]. Never invent names, numbers, events or school features.
+- You also get a summary of the candidate's resume, Admit Pal's diagnosis of their profile (strengths, gaps, suggested lead story) and Admit Pal's read of their case for this school. Use them: when asked what to bring into the essay, name the specific resume items and strengths that fit this prompt and say how to use each. Ask for specifics (numbers, what they personally did) when the summary is thin. If no resume has been added, say so and suggest adding it in Profile.
 - Options are illustrations to adapt, not text to paste. Never write a full paragraph or the essay. Admissions committees expect the candidate's own writing.
-- Check the draft against the school's prompt and word limit, and say so when it is off-prompt or over the limit.
+- Use what you know about the candidate from the profile to tailor advice, for example how a career pivot should be explained, or how their focus area connects to the school.
+- Check the draft against the school's prompt and word limit, and say so when it is off-prompt or over the limit. Report the draft's length when it matters.
+- Be honest and encouraging. Lead with what works, then the changes that would help most.
 - If no draft is uploaded yet, help them start: which story to lead with, a simple outline, and 2 or 3 possible opening lines with placeholders. Then invite them to upload a draft.
 - For follow-up questions, answer the question directly in the same style: short, specific, with options when they help.
-- Length: there is no word limit. Be as thorough as is useful, but every point must add value for this candidate: no padding, no repetition, no generic advice that would fit any essay.
+- Length: keep replies under 500 words. Be as thorough as is useful within that, but every point must add value for this candidate: no padding, no repetition, no generic advice that would fit any essay.
 - If you mention a program feature, keep it general or say it should be confirmed on the school's site.
 - The PLAYBOOK's patterns come from top programs but apply to any school: adapt them to the school and prompt in front of you.
 
@@ -179,6 +182,24 @@ def doc_text(name, raw):
     return None
 
 
+def background_lines(b):
+    """Resume summary, profile diagnosis and this school's read, as computed by the app, in labelled sections."""
+    bullets = lambda items: [f"- {x}" for x in items or []]
+    r, d, s = b.get("resume"), b.get("diagnosis"), b.get("school_read") or {}
+    if r:
+        lines = [f"Resume summary (from {r.get('file', 'their resume')}):", *bullets(r.get("summary")), ""]
+    else:
+        lines = ["Resume: not added yet.", ""]
+    if d:
+        lines += ["Admit Pal's profile diagnosis:", f"- Headline: {d.get('headline', '')}",
+                  "Strengths:", *bullets(d.get("strengths")), "Gaps:", *bullets(d.get("gaps")),
+                  f"Suggested lead story: {d.get('lead_story', '')}", ""]
+    if any(s.values()):
+        lines += ["Admit Pal's read of their case for this school:", "Strengths:", *bullets(s.get("strengths")),
+                  "Weaknesses:", *bullets(s.get("weaknesses")), "Opportunity:", *bullets(s.get("opportunities")), ""]
+    return lines
+
+
 def context_text(c):
     """First user turn: the essay brief, the candidate's profile and the draft, as plain text so every provider reads it the same way."""
     p = c.get("profile") or {}
@@ -190,6 +211,7 @@ def context_text(c):
         "Candidate profile:",
         *[f"- {k.replace('_', ' ')}: {v}" for k, v in p.items() if v not in (None, "", [])],
         "",
+        *background_lines(c.get("background") or {}),
     ]
     doc = c.get("doc")
     if not doc:
@@ -279,7 +301,7 @@ class Handler(SimpleHTTPRequestHandler):
         system = SYSTEM + ("\n\nPLAYBOOK (Admit Pal's admissions guidance; use it, don't quote it at length):\n" + pb if pb else "")
         print(f"  coach -> {prov['model']} | school: {c.get('school', '')} | playbook: {', '.join(used) or 'none'}", flush=True)
         messages = [{"role": "system", "content": system}, {"role": "user", "content": first},
-                    {"role": "assistant", "content": "Got it. I have the prompt, your profile and your draft."}]
+                    {"role": "assistant", "content": "Got it. I have the prompt, your profile" + (", and your draft." if c.get("doc") else ". No draft yet.")}]
         for m in c.get("history", []):
             if m.get("role") not in ("user", "assistant") or not m.get("text"):
                 continue

@@ -1863,6 +1863,14 @@ function coachProfile(){
     industry:ind ? ind.label : '', focus_areas:labelsOf(SIM.focus_areas, p.focus || []), career_goal:g ? g.label : '', sponsored:p.sponsor === 'yes' ? 'yes' : '',
     legacy:p.legacy === 'yes' && p.legacySchool ? school(p.legacySchool).name : '', positioning_advice:SIM.diagnosis.lead_story};
 }
+/* What the app already worked out about the candidate, for the live coach: the resume summary, the profile diagnosis
+   (both only once a resume is added, as on screen) and this school's strengths, weaknesses and opportunity. */
+function coachBackground(id){
+  const has = !!S.profile.resume, X = has ? diagnosis() : null, a = adviceFor(id), t = l => l.map(x => `${x.label}: ${x.text}`);
+  return {resume: has ? {file:S.profile.resume, summary:SIM.resume.facts} : null,
+    diagnosis: X ? {headline:X.headline, strengths:t(X.strengths), gaps:t(X.gaps), lead_story:X.story} : null,
+    school_read: {strengths:t(a.strengths), weaknesses:t(a.weaknesses), opportunities:t(a.opportunities)}};
+}
 /* Sends the conversation to essay_server.py and streams the reply into msg. */
 async function coachReply(ck, ctx, msg, redraw){
   const W = SIM.assistants, up = S.uploads[ck];
@@ -1870,7 +1878,7 @@ async function coachReply(ck, ctx, msg, redraw){
   msg.model = LLM.model;
   try {
     const r = await fetch('api/essay/chat', {method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({...ctx, model:LLM.model, profile:coachProfile(), doc:up && up.data ? {name:up.name, data:up.data} : null, history})});
+      body:JSON.stringify({...ctx, model:LLM.model, profile:coachProfile(), background:coachBackground(ck.split('|')[0]), doc:up && up.data ? {name:up.name, data:up.data} : null, history})});
     if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || `HTTP ${r.status}`);
     const rd = r.body.getReader(), dec = new TextDecoder(); let buf = '';
     for (;;) { const {value, done} = await rd.read(); if (done) break; buf += dec.decode(value, {stream:true});
@@ -1882,7 +1890,7 @@ async function coachReply(ck, ctx, msg, redraw){
   } catch(e) { msg.err = true; msg.text = (msg.text ? msg.text + '\n\n' : '') + fill(W.live.error, {error:e.message}); }
   msg.wait = false; msg.llm = true; redraw();
   log('ai', `Essay Coach reply (${msg.err ? 'error, ' : ''}${msg.model})`, msg.text);
-  log('data','Coaching exchange captured (training data)', {school:ctx.short, item:ctx.item, model:msg.model, draft:up ? up.name : null, reply_words:(msg.text.match(/\S+/g) || []).length});
+  log('data','Coaching exchange captured (training data)', {school:ctx.short, item:ctx.item, model:msg.model, draft:up ? up.name : null, resume_summary:!!S.profile.resume, reply_words:(msg.text.match(/\S+/g) || []).length});
 }
 async function loadSim(){
   const t0 = $('#sim-inline').textContent.trim();
