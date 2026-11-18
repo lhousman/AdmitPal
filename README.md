@@ -39,6 +39,11 @@ Stop the server with Ctrl+C. After editing `admitpal.env` or `essay_server.py`, 
 
 The prototype opens as a **website** with a top navigation bar. The yellow **Prototype log and Test mode** tab on the right edge opens the tester drawer, which also has a **Phone view** button to switch to the original mobile app layout (used for the Assignment 4 screenshots).
 
+## Hosting on Cloudflare
+The whole app also runs as one Cloudflare Worker (website plus coach, file reading and accounts in KV). Setup,
+deploy and local testing steps are in `cloudflare/README.md`. The coach's instructions are in `coach_system.md`,
+shared by `essay_server.py` and the Worker.
+
 ## Happy path
 1. **Welcome**: tap Get started (new user) or I already have an account.
 2. **Accounts**: sign up with an email and password. Everything you do (profile, school list, plans, essay chats, uploads, outcomes, community activity) saves to your email automatically, and logging back in with that email restores it; reopening the page resumes the session. With `essay_server.py` running, accounts are stored on the server in `accounts/` (git-ignored, passwords hashed with PBKDF2); without it, in the browser's storage. Google and Apple buttons say they aren't connected yet. "Explore a demo profile" on the login sheet opens Priya without saving anything. Test mode and Restart log out first, so they never overwrite a real account.
