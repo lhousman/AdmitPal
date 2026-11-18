@@ -11,3 +11,5 @@ __pycache__/
 
 # Python virtual environment
 .venv/
+# Saved user accounts (local server)
+accounts/
