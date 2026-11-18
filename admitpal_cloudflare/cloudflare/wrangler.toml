@@ -1,0 +1,28 @@
+# Admit Pal on Cloudflare Workers. Setup and deploy steps: cloudflare/README.md
+name = "admitpal"
+main = "src/worker.js"
+compatibility_date = "2025-10-01"
+
+[build]
+command = "node build.mjs"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# Accounts. Create the namespace once with:  npx wrangler kv namespace create ACCOUNTS
+# then paste the id it prints below.
+[[kv_namespaces]]
+binding = "ACCOUNTS"
+id = "PASTE_YOUR_KV_NAMESPACE_ID_HERE"
+
+# The coach prompt and playbook are bundled into the Worker (not served as files).
+[[rules]]
+type = "Text"
+globs = ["**/*.md"]
+fallthrough = true
+
+[vars]
+ADMITPAL_DEFAULT = "gemini"
+# Optional: ADMITPAL_GEMINI_MODEL, ADMITPAL_GEMINI_FALLBACKS, ADMITPAL_TEMPERATURE, ADMITPAL_PLAYBOOK_CHARS
+# API keys are secrets, never put them here:  npx wrangler secret put GEMINI_API_KEY
