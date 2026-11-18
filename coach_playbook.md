@@ -4,8 +4,8 @@ How this file works: each "## " heading starts a section. The line under the hea
 sends a section when a keyword appears in the school name, the essay prompt, the plan item, the candidate's profile
 or the last two chat messages. Sections tagged "always" go with every request. School features are examples
 gathered from past application research: tell the candidate to confirm them on the school's site.
-Sources: Aryan's admissions research library, distilled into general guidance. No applicant's personal stories or
-text are included.
+Sources: Aryan's admissions research library, distilled into general guidance, plus general admissions best practice
+written for Admit Pal. No applicant's personal stories or text are included. Examples use [placeholders].
 
 ## Core principles
 keywords: always
@@ -20,6 +20,20 @@ keywords: always
 - Every school resource mentioned must close a named gap in the candidate's plan. A list of courses is not fit.
 - Cross-check stories across essays and recommendation letters so the same story isn't told twice.
 - Word economy: tight sentences, but readable. Dense hyphenated phrase chains and long lists feel cramped.
+
+## Diagnosing a draft
+keywords: always
+Run this check on every draft, then report only the issues that matter most for this candidate:
+1. Prompt fit: does it answer every part of the question, in the school's own terms?
+2. Theme: can the point of the essay be said in one sentence? Does every paragraph serve it?
+3. Specificity: are there concrete moments, names, numbers and decisions, or mostly general claims?
+4. Agency: is it clear what the candidate personally did and decided, as opposed to "we" or the team?
+5. Evidence: is each claim about the candidate backed by something that happened?
+6. Reflection: does the candidate show what they learned or how they changed, not only what they achieved?
+7. Fit: are school resources tied to specific gaps, or just listed?
+8. Voice: does it sound like a real person talking, or like a corporate report or a thesaurus?
+9. Length: is it within the limit, with words spent where they matter most?
+10. Ending: does it land on something earned (a return to the opening, a forward step), not a slogan?
 
 ## Openings and hooks
 keywords: hook, opening, intro, introduction, begin, first line, first paragraph, review my draft, review the draft
@@ -145,6 +159,135 @@ keywords: optional, anything else, additional information, explain, gap
 - Use it to explain something a reader would otherwise wonder about (a low grade period, a gap, an unusual
   recommender choice) in a short, factual, non-defensive way, plus evidence of what has changed.
 - If there is nothing to explain, a short, genuinely new dimension can work, but it should not repeat other essays.
+
+## Weak to strong: worked examples
+keywords: review, feedback, improve, stronger, rewrite, revise, edit, better, weak
+Use these patterns to build options. Placeholders stand for the candidate's own facts; never fill them in for them.
+- Generic claim -> specific moment.
+  Weak: "I am a passionate leader who thrives in challenging environments."
+  Strong: "When [stakeholder] pulled funding two weeks before launch, I [specific action], and we [result]."
+- "We" -> "I".
+  Weak: "We redesigned the onboarding process."
+  Strong: "I proposed scrapping the [old step]; after I [action], onboarding time fell from [x] to [y]."
+- Passive or vague result -> concrete outcome.
+  Weak: "The project was very successful."
+  Strong: "Within [timeframe], [metric] rose [amount], and [team or client] adopted it in [where]."
+- Vague goal -> concrete goal.
+  Weak: "I want to make an impact in sustainability."
+  Strong: "Right after the MBA I'll join [type of firm] as [role], working on [specific problem]."
+- Brochure fit -> gap-tied fit.
+  Weak: "I'm excited by [school]'s world-class faculty and diverse community."
+  Strong: "To close my gap in [skill], I'll take [course], which [student or alum] said changed how they [behaviour]."
+- Cliché opening -> scene.
+  Weak: "Ever since I was a child, I have dreamed of helping others."
+  Strong: "[Person] [did or said something specific] the day [moment]. I didn't know then that [link to theme]."
+- Value as label -> value as behaviour.
+  Weak: "Integrity is my most important value."
+  Strong: "I could have [easy path]. Instead I [harder right action], even though it meant [cost]."
+- Adjective list ending -> earned ending.
+  Weak: "This taught me resilience, empathy, adaptability and leadership."
+  Strong: "Now, before I [recurring situation], I [new habit], because [what the story taught]."
+- Resume restated -> the why behind it.
+  Weak: "I was promoted to [title] in [year] and managed a team of [n]."
+  Strong: "The promotion mattered less than the first month: I had to [challenge], and I learned [insight]."
+
+## Choosing stories
+keywords: which story, choose, brainstorm, story bank, no draft, outline, ideas, get started
+- Build a story bank first: 15-20 moments from work, community and personal life. For each, note the stakes, what
+  the candidate did, the result and what it shows.
+- Good stories have real stakes, clear personal agency, a change in the candidate or the situation, and some
+  tension or resistance.
+- Prefer recent stories for professional prompts (usually the last few years); earlier life works for values and
+  origin stories.
+- Spread stories across essays, short answers, interviews and recommendation letters so each adds something new.
+- When in doubt between an impressive story and a revealing one, the revealing one usually wins.
+- If no draft exists, help the candidate pick 2-3 candidate stories, then outline the strongest one in 4-6 beats.
+
+## Word budgets
+keywords: word limit, words, length, too long, over the limit, cut, shorten, word count
+Rules of thumb, not formulas:
+- 250 words: one story or one idea. Roughly 15% setting the scene, 55% what happened and what the candidate did,
+  30% meaning and forward link. No room for a second story.
+- 300-400 words: one main story plus a short second example, or one story with fuller reflection.
+- 450-500 goals or why-school essays: about 25-30% motivation and credibility, 15% goals, 45-50% how the school
+  closes specific gaps, 5-10% close.
+- Cutting: remove throat-clearing openings, repeated ideas, adjectives that a fact could replace, and any resume
+  detail that doesn't serve the theme. Cut whole sentences before trimming words.
+- If a draft is far under the limit, the likely gap is reflection or specificity, not more events.
+
+## Revising in rounds
+keywords: revise, revision, draft, second draft, rewrite, next step, polish
+- Round 1, story and structure: right story, right order, the prompt answered. Don't polish sentences yet.
+- Round 2, evidence and agency: add the specific actions, numbers and decisions; turn "we" into "I" where accurate.
+- Round 3, reflection and fit: deepen what it meant; tie school resources to gaps.
+- Round 4, line edits: cut words, vary sentence length, read aloud, check the word count.
+- Share with one or two readers who know the candidate and one who doesn't. Ask the stranger what they learned
+  about the person, and compare it with what the candidate intended.
+
+## Tone and voice
+keywords: tone, voice, sound, arrogant, humble, confident, jargon, formal
+- Confident, not arrogant: state what happened and let results speak; credit others where due without hiding the
+  candidate's role.
+- Humble, not self-erasing: one honest weakness or doubt adds credibility.
+- Plain words over impressive ones. If a sentence would sound odd said aloud to a friend, rewrite it.
+- Translate industry jargon and acronyms; the reader may not share the candidate's field.
+- Avoid stacking hyphenated compounds and long lists; they read as dense and cramped.
+
+## International applicants
+keywords: international, india, china, africa, nigeria, brazil, abroad, visa, 10 point, non-native, country
+- Explain context the reader may not know in one clause: the scale of a company, the selectivity of a college, what
+  a role means locally, what a grading scale means.
+- Convert or explain local metrics (currency, grading scales, rankings) so achievements land.
+- Show cross-cultural adaptability with a specific moment, not a claim.
+- Goals should be realistic about geography and work authorisation: be clear where the candidate plans to work
+  right after the MBA and why that path is credible.
+- English style: clear, simple sentences beat ornate ones. Idioms translated literally can confuse.
+
+## Addressing profile weaknesses
+keywords: low gpa, low score, weakness, gap, short experience, young, older, red flag, below median
+- Low GPA or test score: show recent quantitative proof (strong quant section, graded courses, analytical work) and
+  use the optional essay for a brief, factual explanation if there's a real reason.
+- Short work experience: emphasise depth of impact, fast progression and clear reasons for timing.
+- Long work experience: explain why a full-time MBA now, and what the candidate will bring to younger classmates.
+- Employment gaps or job changes: give a short, honest reason and show what the candidate did with the time.
+- Never sound defensive. One clear sentence of context, then evidence of strength.
+
+## Personal background and adversity
+keywords: background, adversity, hardship, identity, diversity, unique perspective, upbringing, first-generation
+- Adversity stories work when they focus on what the candidate did and became, not only what happened to them.
+- Give the hardship one or two vivid sentences, then spend the words on response, growth and how it shapes the
+  candidate's perspective today.
+- "Unique perspective" prompts want what the candidate will add to discussions: connect the background to a way of
+  seeing problems, with one concrete example.
+- The candidate decides what to share. Never push them to disclose more than they're comfortable with.
+
+## Lists, fun facts and creative formats
+keywords: random things, fun, hobbies, interests, creative, list, things about you
+- Lists of facts about the candidate work best as a mix: a few that are funny, a few that are surprising, a few that
+  are meaningful, and a few that show how they treat other people.
+- Specific beats general ("I've cooked my grandmother's [dish] for [n] strangers" beats "I love cooking").
+- Avoid repeating anything from the resume or other essays.
+
+## The MBA resume
+keywords: resume, cv, bullet, bullets
+- One page. Reverse chronological. Every bullet starts with a strong verb and shows a result.
+- Bullet formula: action + what or how + quantified result (+ why it mattered).
+- Lead with the most impressive, relevant result in each role; show progression and promotions.
+- Translate jargon; spell out the scale of the employer if it isn't well known.
+- Keep a short final section for education details, leadership outside work, languages and a few genuine interests.
+
+## Reapplicants
+keywords: reapply, reapplicant, reapplication, applied before, last year
+- The question is what has changed since last time: a new role, new results, a stronger test score, clearer goals,
+  deeper school engagement.
+- Be specific about the improvements and honest about what the candidate learned from the first attempt.
+- Don't recycle last year's essays; the committee may compare them.
+
+## Waitlist and update letters
+keywords: waitlist, waitlisted, update letter, deferred
+- Keep it short and specific: genuine new information since applying (a promotion, a result, a new score, a campus
+  visit) and a clear statement of commitment if true.
+- Follow the school's instructions on whether and how to send updates. Don't send repeated generic notes.
 
 ## Recommendation letters
 keywords: recommender, letter of recommendation, lor
