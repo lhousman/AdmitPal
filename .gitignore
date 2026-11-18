@@ -8,3 +8,6 @@ admitpal.env
 .claude/
 .DS_Store
 __pycache__/
+
+# Python virtual environment
+.venv/

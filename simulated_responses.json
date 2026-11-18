@@ -7135,7 +7135,7 @@
     "requires": "Requires {list}."
   },
   "assistants": {
-    "_note": "Assistant workspaces opened from plan items. Each assistant answers with the first reply whose keyword appears in the user's message, otherwise default_reply. There is no typing box: documents are uploaded so each one is captured with its school and plan item (the data loop). requires_upload means the item can't be completed or sent for expert review without a document. The Essay Coach is live when the page is served by essay_server.py with an API key: replies come from the model picked in the workspace (Anthropic, OpenAI, DeepSeek or Gemini, see live below) and the keyword replies are the offline fallback.",
+    "_note": "Assistant workspaces opened from plan items. Each assistant answers with the first reply whose keyword appears in the user's message, otherwise default_reply. Documents are uploaded so each one is captured with its school and plan item (the data loop). requires_upload means the item can't be completed or sent for expert review without a document. The Essay Coach is live when the page is served by essay_server.py with an API key: replies come from the model picked in the workspace (Anthropic, OpenAI, DeepSeek or Gemini, see live below) and the keyword replies are the offline fallback.",
     "prompt_label": "Essay question",
     "prompt_head": "{short} essay question",
     "due": "{school}, due {date}",
