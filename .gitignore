@@ -13,3 +13,8 @@ __pycache__/
 .venv/
 # Saved user accounts (local server)
 accounts/
+# Cloudflare build output, dependencies and local secrets
+cloudflare/public/
+cloudflare/node_modules/
+cloudflare/.wrangler/
+cloudflare/.dev.vars
