@@ -18,6 +18,12 @@ in this folder (KEY=value lines; the server refuses to serve it). ~/.admitpal.en
 
 Without any key the page still works: the Essay Coach falls back to the simulated replies.
 
+Coaching style and knowledge: SYSTEM below sets the reply format (verdict, why, options A/B/C with placeholders,
+a closing question). coach_playbook.md in this folder holds the admissions playbook; only the sections whose
+"keywords:" line matches the school or essay prompt are sent (sections tagged "always" are always sent; the
+section tagged "fallback" is sent for any school that has no section of its own).
+    ADMITPAL_TEMPERATURE=0.4        ADMITPAL_PLAYBOOK_CHARS=24000   (optional)
+
 Endpoints (everything else is served as a static file from this folder):
     GET  /api/essay/status    {"models": [{"id","label","ready"}], "default"}
     POST /api/essay/extract   {"name","data"(base64)} -> {"words"} for .txt/.md/.docx/.pdf
@@ -62,7 +68,7 @@ PROVIDERS = [
     {"id": "anthropic", "label": "Claude (Anthropic)", "key": "ANTHROPIC_API_KEY", "model": "anthropic/claude-opus-5-5"},
     {"id": "openai",    "label": "GPT (OpenAI)",       "key": "OPENAI_API_KEY",    "model": "openai/gpt-5.6-sol"},
     {"id": "deepseek",  "label": "DeepSeek",           "key": "DEEPSEEK_API_KEY",  "model": "deepseek/deepseek-v4-pro"},
-    {"id": "gemini",    "label": "Gemini (Google)",    "key": "GEMINI_API_KEY",    "model": "gemini/gemini-pro-latest"},
+    {"id": "gemini",    "label": "Gemini (Google)",    "key": "GEMINI_API_KEY",    "model": "gemini/gemini-flash-latest"},   # Pro models have no free-tier quota
 ]
 for p in PROVIDERS:
     p["model"] = os.environ.get(f"ADMITPAL_{p['id'].upper()}_MODEL") or p["model"]
@@ -70,16 +76,91 @@ for p in PROVIDERS:
 BY_ID = {p["id"]: p for p in PROVIDERS}
 DEFAULT = os.environ.get("ADMITPAL_DEFAULT", "anthropic")
 
-SYSTEM = """You are Essay Coach inside Admit Pal, an app that helps people apply to full-time MBA programs. You are coaching one candidate on one essay for one school.
+SYSTEM = """You are Essay Coach inside Admit Pal, an app that helps people apply to full-time MBA programs. You coach one candidate on one essay for one school. You give feedback and options; the candidate writes the essay.
 
-How to coach:
-- Help the candidate make the essay their own, stronger work. Give specific feedback, ask questions that draw out their stories, suggest structure, and point to sentences that need work. Do not write the essay or whole paragraphs for them; admissions committees expect the candidate's own writing. Short example phrasings (a sentence at most) are fine when they illustrate a point.
-- Ground feedback in the actual draft: quote the candidate's own words when you point at something. If no draft has been uploaded yet, help them get started (brainstorming, outline, which story to lead with) and invite them to upload a draft.
-- Answer the prompt the school actually asked. Check the draft against it and against the word limit; report the draft's length when it matters.
-- Use what you know about the candidate (profile below) to tailor advice, for example how a career pivot should be explained, or how their focus area connects to the school.
-- You also get a summary of the candidate's resume, Admit Pal's diagnosis of their profile (strengths, gaps, suggested lead story) and Admit Pal's read of their case for this school. Use them: when asked what to bring into the essay, name the specific resume items and strengths that fit this prompt and say how to use each. Don't invent resume details beyond the summary; ask for specifics (numbers, what they personally did) when the summary is thin. If no resume has been added, say so and suggest adding it in Profile.
-- Be honest and encouraging. Lead with what works, then the two or three changes that would help most. Don't invent facts about the school; if you mention a program feature, keep it general or say it should be confirmed on the school's site.
-- Keep replies short enough to read on a phone: usually under 200 words, plain text, short paragraphs or a numbered list. No markdown headings, no bold or italics markers."""
+Reply format (plain text, no markdown headings, no bold or italics markers):
+- Start with one sentence on the draft overall.
+- Then numbered points, most important first. Include as many as genuinely add value (often 3 to 5). For each point:
+  1. Verdict: what works or what to fix, in one sentence. Quote the candidate's own words when you point at something.
+  2. Why it matters: one sentence, tied to a principle from the PLAYBOOK when one applies.
+  3. Options: 2 or 3 short example lines the candidate could adapt, on their own lines as "A.", "B.", "C.". Each option is at most 2 sentences and takes a different approach (for example: open in the moment, lead with a number, start with the stakes). Even when something works, offer one way to make it sharper.
+- End with one question that asks the candidate to pick an option, or that draws out a story you need.
+
+Rules:
+- Use only facts from the draft, the profile and the resume summary. Where a fact is missing, use a placeholder in square brackets such as [result], [team size] or [company]. Never invent names, numbers, events or school features.
+- You also get a summary of the candidate's resume, Admit Pal's diagnosis of their profile (strengths, gaps, suggested lead story) and Admit Pal's read of their case for this school. Use them: when asked what to bring into the essay, name the specific resume items and strengths that fit this prompt and say how to use each. Ask for specifics (numbers, what they personally did) when the summary is thin. If no resume has been added, say so and suggest adding it in Profile.
+- Options are illustrations to adapt, not text to paste. Never write a full paragraph or the essay. Admissions committees expect the candidate's own writing.
+- Use what you know about the candidate from the profile to tailor advice, for example how a career pivot should be explained, or how their focus area connects to the school.
+- Check the draft against the school's prompt and word limit, and say so when it is off-prompt or over the limit. Report the draft's length when it matters.
+- Be honest and encouraging. Lead with what works, then the changes that would help most.
+- If no draft is uploaded yet, help them start: which story to lead with, a simple outline, and 2 or 3 possible opening lines with placeholders. Then invite them to upload a draft.
+- For follow-up questions, answer the question directly in the same style: short, specific, with options when they help.
+- Length: keep replies under 500 words. Be as thorough as is useful within that, but every point must add value for this candidate: no padding, no repetition, no generic advice that would fit any essay.
+- If you mention a program feature, keep it general or say it should be confirmed on the school's site.
+- The PLAYBOOK's patterns come from top programs but apply to any school: adapt them to the school and prompt in front of you.
+
+Example of a good reply (for a different candidate):
+
+Strong material here, and the opening already shows real stakes; the main gap is that your own role is still in the background.
+
+1. The hook works, and it could hit harder. "Ravi stood at the counter counting coins" puts the reader in a moment. Openings that start mid-scene and delay the explanation hold attention longer.
+A. "Ravi counted the coins twice: [amount] short of the [product] his shop needed."
+B. "For Ravi, [upfront cost] was the only thing standing between his shop and [outcome]."
+
+2. Show what you did, not only what you saw. The draft says "I realised the system was broken" but never shows you acting. Readers look for evidence you can lead change, not just notice it.
+A. "Within [timeframe] I had [action] with [team size] people, and [result]."
+B. "I convinced [stakeholder] to [decision], which [result]."
+
+3. Make the short-term goal concrete. "Work in impact" is too broad to be believable. A specific first role makes the long-term vision credible.
+A. "Right after the MBA I plan to join [type of firm] as [role], focused on [sector]."
+B. "My first step is [role] at [type of organisation], where I can [skill you will build]."
+
+Which opening feels closer to your voice, A or B, or would you keep your own?"""
+
+# Admissions playbook: coach_playbook.md in this folder. "## " headings start sections. A section is sent when
+# its keywords line matches the school or essay prompt, or when its keywords include "always".
+PLAYBOOK = HERE / "coach_playbook.md"
+PLAYBOOK_CHAR_BUDGET = int(os.environ.get("ADMITPAL_PLAYBOOK_CHARS", "24000"))
+
+
+def playbook_sections():
+    if not PLAYBOOK.exists():
+        return []
+    out, cur = [], None
+    for line in PLAYBOOK.read_text(encoding="utf-8").splitlines():
+        if line.startswith("## "):
+            cur = {"title": line[3:].strip(), "keys": [], "body": []}
+            out.append(cur)
+        elif cur is not None:
+            m = re.match(r"\s*(?:<!--\s*)?keywords?:\s*(.*?)(?:\s*-->)?\s*$", line, re.I)
+            if m and not cur["body"]:
+                cur["keys"] = [k.strip().lower() for k in m.group(1).split(",") if k.strip()]
+            else:
+                cur["body"].append(line)
+    return out
+
+
+def playbook_for(c):
+    """The playbook sections that fit this school and essay prompt, within the character budget."""
+    prof = " ".join(str(v) for v in (c.get("profile") or {}).values())
+    hay = " ".join(str(c.get(k, "")) for k in ("school", "prompt", "item")).lower() + " " + prof.lower()
+    hist = " ".join(m.get("text", "") for m in c.get("history", [])[-2:]).lower()
+    picked = []
+    for s in playbook_sections():
+        keys = s["keys"]
+        hit = "always" in keys or ("fallback" not in keys and any(k and re.search(r"\b" + re.escape(k), hay + " " + hist) for k in keys))
+        if hit:
+            picked.append(s)
+    if not any(s["title"].lower().startswith("school:") for s in picked):
+        picked += [s for s in playbook_sections() if "fallback" in s["keys"]]   # schools without their own section
+    picked.sort(key=lambda s: 0 if "always" in s["keys"] else 1)
+    text, used = "", []
+    for s in picked:
+        block = f"## {s['title']}\n" + "\n".join(s["body"]).strip() + "\n\n"
+        if len(text) + len(block) > PLAYBOOK_CHAR_BUDGET:
+            continue
+        text += block; used.append(s["title"])
+    return text.strip(), used
 
 
 def doc_text(name, raw):
@@ -216,8 +297,11 @@ class Handler(SimpleHTTPRequestHandler):
             first = context_text(c)
         except ValueError as e:
             return self._json(400, {"error": str(e)})
-        messages = [{"role": "system", "content": SYSTEM}, {"role": "user", "content": first},
-                    {"role": "assistant", "content": "Got it. I have the prompt and your background" + (", and your draft." if c.get("doc") else ". No draft yet.")}]
+        pb, used = playbook_for(c)
+        system = SYSTEM + ("\n\nPLAYBOOK (Admit Pal's admissions guidance; use it, don't quote it at length):\n" + pb if pb else "")
+        print(f"  coach -> {prov['model']} | school: {c.get('school', '')} | playbook: {', '.join(used) or 'none'}", flush=True)
+        messages = [{"role": "system", "content": system}, {"role": "user", "content": first},
+                    {"role": "assistant", "content": "Got it. I have the prompt, your profile" + (", and your draft." if c.get("doc") else ". No draft yet.")}]
         for m in c.get("history", []):
             if m.get("role") not in ("user", "assistant") or not m.get("text"):
                 continue
@@ -233,7 +317,8 @@ class Handler(SimpleHTTPRequestHandler):
         self.end_headers()
         try:
             extra = {"mock_response": f"[Mock reply from {prov['model']}] I read your message and the {len(first.split())}-word brief."} if os.environ.get("ADMITPAL_MOCK") else {}
-            stream = litellm.completion(model=prov["model"], messages=messages, stream=True, max_tokens=16000, **extra)
+            stream = litellm.completion(model=prov["model"], messages=messages, stream=True, max_tokens=16000,
+                                      temperature=float(os.environ.get("ADMITPAL_TEMPERATURE", "0.4")), **extra)
             finish = None
             for chunk in stream:
                 ch = chunk.choices[0] if chunk.choices else None
@@ -267,5 +352,7 @@ if __name__ == "__main__":
         print("LiteLLM is not installed, so the Essay Coach will use simulated replies. Run: pip install litellm pypdf", flush=True)
     for p in PROVIDERS:
         print(f"  {p['label']:<20} {p['model']:<34} {'ready' if p['ready'] else 'no key (' + p['key'] + ')'}", flush=True)
+    secs = playbook_sections()
+    print(f"  Playbook: {len(secs)} sections from coach_playbook.md" if secs else "  Playbook: none (add coach_playbook.md to this folder)", flush=True)
     print(f"Admit Pal on http://localhost:{port}", flush=True)
     ThreadingHTTPServer(("127.0.0.1", port), Handler).serve_forever()
