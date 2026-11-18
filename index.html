@@ -407,6 +407,9 @@ svg{display:block}
 .cbody p{font-size:14.5px;line-height:1.5;margin-top:3px}
 .cbody p.llm{white-space:pre-wrap} .cbody p.wait{color:var(--mute)} .cbody p.err{color:var(--dream)}
 .livetag{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--mute);margin-top:12px}.livetag>i{width:7px;height:7px;border-radius:50%;background:var(--line)}.livetag.on>i{background:var(--safe)}
+.qcard{position:sticky;top:0;z-index:2;margin:14px -4px 0;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:12px;background:var(--white);box-shadow:0 6px 14px -12px rgba(0,0,0,.35)}
+.qcard .cap{display:flex;justify-content:space-between;gap:10px;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.qcard .cap b{color:var(--ink)}
+.qcard p{font-size:15px;line-height:1.45;margin-top:5px;color:var(--ink);font-weight:500}
 .livetag select{font:inherit;font-size:12.5px;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:4px 6px;background:var(--bg,#fff)}
 .composer{flex:none;display:flex;gap:10px;align-items:center;padding:12px 16px 30px;border-top:1px solid var(--line);background:#fff}
 .composer input{flex:1;height:46px;border-radius:23px;border:1px solid #DDD;padding:0 18px;font-size:15px;outline:none}
@@ -1458,7 +1461,7 @@ screens.work = function(){
   V().innerHTML = `<div class="nav" style="height:96px;align-items:flex-end"><button class="circle-btn flat" id="bk" aria-label="Back">${ic('back',2.2)}</button>${schoolChip(id)}<span style="width:36px"></span></div>
     <div class="scroll" id="sc"><div class="pad">
       <h1 class="h2" style="font-size:24px">${esc(a.title)}</h1><p class="cap" style="margin-top:4px">${esc(fill(W.due, {school:s.name, date:dFmt(a.date)}))}</p>
-      ${a.prompt ? `<p class="body"><b>${esc(W.prompt_label)}:</b> ${esc(a.prompt)} <span class="cap">(${esc(fill(W.word_limit, {wordLimit:a.words}))})</span></p>` : ''}
+      ${a.prompt ? `<div class="qcard" role="note" aria-label="${esc(W.prompt_label)}"><div class="cap"><b>${esc(fill(W.prompt_head, {short:s.short}))}</b><span>${esc(fill(W.word_limit, {wordLimit:a.words}))}</span></div><p>${esc(a.prompt)}</p></div>` : ''}
       <div class="parsed"><b>${esc(A.workspace_label)}</b>${up ? `${esc(fill(W.uploaded, {file:up.name}))}, ${esc(fill(W.words, {wordCount:up.words}))}` : esc(A.requires_upload ? W.upload_required : W.upload_hint)}</div>
       <input type="file" id="docUp" accept=".txt,.md,.pdf,.doc,.docx" hidden>
       <div class="wsacts"><button class="btn ${up ? 'soft' : ''}" id="docBtn">${ic('doc',2)}${esc(up ? W.replace : W.upload)}</button><button class="btn dark" id="complete" ${a.done || need ? 'disabled' : ''}>${a.done ? ic('check',2.4) + esc(W.done) : esc(W.mark_done)}</button></div>
