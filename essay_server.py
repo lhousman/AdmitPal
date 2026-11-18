@@ -77,6 +77,7 @@ How to coach:
 - Ground feedback in the actual draft: quote the candidate's own words when you point at something. If no draft has been uploaded yet, help them get started (brainstorming, outline, which story to lead with) and invite them to upload a draft.
 - Answer the prompt the school actually asked. Check the draft against it and against the word limit; report the draft's length when it matters.
 - Use what you know about the candidate (profile below) to tailor advice, for example how a career pivot should be explained, or how their focus area connects to the school.
+- You also get a summary of the candidate's resume, Admit Pal's diagnosis of their profile (strengths, gaps, suggested lead story) and Admit Pal's read of their case for this school. Use them: when asked what to bring into the essay, name the specific resume items and strengths that fit this prompt and say how to use each. Don't invent resume details beyond the summary; ask for specifics (numbers, what they personally did) when the summary is thin. If no resume has been added, say so and suggest adding it in Profile.
 - Be honest and encouraging. Lead with what works, then the two or three changes that would help most. Don't invent facts about the school; if you mention a program feature, keep it general or say it should be confirmed on the school's site.
 - Keep replies short enough to read on a phone: usually under 200 words, plain text, short paragraphs or a numbered list. No markdown headings, no bold or italics markers."""
 
@@ -100,6 +101,24 @@ def doc_text(name, raw):
     return None
 
 
+def background_lines(b):
+    """Resume summary, profile diagnosis and this school's read, as computed by the app, in labelled sections."""
+    bullets = lambda items: [f"- {x}" for x in items or []]
+    r, d, s = b.get("resume"), b.get("diagnosis"), b.get("school_read") or {}
+    if r:
+        lines = [f"Resume summary (from {r.get('file', 'their resume')}):", *bullets(r.get("summary")), ""]
+    else:
+        lines = ["Resume: not added yet.", ""]
+    if d:
+        lines += ["Admit Pal's profile diagnosis:", f"- Headline: {d.get('headline', '')}",
+                  "Strengths:", *bullets(d.get("strengths")), "Gaps:", *bullets(d.get("gaps")),
+                  f"Suggested lead story: {d.get('lead_story', '')}", ""]
+    if any(s.values()):
+        lines += ["Admit Pal's read of their case for this school:", "Strengths:", *bullets(s.get("strengths")),
+                  "Weaknesses:", *bullets(s.get("weaknesses")), "Opportunity:", *bullets(s.get("opportunities")), ""]
+    return lines
+
+
 def context_text(c):
     """First user turn: the essay brief, the candidate's profile and the draft, as plain text so every provider reads it the same way."""
     p = c.get("profile") or {}
@@ -111,6 +130,7 @@ def context_text(c):
         "Candidate profile:",
         *[f"- {k.replace('_', ' ')}: {v}" for k, v in p.items() if v not in (None, "", [])],
         "",
+        *background_lines(c.get("background") or {}),
     ]
     doc = c.get("doc")
     if not doc:
@@ -197,7 +217,7 @@ class Handler(SimpleHTTPRequestHandler):
         except ValueError as e:
             return self._json(400, {"error": str(e)})
         messages = [{"role": "system", "content": SYSTEM}, {"role": "user", "content": first},
-                    {"role": "assistant", "content": "Got it. I have the prompt, your profile and your draft."}]
+                    {"role": "assistant", "content": "Got it. I have the prompt and your background" + (", and your draft." if c.get("doc") else ". No draft yet.")}]
         for m in c.get("history", []):
             if m.get("role") not in ("user", "assistant") or not m.get("text"):
                 continue
