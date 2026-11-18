@@ -29,7 +29,7 @@ Endpoints (everything else is served as a static file from this folder):
     POST /api/essay/extract   {"name","data"(base64)} -> {"words"} for .txt/.md/.docx/.pdf
     POST /api/essay/chat      streams the coach's reply as server-sent events
 """
-import base64, io, json, os, pathlib, re, sys, zipfile
+import base64, hashlib, hmac, io, json, os, pathlib, re, secrets, sys, zipfile
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import unquote
 
@@ -70,8 +70,13 @@ PROVIDERS = [
     {"id": "deepseek",  "label": "DeepSeek",           "key": "DEEPSEEK_API_KEY",  "model": "deepseek/deepseek-v4-pro"},
     {"id": "gemini",    "label": "Gemini (Google)",    "key": "GEMINI_API_KEY",    "model": "gemini/gemini-flash-latest"},   # Pro models have no free-tier quota
 ]
+# Backup models, tried in order when the main one is overloaded or rate limited (before any text is sent).
+# Override with e.g. ADMITPAL_GEMINI_FALLBACKS=gemini/gemini-flash-lite-latest,gemini/gemini-2.5-flash
+FALLBACKS = {"gemini": "gemini/gemini-flash-lite-latest"}
 for p in PROVIDERS:
     p["model"] = os.environ.get(f"ADMITPAL_{p['id'].upper()}_MODEL") or p["model"]
+    fb = os.environ.get(f"ADMITPAL_{p['id'].upper()}_FALLBACKS", FALLBACKS.get(p["id"], ""))
+    p["fallbacks"] = [m.strip() for m in fb.split(",") if m.strip() and m.strip() != p["model"]]
     p["ready"] = bool(litellm and (os.environ.get(p["key"]) or os.environ.get("ADMITPAL_MOCK")))
 BY_ID = {p["id"]: p for p in PROVIDERS}
 DEFAULT = os.environ.get("ADMITPAL_DEFAULT", "anthropic")
@@ -81,15 +86,17 @@ SYSTEM = """You are Essay Coach inside Admit Pal, an app that helps people apply
 Reply format (plain text, no markdown headings, no bold or italics markers):
 - Start with one sentence on the draft overall.
 - Then numbered points, most important first. Include as many as genuinely add value (often 3 to 5). For each point:
-  1. Verdict: what works or what to fix, in one sentence. Quote the candidate's own words when you point at something.
+  1. Verdict: what works or what to fix, in one sentence. Always quote the exact sentence or phrase from the draft you are talking about, so the candidate knows where to look.
   2. Why it matters: one sentence, tied to a principle from the PLAYBOOK when one applies.
   3. Options: 2 or 3 short example lines the candidate could adapt, on their own lines as "A.", "B.", "C.". Each option is at most 2 sentences and takes a different approach (for example: open in the moment, lead with a number, start with the stakes). Even when something works, offer one way to make it sharper.
+  4. Rewrite (when the point is about a sentence in the draft): show the candidate's sentence and a stronger version of it, as "Before:" and "After:" on their own lines. Use only the candidate's facts; put a placeholder where a fact is missing.
 - End with one question that asks the candidate to pick an option, or that draws out a story you need.
 
 Rules:
 - Use only facts from the draft, the profile and the resume summary. Where a fact is missing, use a placeholder in square brackets such as [result], [team size] or [company]. Never invent names, numbers, events or school features.
 - You also get a summary of the candidate's resume, Admit Pal's diagnosis of their profile (strengths, gaps, suggested lead story) and Admit Pal's read of their case for this school. Use them: when asked what to bring into the essay, name the specific resume items and strengths that fit this prompt and say how to use each. Ask for specifics (numbers, what they personally did) when the summary is thin. If no resume has been added, say so and suggest adding it in Profile.
-- Options are illustrations to adapt, not text to paste. Never write a full paragraph or the essay. Admissions committees expect the candidate's own writing.
+- Be pointed, not high level: every point must refer to a specific sentence or paragraph of the draft. Generic advice ("show more leadership") is not allowed unless you show exactly where and how.
+- Rewriting: you may rewrite up to 3 sentences of the draft per reply (Before/After). If the candidate explicitly asks, you may rewrite one short paragraph, such as the opening or the closing. Never rewrite the whole essay or produce a full draft; admissions committees expect the candidate's own writing.
 - Use what you know about the candidate from the profile to tailor advice, for example how a career pivot should be explained, or how their focus area connects to the school.
 - Check the draft against the school's prompt and word limit, and say so when it is off-prompt or over the limit. Report the draft's length when it matters.
 - Be honest and encouraging. Lead with what works, then the changes that would help most.
@@ -253,13 +260,13 @@ class Handler(SimpleHTTPRequestHandler):
 
     def blocked(self):
         path = unquote(self.path.split("?", 1)[0].split("#", 1)[0]).lower()
-        return ".env" in path or path.endswith(".py") or "/." in path    # never serve the key file, server code or dotfiles
+        return ".env" in path or path.endswith(".py") or "/." in path or path.startswith("/accounts")   # never serve keys, code, dotfiles or accounts
 
     def do_GET(self):
         if self.blocked():
             return self._json(404, {"error": "Not found"})
         if self.path.startswith("/api/essay/status"):
-            return self._json(200, {"default": DEFAULT, "models": [{"id": p["id"], "label": p["label"], "ready": p["ready"]} for p in PROVIDERS]})
+            return self._json(200, {"accounts": True, "default": DEFAULT, "models": [{"id": p["id"], "label": p["label"], "ready": p["ready"]} for p in PROVIDERS]})
         return super().do_GET()
 
     def do_HEAD(self):
@@ -280,9 +287,15 @@ class Handler(SimpleHTTPRequestHandler):
                 text = doc_text(c["name"], base64.b64decode(c["data"]))
             except Exception:
                 text = None
-            return self._json(200, {"words": len(text.split()) if text else None})
+            out = {"words": len(text.split()) if text else None}
+            if c.get("want_text") and text:
+                out["text"] = text[:30000]          # the story quest reads uploaded essays
+            return self._json(200, out)
         if self.path == "/api/essay/chat":
             return self.chat(c)
+        if self.path.startswith("/api/account/"):
+            code, body = account_api(self.path.rsplit("/", 1)[-1], c)
+            return self._json(code, body)
         self._json(404, {"error": "Not found"})
 
     def sse(self, obj):
@@ -315,35 +328,118 @@ class Handler(SimpleHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-Type", "text/event-stream")
         self.end_headers()
-        try:
-            extra = {"mock_response": f"[Mock reply from {prov['model']}] I read your message and the {len(first.split())}-word brief."} if os.environ.get("ADMITPAL_MOCK") else {}
-            stream = litellm.completion(model=prov["model"], messages=messages, stream=True, max_tokens=16000,
-                                      temperature=float(os.environ.get("ADMITPAL_TEMPERATURE", "0.4")), **extra)
-            finish = None
-            for chunk in stream:
-                ch = chunk.choices[0] if chunk.choices else None
-                if not ch:
-                    continue
-                if ch.delta and ch.delta.content:
-                    self.sse({"t": ch.delta.content})
-                finish = ch.finish_reason or finish
-            if finish == "length":
-                self.sse({"t": "\n\n(Reply cut short.)"})
-            elif finish == "content_filter":
-                self.sse({"error": "The model declined that request. Try rephrasing it."})
-            self.sse({"done": True, "model": prov["model"]})
-        except (BrokenPipeError, ConnectionResetError):
-            pass
-        except litellm.exceptions.AuthenticationError:
-            self.sse({"error": f"The {prov['label']} API key was rejected. Check {prov['key']}."})
-        except litellm.exceptions.NotFoundError:
-            self.sse({"error": f"{prov['label']} doesn't recognise the model ID {prov['model']}. Set ADMITPAL_{prov['id'].upper()}_MODEL in admitpal.env."})
-        except litellm.exceptions.RateLimitError:
-            self.sse({"error": f"{prov['label']} is rate limiting or out of credit. Try again shortly or pick another model."})
-        except litellm.exceptions.APIConnectionError:
-            self.sse({"error": f"Couldn't reach {prov['label']}. Check your internet connection."})
-        except Exception as e:                               # any other provider error, shown to the candidate
-            self.sse({"error": f"{prov['label']}: {str(e)[:300]}"})
+        busy_msg = ("Admit Pal's coach is handling a lot of requests right now. We tried a backup model too. "
+                    "Please try again in a minute, or pick another model from the menu.")
+        sent, chain = False, [prov["model"]] + prov["fallbacks"]
+        for i, model in enumerate(chain):
+            try:
+                extra = {"mock_response": f"[Mock reply from {model}] I read your message and the {len(first.split())}-word brief."} if os.environ.get("ADMITPAL_MOCK") else {}
+                if os.environ.get("ADMITPAL_MOCK_BUSY") and model == prov["model"]:
+                    raise litellm.exceptions.ServiceUnavailableError("mock 503: high demand", llm_provider=prov["id"], model=model)
+                stream = litellm.completion(model=model, messages=messages, stream=True, max_tokens=16000,
+                                          temperature=float(os.environ.get("ADMITPAL_TEMPERATURE", "0.4")), **extra)
+                finish = None
+                for chunk in stream:
+                    ch = chunk.choices[0] if chunk.choices else None
+                    if not ch:
+                        continue
+                    if ch.delta and ch.delta.content:
+                        self.sse({"t": ch.delta.content}); sent = True
+                    finish = ch.finish_reason or finish
+                if finish == "length":
+                    self.sse({"t": "\n\n(Reply cut short.)"})
+                elif finish == "content_filter":
+                    self.sse({"error": "The coach couldn't answer that one. Try rephrasing your question."})
+                if model != prov["model"]:
+                    print(f"  coach used backup model {model}", flush=True)
+                self.sse({"done": True, "model": model})
+                return
+            except (BrokenPipeError, ConnectionResetError):
+                return
+            except Exception as e:
+                kind = classify(e)
+                print(f"  coach error ({kind}) from {model}: {str(e)[:200]}", flush=True)     # full detail stays in Terminal
+                if kind == "busy" and not sent and i < len(chain) - 1:
+                    continue                                   # overloaded before any text was sent: try the next backup model
+                self.sse({"error": FRIENDLY.get(kind, FRIENDLY["other"]).format(label=prov["label"], key=prov["key"], model=model, pid=prov["id"].upper())
+                          if kind != "busy" else busy_msg})
+                return
+        self.sse({"error": busy_msg})
+
+
+def classify(e):
+    """Sort a provider error into a few kinds the candidate can act on."""
+    ex, text = litellm.exceptions, str(e).lower()
+    if isinstance(e, getattr(ex, "AuthenticationError", ())) or "api key" in text and "invalid" in text:
+        return "auth"
+    if isinstance(e, getattr(ex, "NotFoundError", ())):
+        return "notfound"
+    busy_types = tuple(t for t in (getattr(ex, n, None) for n in ("RateLimitError", "ServiceUnavailableError", "InternalServerError",
+                       "Timeout", "MidStreamFallbackError", "APIConnectionError")) if t)
+    if isinstance(e, busy_types) or any(w in text for w in ("503", "429", "overloaded", "high demand", "unavailable", "quota", "rate limit")):
+        return "busy"
+    return "other"
+
+
+FRIENDLY = {
+    "auth": "The coach isn't set up correctly right now (the {label} key was rejected). Please let the Admit Pal team know.",
+    "notfound": "The coach's model setting needs updating ({model} wasn't found). Please let the Admit Pal team know, or pick another model from the menu.",
+    "other": "Something went wrong on our side while the coach was answering. Please try again in a moment.",
+}
+
+
+# ===== Accounts: email + password, with everything the user did saved on the server =====
+ACCOUNTS = HERE / "accounts"          # one JSON file per account; git-ignored, never served
+
+
+def _acct_file(email):
+    return ACCOUNTS / (hashlib.sha256(email.encode()).hexdigest()[:32] + ".json")
+
+
+def _pw_hash(pw, salt):
+    return hashlib.pbkdf2_hmac("sha256", pw.encode(), bytes.fromhex(salt), 200_000).hex()
+
+
+def account_api(path, c):
+    """Returns (status, body). signup / login / resume / save / logout."""
+    email = str(c.get("email", "")).strip().lower()
+    if not re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email):
+        return 400, {"error": "Enter a valid email."}
+    f = _acct_file(email)
+    acct = json.loads(f.read_text()) if f.exists() else None
+    if path == "signup":
+        pw = str(c.get("password", ""))
+        if acct:
+            return 409, {"error": "exists"}
+        if len(pw) < 6:
+            return 400, {"error": "Use at least 6 characters for your password."}
+        salt = secrets.token_hex(16)
+        acct = {"email": email, "salt": salt, "hash": _pw_hash(pw, salt), "tokens": [], "state": None}
+    elif path == "login":
+        if not acct:
+            return 404, {"error": "none"}
+        if not hmac.compare_digest(acct["hash"], _pw_hash(str(c.get("password", "")), acct["salt"])):
+            return 401, {"error": "password"}
+    elif path in ("resume", "save", "logout"):
+        if not acct or c.get("token") not in acct.get("tokens", []):
+            return 401, {"error": "session"}
+        if path == "save":
+            state = c.get("state")
+            if len(json.dumps(state)) > 20 * 1024 * 1024:
+                return 413, {"error": "too large"}
+            acct["state"] = state
+            ACCOUNTS.mkdir(exist_ok=True); f.write_text(json.dumps(acct))
+            return 200, {"ok": True}
+        if path == "logout":
+            acct["tokens"].remove(c["token"]); f.write_text(json.dumps(acct))
+            return 200, {"ok": True}
+        return 200, {"state": acct.get("state")}
+    else:
+        return 404, {"error": "Not found"}
+    token = secrets.token_urlsafe(24)
+    acct["tokens"] = (acct.get("tokens", []) + [token])[-10:]      # a few devices at once
+    ACCOUNTS.mkdir(exist_ok=True); f.write_text(json.dumps(acct))
+    return 200, {"token": token, "state": acct.get("state")}
 
 
 if __name__ == "__main__":

@@ -76,12 +76,6 @@
     "_note": "chance = school base + adjustments, clamped. Missing inputs count as the school median and the result is marked as an estimate. legacy_bonus is added at the one school where the user is a legacy candidate. focus_match_bonus and over_budget_penalty only reorder suggestions; they never change a chance.",
     "gmat_points_per_10": 4,
     "gpa_points_per_0_1": 2,
-    "workex_ideal_min": 3,
-    "workex_ideal_max": 6,
-    "workex_ideal_bonus": 3,
-    "workex_low_penalty": -8,
-    "workex_high_penalty": -5,
-    "workex_high_from": 9,
     "min_chance": 3,
     "max_chance": 88,
     "gre_to_gmat_focus": {
@@ -102,7 +96,136 @@
     },
     "legacy_bonus": 6,
     "focus_match_bonus": 6,
-    "over_budget_penalty": 12
+    "over_budget_penalty": 12,
+    "workex": {
+      "_note": "Compared with each school's average years (school.we). Within near_band years: near_bonus. Below that: below_per_year points lost per extra year short (capped). More than above_free years over: above_per_year lost per year (capped).",
+      "near_band": 1,
+      "near_bonus": 2,
+      "below_per_year": 4,
+      "below_cap": -12,
+      "above_free": 3,
+      "above_per_year": 2.5,
+      "above_cap": -8
+    },
+    "gmat_classic_to_focus": {
+      "_note": "Approximate GMAT (legacy, 200-800) to GMAT Focus (205-805) anchors for the prototype. Replace with GMAC's official concordance table.",
+      "anchors": [
+        [
+          200,
+          205
+        ],
+        [
+          400,
+          395
+        ],
+        [
+          500,
+          475
+        ],
+        [
+          600,
+          555
+        ],
+        [
+          650,
+          595
+        ],
+        [
+          670,
+          615
+        ],
+        [
+          700,
+          645
+        ],
+        [
+          720,
+          665
+        ],
+        [
+          730,
+          675
+        ],
+        [
+          750,
+          695
+        ],
+        [
+          760,
+          705
+        ],
+        [
+          780,
+          745
+        ],
+        [
+          800,
+          805
+        ]
+      ]
+    },
+    "pool_rules": [
+      {
+        "when": {
+          "nationality": [
+            "India"
+          ],
+          "gender": [
+            "male"
+          ],
+          "industry": [
+            "tech",
+            "consulting",
+            "finance"
+          ]
+        },
+        "points": -5,
+        "label": "Very crowded applicant pool (Indian men in tech, consulting or finance)"
+      },
+      {
+        "when": {
+          "nationality": [
+            "China"
+          ],
+          "gender": [
+            "male"
+          ],
+          "industry": [
+            "tech",
+            "consulting",
+            "finance"
+          ]
+        },
+        "points": -3,
+        "label": "Crowded applicant pool (Chinese men in tech, consulting or finance)"
+      },
+      {
+        "when": {
+          "nationality": [
+            "United States"
+          ],
+          "gender": [
+            "male"
+          ],
+          "industry": [
+            "consulting",
+            "finance"
+          ]
+        },
+        "points": -2,
+        "label": "Crowded applicant pool (US men in consulting or finance)"
+      },
+      {
+        "when": {
+          "gender": [
+            "female"
+          ]
+        },
+        "points": 2,
+        "label": "Women remain under-represented in most MBA classes"
+      }
+    ],
+    "_pool_rules_note": "Applicant-pool context. Uses nationality, gender and industry only; ethnicity is never used for scoring. Points are illustrative."
   },
   "buckets": [
     {
@@ -2125,16 +2248,26 @@
   },
   "auth": {
     "signup_title": "Create your account",
-    "signup_sub": "Save your profile and pick up where you left off.",
+    "signup_sub": "Create an account so your profile, school list and essays are saved to your email.",
     "email_placeholder": "Email",
     "continue": "Continue",
     "google": "Continue with Google",
     "apple": "Continue with Apple",
     "email_error": "Enter a valid email, like name@example.com.",
     "signin_title": "Welcome back",
-    "signin_sub": "Log in to see your saved profile and school list.",
-    "demo_email": "priya.sharma@example.com",
-    "signin_button": "Log in"
+    "signin_sub": "Log in with your email to pick up exactly where you left off.",
+    "signin_button": "Log in",
+    "password_hint": "At least 6 characters. Your progress saves automatically.",
+    "create_button": "Create account",
+    "have_account": "Already have an account? Log in",
+    "no_account": "New here? Create an account",
+    "password_short": "Use at least 6 characters for your password.",
+    "exists_error": "An account already exists for this email. Log in instead.",
+    "no_account_error": "We couldn't find an account for this email. Check it, or create a new account.",
+    "password_error": "That password doesn't match this email.",
+    "generic_error": "Something went wrong. Please try again.",
+    "demo_link": "Explore a demo profile instead (nothing is saved)",
+    "sso_note": "Google and Apple sign-in aren't connected in this prototype yet. Please use your email and a password."
   },
   "onboarding": [
     {
@@ -2145,7 +2278,7 @@
     {
       "id": "test",
       "title": "Have you taken the GMAT or GRE?",
-      "help": "Schools compare your score with the median of their last class. Enter your best score, or skip if you haven't tested yet.",
+      "help": "Schools compare your score with the median of their last class. Pick GMAT Focus, the legacy GMAT or the GRE, then enter your best score, or skip if you haven't tested yet.",
       "skip": "I haven't taken it yet"
     },
     {
@@ -2157,6 +2290,11 @@
       "id": "work",
       "title": "Tell us about your work",
       "help": "Count full-time experience after graduation, up to your planned start date."
+    },
+    {
+      "id": "about",
+      "title": "A bit about you",
+      "help": "Optional, and you can choose Prefer not to say for any of these."
     },
     {
       "id": "goals",
@@ -6725,11 +6863,22 @@
         "Non-binary"
       ],
       "stats_label": "Include my test score and years of experience",
-      "fairness_note": "All details are optional. Admit Pal never uses country or gender to score you. They only help check that predictions are equally accurate for every group.",
+      "fairness_note": "All details are optional. Ethnicity is never used to score anyone. Nationality and gender only adjust estimates when you add them to your profile, to reflect how crowded an applicant pool is.",
       "anon_cta": "Share anonymously",
       "post_cta": "Post my result",
       "result_comment": "{result} from {school} for {round}. Good luck to everyone still waiting!",
       "posted_toast": "Result posted. Thanks for helping other applicants."
+    },
+    "gate": {
+      "title": "Live results are for members who share",
+      "body": "Share one result of your own to see every live tracker and results thread ({total} results so far). It takes 30 seconds and makes everyone's estimates sharper, including yours.",
+      "cta": "Share a result to unlock",
+      "proof_cta": "Add a screenshot for a Verified badge (optional)",
+      "proof_added": "Attached: {file}",
+      "proof_note": "Optional. A screenshot of your portal or email earns a Verified badge; it is checked and never shown to others.",
+      "title_n": "{n} results for {short} are hidden",
+      "header_cta": "Share a result to unlock all live results",
+      "unlocked_toast": "Unlocked: {n} live results. Thanks for sharing."
     }
   },
   "scenarios": {
@@ -7305,6 +7454,37 @@
       "error": "The coach couldn't answer just now: {error}",
       "intro": "Hi {name}! I'm your Essay Coach for {short}. The prompt is: \"{essayPrompt}\" ({wordLimit}-word limit). Upload your draft above and ask me anything: where to start, whether it answers the prompt, what to cut. I'll give feedback on your writing, but the words stay yours.",
       "model_label": "Model"
+    },
+    "suggestions": {
+      "essay": [
+        "Review my essay",
+        "Help me write a stronger opening",
+        "Is this answering the prompt?",
+        "Rewrite my weakest sentences",
+        "Make my goals more specific",
+        "Help me cut to the word limit",
+        "Which story should I lead with?"
+      ],
+      "recommender": [
+        "Who should I ask?",
+        "What should I tell my recommender?",
+        "How do I divide strengths across recommenders?"
+      ],
+      "test_prep": [
+        "Should I retake?",
+        "Build me a study plan",
+        "Which test suits me better?"
+      ],
+      "interview": [
+        "Run a mock interview",
+        "Help with Tell me about yourself",
+        "Why this school, how do I answer?"
+      ],
+      "default": [
+        "What should I do first?",
+        "Review my work",
+        "What am I missing?"
+      ]
     }
   },
   "advisor": {
@@ -7406,5 +7586,526 @@
       "label": "Not a factor",
       "max": null
     }
-  ]
+  ],
+  "about": {
+    "profile_label": "Background",
+    "nationality_label": "Nationality",
+    "gender_label": "Gender",
+    "ethnicity_label": "Ethnicity",
+    "nationalities": [
+      {
+        "id": "India",
+        "label": "India"
+      },
+      {
+        "id": "United States",
+        "label": "United States"
+      },
+      {
+        "id": "China",
+        "label": "China"
+      },
+      {
+        "id": "Nigeria",
+        "label": "Nigeria"
+      },
+      {
+        "id": "Brazil",
+        "label": "Brazil"
+      },
+      {
+        "id": "United Kingdom",
+        "label": "United Kingdom"
+      },
+      {
+        "id": "Canada",
+        "label": "Canada"
+      },
+      {
+        "id": "Mexico",
+        "label": "Mexico"
+      },
+      {
+        "id": "South Korea",
+        "label": "South Korea"
+      },
+      {
+        "id": "Japan",
+        "label": "Japan"
+      },
+      {
+        "id": "Germany",
+        "label": "Germany"
+      },
+      {
+        "id": "France",
+        "label": "France"
+      },
+      {
+        "id": "Kenya",
+        "label": "Kenya"
+      },
+      {
+        "id": "Indonesia",
+        "label": "Indonesia"
+      },
+      {
+        "id": "Philippines",
+        "label": "Philippines"
+      },
+      {
+        "id": "Vietnam",
+        "label": "Vietnam"
+      },
+      {
+        "id": "Pakistan",
+        "label": "Pakistan"
+      },
+      {
+        "id": "Bangladesh",
+        "label": "Bangladesh"
+      },
+      {
+        "id": "UAE",
+        "label": "UAE"
+      },
+      {
+        "id": "Other",
+        "label": "Other"
+      },
+      {
+        "id": "prefer_not",
+        "label": "Prefer not to say"
+      }
+    ],
+    "genders": [
+      {
+        "id": "female",
+        "label": "Female"
+      },
+      {
+        "id": "male",
+        "label": "Male"
+      },
+      {
+        "id": "nonbinary",
+        "label": "Non-binary"
+      },
+      {
+        "id": "prefer_not",
+        "label": "Prefer not to say"
+      }
+    ],
+    "ethnicities": [
+      {
+        "id": "asian_south",
+        "label": "South Asian"
+      },
+      {
+        "id": "asian_east",
+        "label": "East Asian"
+      },
+      {
+        "id": "asian_se",
+        "label": "Southeast Asian"
+      },
+      {
+        "id": "black",
+        "label": "Black or African descent"
+      },
+      {
+        "id": "hispanic",
+        "label": "Hispanic or Latino"
+      },
+      {
+        "id": "mena",
+        "label": "Middle Eastern or North African"
+      },
+      {
+        "id": "white",
+        "label": "White"
+      },
+      {
+        "id": "multiple",
+        "label": "Multiple"
+      },
+      {
+        "id": "other",
+        "label": "Other"
+      },
+      {
+        "id": "prefer_not",
+        "label": "Prefer not to say"
+      }
+    ],
+    "note": "All optional. Schools compare you with applicants from similar backgrounds, so nationality and gender help Admit Pal show how crowded your applicant pool is. Ethnicity is never used to score you; it only helps us check our estimates are equally accurate for everyone."
+  },
+  "essays_copy": {
+    "title": "Your essays",
+    "sub": "Every essay for the schools on your list. Open one to write with the Essay Coach.",
+    "sub_empty": "Add a school below to see its essays and start writing straight away.",
+    "due": "Due {date}",
+    "words": "{n} words.",
+    "st_new": "Not started",
+    "st_started": "In progress",
+    "st_draft": "Draft uploaded",
+    "st_done": "Done",
+    "add_title": "Add a school",
+    "add_sub": "Its essays appear above, and it joins your school list.",
+    "search": "Search schools",
+    "n_essays": "{n} essay prompts",
+    "added": "Added {short}. Its essays are ready.",
+    "home_title": "Work on your essays",
+    "home_sub_n": "{n} essays across your schools, two clicks away.",
+    "home_sub_none": "Pick a school and start writing, no school list needed."
+  },
+  "next_up": {
+    "title": "Next up",
+    "due_in": "due in {n} days",
+    "overdue": "{n} days overdue",
+    "due": "due {date}",
+    "open_essay": "Open essay",
+    "open_item": "Open",
+    "view_list": "View list and plan",
+    "then": "Then",
+    "all_done": "Every plan item is done. Nice work.",
+    "due_today": "due today"
+  },
+  "journey": {
+    "title": "Your MBA journey",
+    "sub": "Four stages from first search to admit. Finish them in order, or jump ahead whenever you like.",
+    "stages": [
+      {
+        "id": "schools",
+        "title": "Find your schools",
+        "sub": "Know where you stand and build a balanced list.",
+        "icon": "target"
+      },
+      {
+        "id": "resume",
+        "title": "Polish your resume",
+        "sub": "Your resume is the backbone of every essay and interview.",
+        "icon": "briefcase"
+      },
+      {
+        "id": "story",
+        "title": "Your goals and story",
+        "sub": "Answer a few quick questions to shape the story you'll tell every school.",
+        "icon": "sparkle"
+      },
+      {
+        "id": "apps",
+        "title": "School applications",
+        "sub": "Essays, recommenders and deadlines for each school.",
+        "icon": "doc"
+      }
+    ],
+    "finish": {
+      "title": "Admit day",
+      "sub": "Submit, interview and hear back. Log your results to help the next applicant."
+    },
+    "steps": {
+      "scores": "Add your test score and GPA",
+      "fit": "Check your fit",
+      "balance": "Balance your list with Target and Likely schools",
+      "upload_resume": "Upload your resume",
+      "review_resume": "Review what Admit Pal found",
+      "answer": "Answer the story questions ({k} of {n})",
+      "review_story": "Review your story card",
+      "plan": "Complete your plan items ({k} of {n})"
+    },
+    "chips": {
+      "here": "You are here",
+      "done": "Done",
+      "next": "Up next",
+      "later": "Later"
+    },
+    "cta": {
+      "schools": "Check my fit",
+      "schools_done": "View my list",
+      "resume": "Upload resume",
+      "resume_review": "See what we found",
+      "resume_done": "Update resume",
+      "story": "Start the quest",
+      "story_continue": "Continue the quest",
+      "story_done": "View my story",
+      "apps": "Open essays",
+      "apps_next": "Open next item",
+      "apps_done": "View list and plan"
+    },
+    "xp": {
+      "stage": 100,
+      "answer": 10,
+      "rich_answer": 15,
+      "plan_item": 10,
+      "rich_words": 15
+    },
+    "levels": [
+      {
+        "xp": 0,
+        "name": "Explorer"
+      },
+      {
+        "xp": 150,
+        "name": "Planner"
+      },
+      {
+        "xp": 350,
+        "name": "Storyteller"
+      },
+      {
+        "xp": 600,
+        "name": "Applicant"
+      },
+      {
+        "xp": 900,
+        "name": "Admit-ready"
+      }
+    ],
+    "celebrate": "Stage complete: {stage}! +{xp} XP"
+  },
+  "story": {
+    "title": "Your goals and story",
+    "sub": "One question at a time. Tap an option if you're short on time, or tell us more in your own words. Longer answers earn bonus XP and make the Essay Coach much sharper.",
+    "upload_title": "Already written a goals essay?",
+    "upload_sub": "Upload or paste it and we'll fill in the answers we can find. You review each one.",
+    "upload_btn": "Upload a document",
+    "paste_btn": "Paste text instead",
+    "paste_ph": "Paste your goals essay or notes here",
+    "extract_btn": "Fill in my answers",
+    "found": "We found answers for {k} of {n} questions in your text. Review each one and adjust anything that's off.",
+    "found_none": "We couldn't find clear answers in that text. Answer the questions below instead.",
+    "from_essay": "From your document",
+    "own_words": "Or tell us in your own words",
+    "words": "{n} words",
+    "rich": "Detailed answer: +{xp} bonus XP",
+    "complete_at": 6,
+    "card_title": "Your story",
+    "card_sub": "This is the story Admit Pal and the Essay Coach will help you tell. Tap any part to change it.",
+    "card_empty": "Not answered yet",
+    "coach_note": "The Essay Coach now uses your story when it reviews your essays.",
+    "back_to_journey": "Back to journey",
+    "questions": [
+      {
+        "id": "short",
+        "section": "Goals",
+        "title": "What do you want to do right after the MBA?",
+        "help": "Your short-term goal: a role, an industry and ideally a type of firm.",
+        "mode": "single",
+        "options": [
+          "Consulting",
+          "Product management",
+          "Investment banking",
+          "Private equity or VC",
+          "Corporate strategy",
+          "Start a company",
+          "Social impact",
+          "Not sure yet"
+        ],
+        "placeholder": "e.g. Product manager at a fintech scale-up, building payments for small businesses",
+        "nudge": "A clear first step makes the rest of your story believable.",
+        "find": [
+          "after the mba",
+          "after graduation",
+          "post-mba",
+          "short-term",
+          "short term",
+          "immediately",
+          "right after"
+        ]
+      },
+      {
+        "id": "long",
+        "section": "Goals",
+        "title": "Where do you want to be in 10 years?",
+        "help": "Your long-term goal, the North Star your short-term step leads to.",
+        "mode": "single",
+        "options": [
+          "Lead a company",
+          "Found and scale a startup",
+          "Run an investment fund",
+          "Lead a nonprofit or public agency",
+          "Be a senior expert in my field",
+          "Not sure yet"
+        ],
+        "placeholder": "e.g. Running a fund that backs climate startups in South Asia",
+        "nudge": "Ambitious is good, as long as the first step connects to it.",
+        "find": [
+          "long-term",
+          "long term",
+          "ten years",
+          "10 years",
+          "ultimately",
+          "in the future",
+          "north star",
+          "my vision",
+          "eventually"
+        ]
+      },
+      {
+        "id": "why_mba",
+        "section": "Why an MBA",
+        "title": "Why do you need an MBA?",
+        "help": "Pick up to three. What gap will the MBA close?",
+        "mode": "multi",
+        "max": 3,
+        "options": [
+          "Switch careers",
+          "Build business fundamentals",
+          "Grow as a leader",
+          "Build a network",
+          "Credibility and brand",
+          "Work internationally",
+          "Start a company"
+        ],
+        "placeholder": "e.g. I lack the finance and strategy toolkit to move from engineering into product leadership",
+        "nudge": "Naming the gap is what makes 'why MBA' convincing.",
+        "find": [
+          "mba will",
+          "an mba",
+          "need an mba",
+          "skills",
+          "gap",
+          "toolkit",
+          "network",
+          "learn"
+        ]
+      },
+      {
+        "id": "why_now",
+        "section": "Why an MBA",
+        "title": "Why now?",
+        "help": "What makes this the right moment in your career?",
+        "mode": "multi",
+        "max": 2,
+        "options": [
+          "I've hit a ceiling in my role",
+          "My industry is changing fast",
+          "I'm ready to switch careers",
+          "I have the experience to make the most of it",
+          "Personal timing"
+        ],
+        "placeholder": "e.g. After 5 years I've built the technical base; the next level needs business leadership skills",
+        "nudge": "Schools look for a reason that's both personal and market-driven.",
+        "find": [
+          "now",
+          "this moment",
+          "right time",
+          "at this point",
+          "timing"
+        ]
+      },
+      {
+        "id": "proud",
+        "section": "Your stories",
+        "title": "What's your proudest professional moment?",
+        "help": "What happened, what did you personally do, and what was the result?",
+        "mode": "single",
+        "options": [
+          "Led a team through change",
+          "Built something new",
+          "Fixed a big problem",
+          "Won a major client or deal",
+          "Influenced people without authority"
+        ],
+        "placeholder": "e.g. I convinced three teams to adopt a new process, cutting delivery time by 30%",
+        "nudge": "Specific actions and a result turn this into essay gold.",
+        "find": [
+          "led",
+          "launched",
+          "built",
+          "proud",
+          "achieved",
+          "grew",
+          "increased",
+          "reduced",
+          "delivered"
+        ]
+      },
+      {
+        "id": "setback",
+        "section": "Your stories",
+        "title": "A setback that changed you?",
+        "help": "What went wrong, what you learned, and what you do differently now.",
+        "mode": "single",
+        "options": [
+          "Missed an important target",
+          "A project failed",
+          "Conflict with a colleague",
+          "A personal hardship",
+          "A decision I got wrong"
+        ],
+        "placeholder": "e.g. My first product launch flopped because I skipped customer interviews; now I test every idea first",
+        "nudge": "Honest setbacks show self-awareness, which committees value.",
+        "find": [
+          "failed",
+          "failure",
+          "mistake",
+          "setback",
+          "struggled",
+          "learned",
+          "wrong",
+          "challenge"
+        ]
+      },
+      {
+        "id": "values",
+        "section": "Who you are",
+        "title": "What matters most to you?",
+        "help": "Pick up to three values, then tell us where they come from if you like.",
+        "mode": "multi",
+        "max": 3,
+        "options": [
+          "Impact",
+          "Family",
+          "Learning",
+          "Integrity",
+          "Community",
+          "Independence",
+          "Excellence",
+          "Fairness"
+        ],
+        "placeholder": "e.g. Fairness: growing up, I saw how unequal access to credit held my town back",
+        "nudge": "Values with an origin story are memorable.",
+        "find": [
+          "matters to me",
+          "value",
+          "believe",
+          "family",
+          "community",
+          "fair",
+          "integrity",
+          "grew up"
+        ]
+      },
+      {
+        "id": "contribute",
+        "section": "Who you are",
+        "title": "How will you contribute to your classmates?",
+        "help": "What will you bring that others will learn from?",
+        "mode": "multi",
+        "max": 3,
+        "options": [
+          "Industry expertise",
+          "A different cultural perspective",
+          "Leading a club or event",
+          "Mentoring others",
+          "Creative skills",
+          "Community service"
+        ],
+        "placeholder": "e.g. I'll run workshops on product thinking for career switchers",
+        "nudge": "Concrete contributions make schools picture you in the class.",
+        "find": [
+          "contribute",
+          "bring",
+          "classmates",
+          "club",
+          "community",
+          "share",
+          "mentor",
+          "teach"
+        ]
+      }
+    ]
+  }
 }

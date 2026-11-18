@@ -630,6 +630,107 @@ body.web .log.open ~ .logfab{right:380px}
   body.web .log{width:100%}
 }
 
+/* essays hub */
+.about-note{display:flex;gap:8px;align-items:flex-start}
+.about-note svg{width:16px;height:16px;flex:none;margin-top:2px}
+.ess-sch{padding:20px 24px 0}
+.ess-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.ess-item{display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:14px 0;border-bottom:1px solid var(--line)}
+.ess-item .t{flex:1;min-width:0}
+.ess-item .t b{display:block;font-size:15px;font-weight:600}
+.ess-q{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ess-item svg{width:18px;height:18px;flex:none;color:var(--ink2)}
+.ess-st{font-size:11.5px;font-weight:700;border-radius:10px;padding:3px 9px;background:var(--wash);color:var(--sub);white-space:nowrap;flex:none}
+.ess-st.up{background:var(--target-bg);color:var(--target)} .ess-st.done{background:var(--safe-bg);color:var(--safe)}
+.ess-picks{padding:6px 24px 0}
+.ess-pick{display:flex;gap:12px;align-items:center;width:100%;text-align:left;padding:10px 0;border-bottom:1px solid var(--line)}
+.ess-pick .th{width:44px;height:44px;border-radius:10px;overflow:hidden;flex:none} .ess-pick .th svg{width:100%;height:100%}
+.ess-pick > span:nth-child(2){flex:1} .ess-pick b{display:block;font-size:14.5px;font-weight:600}
+.ess-pick > svg{width:20px;height:20px;color:var(--brand)}
+.ess-card .oc-ic{width:30px;height:30px}
+/* suggested prompts */
+.sugs{flex:none;display:flex;gap:8px;overflow-x:auto;padding:10px 16px 0;background:#fff;border-top:1px solid var(--line)}
+.sugs::-webkit-scrollbar{height:0}
+.sug{height:34px;font-size:12.5px;padding:0 14px}
+.sugs + .composer{border-top:0}
+body.web .sugs{padding-left:max(16px,calc((100% - var(--cw))/2 + 24px));padding-right:max(16px,calc((100% - var(--cw))/2 + 24px))}
+.nextup{margin:18px 24px 0;border-radius:22px;padding:22px;box-shadow:var(--shadow2);background:#fff}
+.nu-hd{display:flex;align-items:center;gap:8px;color:var(--brand)}
+.nu-hd svg{width:18px;height:18px} .nu-hd b{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.nu-hd .cap{margin-left:auto;font-weight:600}
+.nu-acts{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap} .nu-acts .btn{width:auto;padding:0 22px;height:46px;font-size:14.5px}
+.nu-then{margin-top:18px;border-top:1px solid var(--line);padding-top:8px}
+.nu-row{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 0}
+.nu-row b{flex:1;font-size:14px;font-weight:600} .nu-row svg{width:16px;height:16px;color:var(--ink2)}
+.trk-bar.blur{filter:blur(3px);opacity:.6;margin:10px 0 4px}
+/* journey */
+.jhead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.xpbox{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:10px 14px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.xp-lv{width:42px;height:42px;border-radius:50%;background:conic-gradient(var(--brand),#E86A33,var(--gold),var(--brand));display:grid;place-items:center}
+.xp-lv b{width:32px;height:32px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:15px}
+.xp-t b{display:block;font-size:14px} .xpbar{width:120px;height:6px;border-radius:3px;background:var(--wash);margin-top:4px;overflow:hidden}
+.xpbar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--gold));border-radius:3px}
+.journey{position:relative;margin-top:20px;padding-bottom:6px}
+.jpath{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:0}
+.jp-all{fill:none;stroke:#E4DED6;stroke-width:6;stroke-dasharray:2 12;stroke-linecap:round}
+.jp-done{fill:none;stroke:url(#none);stroke:var(--safe);stroke-width:6;stroke-linecap:round}
+.jstage{position:relative;z-index:1;display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:start;padding:12px 0}
+.jnode{position:relative;width:64px;height:64px;margin:6px auto 0;transform:translateX(var(--jx,0))}
+.jstage.odd .jnode{--jx:6px} .jstage.even .jnode{--jx:-6px}
+.jn-ring{position:absolute;inset:0;border-radius:50%;background:#fff;border:3px dashed #D8D1C7}
+.jn-in{position:absolute;inset:8px;border-radius:50%;display:grid;place-items:center;background:var(--wash);color:var(--sub)}
+.jn-in svg{width:24px;height:24px}
+.jn-num{position:absolute;right:-4px;top:-4px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
+.jstage.done .jn-ring{border:3px solid var(--safe)} .jstage.done .jn-in{background:var(--safe);color:#fff} .jstage.done .jn-num{background:var(--safe)}
+.jstage.cur .jn-ring{border:3px solid var(--brand);animation:jpulse 1.8s ease-out infinite} .jstage.cur .jn-in{background:var(--grad);color:#fff}
+@keyframes jpulse{0%{box-shadow:0 0 0 0 rgba(179,18,60,.35)}70%{box-shadow:0 0 0 14px rgba(179,18,60,0)}100%{box-shadow:0 0 0 0 rgba(179,18,60,0)}}
+.jstage.finish .jn-in{background:#FFF6D6;color:#B48A00} .jstage.finish.done .jn-in{background:var(--gold);color:#fff}
+.jcard{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px 18px;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.jstage.cur .jcard{border:2px solid var(--brand);box-shadow:var(--shadow2)} .jstage.done .jcard{background:#FBFDFC}
+.jcard.flat{box-shadow:none;background:transparent;border-style:dashed}
+.jc-top{display:flex;justify-content:space-between;align-items:center}
+.jchip{font-size:11px;font-weight:700;border-radius:10px;padding:3px 9px;background:var(--wash);color:var(--sub)}
+.jchip.cur{background:var(--dream-bg);color:var(--brand)} .jchip.done{background:var(--safe-bg);color:var(--safe)}
+.jcard h3{font-size:18px;font-weight:700;letter-spacing:-.01em;margin-top:8px}
+.jbar{height:6px;border-radius:3px;background:var(--wash);margin:12px 0 8px;overflow:hidden} .jbar i{display:block;height:100%;background:var(--safe);border-radius:3px}
+.jstage.cur .jbar i{background:var(--grad)}
+.jsteps{list-style:none;margin:4px 0 12px} .jsteps li button{display:flex;gap:10px;align-items:center;width:100%;text-align:left;padding:6px 0;font-size:14px;color:var(--ink2)}
+.jtick{width:20px;height:20px;border-radius:6px;border:1.5px solid #C9C2B8;display:grid;place-items:center;flex:none;color:#fff}
+.jtick svg{width:12px;height:12px} .jsteps li.ok button{color:var(--sub);text-decoration:line-through;text-decoration-color:#C9C2B8} .jsteps li.ok .jtick{background:var(--safe);border-color:var(--safe)}
+.jcta{width:auto;height:44px;padding:0 18px;font-size:14px;gap:6px} .jcta svg{width:14px;height:14px}
+body.web .journey .jstage{grid-template-columns:1fr 120px 1fr;padding:4px 0}
+body.web .journey .jstage .jnode{grid-column:2;grid-row:1;margin-top:30px}
+body.web .journey .jstage.even .jcard{grid-column:3;grid-row:1} body.web .journey .jstage.odd .jcard{grid-column:1;grid-row:1}
+body.web .journey .jstage.even .jnode{--jx:-34px} body.web .journey .jstage.odd .jnode{--jx:34px}
+.confetti{position:absolute;inset:0;pointer-events:none;z-index:95;overflow:hidden}
+.confetti i{position:absolute;top:-20px;width:9px;height:14px;border-radius:2px;animation:cfall 2.2s cubic-bezier(.2,.6,.4,1) forwards}
+@keyframes cfall{to{top:110%;transform:rotate(720deg) translateX(40px);opacity:.9}}
+/* story quest */
+.story-wrap{max-width:720px;margin:0 auto}
+.xpchip{display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 12px;border-radius:15px;background:#FFF6D6;color:#8A6A00;font-size:12.5px;font-weight:700}
+.xpchip svg{width:14px;height:14px}
+.qdots{display:flex;gap:6px;margin:4px 0 18px} .qdot{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.qdot.ok{background:var(--safe)} .qdot.on{background:var(--ink)}
+.supload{border:1.5px dashed #D8D1C7;border-radius:18px;padding:14px 16px;margin-bottom:18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:#FFFCF6}
+.supload b{font-size:15px} .su-acts{display:flex;gap:12px;align-items:center} .su-acts .btn{width:auto;height:42px;padding:0 16px;font-size:14px}
+#pastebox{width:100%} #pastebox textarea,#qtext{width:100%;border:1px solid #D0D0D0;border-radius:14px;padding:12px 14px;font:inherit;font-size:15px;resize:none;outline:none;line-height:1.5}
+#qtext:focus,#pastebox textarea:focus{border-color:var(--ink)}
+.qcard2{background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow2)}
+.q-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap} .q-title{font-size:26px;margin-top:12px}
+.qopts{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 18px} .qopt{height:40px;font-size:13.5px}
+.q-own{display:block;margin-bottom:6px;font-weight:600}
+.q-wc{display:flex;justify-content:space-between;margin-top:6px} .rich[hidden]{display:none!important} .rich{color:#8A6A00;font-weight:700;display:inline-flex;gap:5px;align-items:center} .rich svg{width:13px;height:13px}
+.q-acts{display:flex;align-items:center;gap:16px;margin-top:18px}
+.scard{margin-top:16px;border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.sc-row{display:block;width:100%;text-align:left;padding:14px 16px;border-bottom:1px solid var(--line)} .sc-row:last-child{border-bottom:0}
+.sc-sec{display:block;font-size:11px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.05em}
+.sc-row b{display:block;font-size:14.5px;margin-top:2px}
+.sc-ans{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;font-size:14px;color:var(--ink2)} .sc-ans em{font-style:normal;background:var(--wash);border-radius:10px;padding:2px 9px;font-size:12.5px;font-weight:600}
+.sc-ans span{flex-basis:100%;line-height:1.5}
+/* give-to-get */
+.tracker.locked{background:var(--wash);border-style:dashed}
+.tracker.locked .trk-top svg{color:var(--ink2)}
+.proof{display:block;margin-top:20px;cursor:pointer}
 /* tester log */
 .log{width:340px;height:844px;display:flex;flex-direction:column;background:#fff;border-radius:24px;box-shadow:0 14px 34px rgba(0,0,0,.08);overflow:hidden;flex:none}
 .log header{padding:20px 20px 14px;border-bottom:1px solid var(--line)}
@@ -718,7 +819,7 @@ const I = {
   up:'<path d="M12 4.5l7 8h-4.2V20H9.2v-7.5H5z"/>', dn:'<path d="M12 19.5l-7-8h4.2V4h5.6v7.5H19z"/>',
   users:'<circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20c.9-3.4 3.4-5.3 6.5-5.3s5.6 1.9 6.5 5.3M16 5.2a3.5 3.5 0 0 1 0 6.6M17.5 14.9c2 .6 3.4 2.3 4 5.1"/>',
   doc:'<path d="M7 3.5h7l4 4V20a.5.5 0 0 1-.5.5h-10A.5.5 0 0 1 7 20z"/><path d="M14 3.5v4h4M9.5 12h5M9.5 15.5h5"/>',
-  send:'<path d="M4 12l16-8-6 16-2.5-6.5z"/>', pulse:'<path d="M3 12h4l2-5 4 10 2-5h6"/>', clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'
+  send:'<path d="M4 12l16-8-6 16-2.5-6.5z"/>', pulse:'<path d="M3 12h4l2-5 4 10 2-5h6"/>', lock:'<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>', clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'
 };
 const ic = (n, sw=1.8) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]||''}</svg>`;
 const LOGO = `<svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B3123C"/><stop offset="1" stop-color="#800000"/></linearGradient></defs><path d="M20 3C11 3 5 9.5 5 18v17a2 2 0 0 0 2 2h7V24a6 6 0 0 1 12 0v13h7a2 2 0 0 0 2-2V18C35 9.5 29 3 20 3z" fill="url(#lg)"/><circle cx="20" cy="13.5" r="3.2" fill="#F1C400"/></svg>`;
@@ -765,7 +866,7 @@ const schoolArt = s => scene(s.color, s.id);
 
 /* ============================ state ============================ */
 let SIM;
-const blank = () => ({name:'', test:'gmat', score:'', gpaScale:'4', gpa:'', years:'', industry:'', resume:'', focus:[], goal:'', tuition:'', sponsor:'', legacy:'', legacySchool:''});
+const blank = () => ({name:'', nationality:'', gender:'', ethnicity:'', test:'gmat', score:'', gpaScale:'4', gpa:'', years:'', industry:'', resume:'', focus:[], goal:'', tuition:'', sponsor:'', legacy:'', legacySchool:''});
 const fresh = () => ({ screen:'welcome', tab:'home', profile:blank(), selected:[], expanded:false, query:'', results:null, schoolId:null, ob:null, sugLogged:false, program:'all', comm:null, threadId:null, checks:{}, outcomes:{}, calib:0,
   plan:{}, planSchool:null, work:null, chats:{}, uploads:{}, reviews:{}, advPick:null, admitId:null, pane:'advice' });
 let S = fresh();
@@ -798,18 +899,45 @@ const labelsOf = (list, ids) => ids.map(id => (list.find(x => x.id === id) || {}
 function norm(p){
   const R = SIM.fit_rules; let gmat = num(p.score);
   if (gmat !== null && p.test === 'gre') gmat = Math.round(R.gre_to_gmat_focus.slope * gmat + R.gre_to_gmat_focus.intercept);
+  else if (gmat !== null && p.test === 'gmat_classic') gmat = classicToFocus(gmat);
   const g = num(p.gpa); const gpa4 = g === null ? null : (p.gpaScale === '10' ? +(g * R.gpa10_to_gpa4_factor).toFixed(2) : g);
   return { gmat, gpa4, years: num(p.years), industry: p.industry || '' };
+}
+/* GMAT (legacy, 200-800) to GMAT Focus (205-805): piecewise-linear over approximate anchors in fit_rules. */
+function classicToFocus(v){
+  const A = SIM.fit_rules.gmat_classic_to_focus.anchors;
+  if (v <= A[0][0]) return A[0][1];
+  for (let i = 1; i < A.length; i++) if (v <= A[i][0]) { const [x0,y0] = A[i-1], [x1,y1] = A[i]; return Math.round(y0 + (v - x0) * (y1 - y0) / (x1 - x0)); }
+  return A[A.length - 1][1];
+}
+/* Work experience is compared with each school's own average (s.we): close to it helps, well below or far above hurts. */
+function workexPts(s, years){
+  const W = SIM.fit_rules.workex, d = years - s.we;
+  if (Math.abs(d) <= W.near_band) return W.near_bonus;
+  if (d < 0) return Math.max(W.below_cap, Math.round((d + W.near_band) * W.below_per_year));
+  if (d > W.above_free) return Math.max(W.above_cap, -Math.round((d - W.above_free) * W.above_per_year));
+  return 0;
+}
+function workexTag(s, years){
+  const W = SIM.fit_rules.workex, d = years - s.we;
+  return d < -W.near_band ? 'workex_low' : Math.abs(d) <= W.near_band ? 'workex_ideal' : d > W.above_free ? 'workex_high' : 'workex_ok';
+}
+/* Applicant pool: some nationality + gender + industry combinations face far more similar applicants.
+   Only nationality and gender (and industry) are used; ethnicity is never used for scoring. */
+function poolPts(p){
+  const out = {pts:0, labels:[]};
+  (SIM.fit_rules.pool_rules || []).forEach(r => {
+    const w = r.when, ok = (!w.nationality || w.nationality.includes(p.nationality)) && (!w.gender || w.gender.includes(p.gender)) && (!w.industry || w.industry.includes(p.industry));
+    if (ok) { out.pts += r.points; out.labels.push(r.label); }
+  });
+  return out;
 }
 function chance(s, p){
   const R = SIM.fit_rules, n = norm(p); let c = s.base + (S.calib || 0);
   if (n.gmat !== null) c += (n.gmat - s.gmat) / 10 * R.gmat_points_per_10;
   if (n.gpa4 !== null) c += (n.gpa4 - s.gpa) / 0.1 * R.gpa_points_per_0_1;
-  if (n.years !== null){
-    if (n.years < R.workex_ideal_min) c += R.workex_low_penalty;
-    else if (n.years <= R.workex_ideal_max) c += R.workex_ideal_bonus;
-    else if (n.years >= R.workex_high_from) c += R.workex_high_penalty;
-  }
+  if (n.years !== null) c += workexPts(s, n.years);
+  c += poolPts(p).pts;
   if (isLegacy(s, p)) c += R.legacy_bonus;
   return Math.round(Math.min(R.max_chance, Math.max(R.min_chance, c)));
 }
@@ -819,7 +947,8 @@ function chance(s, p){
 function confidence(s, p){
   const C = SIM.scenarios.confidence, M = C.multipliers, n = norm(p), me = S.comm && S.comm.me;
   let m = 1; const why = [];
-  if (p.gpaScale === '10' || (me && me.country && me.country !== 'United States')) { m *= M.international; why.push('international'); }
+  const intl = p.gpaScale === '10' || (p.nationality && !['United States','prefer_not'].includes(p.nationality)) || (me && me.country && me.country !== 'United States');
+  if (intl) { m *= M.international; why.push('international'); }
   if (n.industry === 'nonprofit') { m *= M.nonprofit; why.push('nonprofit'); } else if (n.industry === 'other') { m *= M.other; why.push('less common industry'); }
   if (n.gmat === null) { m *= M.missing_test; why.push('no test score'); }
   if (n.gpa4 === null) { m *= M.missing_gpa; why.push('no GPA'); }
@@ -835,7 +964,8 @@ function drivers(s, p){
   const R = SIM.fit_rules, n = norm(p), out = [];
   if (n.gmat !== null){ const v = Math.round((n.gmat - s.gmat) / 10 * R.gmat_points_per_10); out.push({icon:'quant', label:`GMAT ${n.gmat} vs median ${s.gmat}`, v}); } else out.push({icon:'quant', label:'No test score, median assumed', v:null});
   if (n.gpa4 !== null){ const v = Math.round((n.gpa4 - s.gpa) / 0.1 * R.gpa_points_per_0_1); out.push({icon:'cap', label:`GPA ${n.gpa4} vs median ${s.gpa.toFixed(1)} (4.0 scale)`, v}); } else out.push({icon:'cap', label:'No GPA, median assumed', v:null});
-  if (n.years !== null){ const v = n.years < R.workex_ideal_min ? R.workex_low_penalty : n.years <= R.workex_ideal_max ? R.workex_ideal_bonus : n.years >= R.workex_high_from ? R.workex_high_penalty : 0; out.push({icon:'briefcase', label:`${n.years} years of experience vs about ${s.we}`, v}); }
+  if (n.years !== null) out.push({icon:'briefcase', label:`${n.years} years of experience vs about ${s.we} for admits`, v:workexPts(s, n.years)});
+  const pool = poolPts(p); if (pool.pts) out.push({icon:'users', label:pool.labels.join('; '), v:pool.pts});
   if (isLegacy(s, p)) out.push({icon:'users', label:'Legacy candidate', v:R.legacy_bonus});
   return out;
 }
@@ -857,7 +987,7 @@ function suggested(){
 }
 function basisText(){
   const p = S.profile, n = norm(p), ind = SIM.industries.find(i => i.id === p.industry), bits = [];
-  if (n.gmat !== null) bits.push(`${n.gmat} GMAT${p.test==='gre'?' equivalent':''}`);
+  if (n.gmat !== null) bits.push(`${n.gmat} GMAT${p.test!=='gmat'?' equivalent':''}`);
   if (n.years !== null) bits.push(`${n.years} year${n.years===1?'':'s'}${ind ? ' in ' + ind.label.toLowerCase() : ' of experience'}`);
   else if (n.gpa4 !== null) bits.push(`${p.gpa}${p.gpaScale==='10'?'/10':''} GPA`);
   return bits.join(' and ');
@@ -882,7 +1012,7 @@ function adviceFor(id){
   const s = school(id), p = S.profile, n = norm(p), R = SIM.fit_rules, A = SIM.advice_rules, tags = new Set();
   if (n.gmat === null) tags.add('gmat_missing'); else { const d = n.gmat - s.gmat; tags.add(d >= R.near_median_band ? 'gmat_above' : d <= -R.near_median_band ? 'gmat_below' : 'gmat_near'); }
   if (n.gpa4 !== null) tags.add(n.gpa4 >= s.gpa ? 'gpa_above' : 'gpa_below');
-  if (n.years !== null) tags.add(n.years < R.workex_ideal_min ? 'workex_low' : n.years <= R.workex_ideal_max ? 'workex_ideal' : n.years >= R.workex_high_from ? 'workex_high' : 'workex_ok');
+  if (n.years !== null) tags.add(workexTag(s, n.years));
   if (n.industry) tags.add('industry_' + n.industry);
   const fh = focusHit(s, p), want = p.focus || [], bud = SIM.tuition_ranges.find(x => x.id === p.tuition);
   if (fh.length) tags.add('focus_match'); else if (want.length) tags.add('focus_no_match');
@@ -907,7 +1037,7 @@ const initial = () => (S.profile.name || '').trim().slice(0,1).toUpperCase();
 const avatar = (cls='') => `<span class="avatar ${cls}">${initial() ? esc(initial()) : ic('person',2)}</span>`;
 const pct = p => Math.round(100 * (1 - missing(p).length / 4));
 const ring = (v) => { const C = 2*Math.PI*19; return `<svg class="ringchart" viewBox="0 0 46 46"><circle cx="23" cy="23" r="19" fill="none" stroke="#EBEBEB" stroke-width="5"/><circle cx="23" cy="23" r="19" fill="none" stroke="#800000" stroke-width="5" stroke-linecap="round" stroke-dasharray="${C*v/100} ${C}" transform="rotate(-90 23 23)"/>${v>=100?'<path d="M16 23.5l4.5 4.5L30 18.5" fill="none" stroke="#800000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>':`<text x="23" y="27" text-anchor="middle" font-size="11" font-weight="700" fill="#222" font-family="Jakarta,sans-serif">${v}%</text>`}</svg>`; };
-const profileSummary = p => { const n = norm(p); return { name:p.name||'(blank)', test:p.test, score:p.score||'(blank)', gmat_equiv:n.gmat ?? '(blank)', gpa:p.gpa?`${p.gpa}/${p.gpaScale}`:'(blank)', years:p.years||'(blank)', industry:p.industry||'(blank)', resume:p.resume||'(blank)', focus:(p.focus||[]).join('/')||'(blank)', goal:p.goal||'(blank)', tuition:p.tuition||'(blank)', sponsor:p.sponsor||'(blank)', legacy:p.legacy==='yes' ? 'yes' + (p.legacySchool ? ' ('+p.legacySchool+')' : '') : p.legacy||'(blank)' }; };
+const profileSummary = p => { const n = norm(p); return { name:p.name||'(blank)', nationality:p.nationality||'(blank)', gender:p.gender||'(blank)', ethnicity_audit_only:p.ethnicity||'(blank)', test:p.test, score:p.score||'(blank)', gmat_equiv:n.gmat ?? '(blank)', gpa:p.gpa?`${p.gpa}/${p.gpaScale}`:'(blank)', years:p.years||'(blank)', industry:p.industry||'(blank)', resume:p.resume||'(blank)', focus:(p.focus||[]).join('/')||'(blank)', goal:p.goal||'(blank)', tuition:p.tuition||'(blank)', sponsor:p.sponsor||'(blank)', legacy:p.legacy==='yes' ? 'yes' + (p.legacySchool ? ' ('+p.legacySchool+')' : '') : p.legacy||'(blank)' }; };
 const tabbar = () => `<nav class="tabs">${[['home','home','Home'],['list','list','My list'],['plan','grid','Plan'],['community','chat','Community'],['profile','person','Profile']].map(([id,icn,l]) => `<button data-tab="${id}" aria-current="${S.tab===id}">${ic(icn, S.tab===id?2.2:1.8)}${l}</button>`).join('')}</nav>`;
 function bindTabs(){ V().querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { if (S.tab !== b.dataset.tab) log('user','Opened tab', b.textContent.trim()); go(b.dataset.tab, {tab:b.dataset.tab}); }); }
 function setStatus(light){ $('#status').classList.toggle('light', !!light); }
@@ -925,9 +1055,11 @@ function stepBody(id, d){
       <div class="h3" style="margin-top:24px">${esc(st.legacy_label)}</div><div class="cap">${esc(st.legacy_sub)}</div>${yn('legacy', d.legacy)}
       ${d.legacy === 'yes' ? `<label class="sel" style="display:block;margin-top:12px"><span>${esc(st.legacy_school_label)}</span><select id="q-legacy"><option value="">Choose a school</option>${SIM.schools.slice().sort((a,b) => a.short.localeCompare(b.short)).map(o => `<option value="${o.id}" ${o.id===d.legacySchool?'selected':''}>${esc(o.name)}</option>`).join('')}</select></label>` : ''}`;
   if (id === 'name') return `<input class="big-input" id="q-name" placeholder="First name" value="${esc(d.name)}" autocomplete="given-name" maxlength="30">`;
-  if (id === 'test') return `<div class="seg" role="group" aria-label="Test">${[['gmat','GMAT Focus'],['gre','GRE']].map(([k,l]) => `<button type="button" data-test="${k}" aria-pressed="${d.test===k}">${l}</button>`).join('')}</div>
-      <input class="big-input" id="q-score" style="margin-top:22px" inputmode="numeric" placeholder="${d.test==='gre'?'e.g. 322':'e.g. 675'}" value="${esc(d.score)}">
-      <div class="cap" style="margin-top:8px">${d.test==='gre'?'Total score, 260 to 340':'Total score, 205 to 805'}</div><div class="err" id="e-score"></div>`;
+  if (id === 'about') { const A = SIM.about, sel = (fid, label, list, val) => `<label class="sel" style="display:block;margin-top:12px"><span>${label}</span><select id="${fid}"><option value="">Choose</option>${list.map(o => `<option value="${esc(o.id)}" ${o.id===val?'selected':''}>${esc(o.label)}</option>`).join('')}</select></label>`;
+    return sel('q-nat', A.nationality_label, A.nationalities, d.nationality) + sel('q-gen', A.gender_label, A.genders, d.gender) + sel('q-eth', A.ethnicity_label, A.ethnicities, d.ethnicity) + `<p class="cap about-note" style="margin-top:14px">${ic('info',2)}<span>${esc(A.note)}</span></p>`; }
+  if (id === 'test') return `<div class="seg" role="group" aria-label="Test">${[['gmat','GMAT Focus'],['gmat_classic','GMAT (legacy)'],['gre','GRE']].map(([k,l]) => `<button type="button" data-test="${k}" aria-pressed="${d.test===k}">${l}</button>`).join('')}</div>
+      <input class="big-input" id="q-score" style="margin-top:22px" inputmode="numeric" placeholder="${d.test==='gre'?'e.g. 322':d.test==='gmat_classic'?'e.g. 720':'e.g. 675'}" value="${esc(d.score)}">
+      <div class="cap" style="margin-top:8px">${d.test==='gre'?'Total score, 260 to 340':d.test==='gmat_classic'?'Total score, 200 to 800. We convert it to the GMAT Focus scale.':'Total score, 205 to 805'}</div><div class="err" id="e-score"></div>`;
   if (id === 'gpa') return `<div class="seg" role="group" aria-label="GPA scale">${[['4','4.0 scale'],['10','10 point scale']].map(([k,l]) => `<button type="button" data-scale="${k}" aria-pressed="${d.gpaScale===k}">${l}</button>`).join('')}</div>
       <input class="big-input" id="q-gpa" style="margin-top:22px" inputmode="decimal" placeholder="${d.gpaScale==='10'?'e.g. 8.2':'e.g. 3.6'}" value="${esc(d.gpa)}"><div class="err" id="e-gpa"></div>`;
   if (id === 'work') return `<div class="counter"><div><div class="h3">Years of experience</div><div class="cap">Full-time, after graduation</div></div>
@@ -940,9 +1072,10 @@ function stepBody(id, d){
       ${d.resume ? `<div class="parsed"><b>${esc(R.summary)}</b><ul>${R.facts.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>` : ''}`; }
 }
 function readStep(id, d){
+  if (id === 'about') { d.nationality = $('#q-nat').value; d.gender = $('#q-gen').value; d.ethnicity = $('#q-eth').value; return true; }
   const set = (k, msg) => { const e = $('#e-'+k); if (e) e.innerHTML = msg ? ic('info')+msg : ''; const i = $('#q-'+k); if (i) i.classList.toggle('bad', !!msg); return !msg; };
   if (id === 'name') { d.name = $('#q-name').value.trim(); return true; }
-  if (id === 'test') { d.score = $('#q-score').value.trim(); const v = num(d.score), [lo,hi] = d.test==='gre'?[260,340]:[205,805]; return set('score', d.score && (v===null||v<lo||v>hi) ? `Enter a score from ${lo} to ${hi}, or skip for now.` : ''); }
+  if (id === 'test') { d.score = $('#q-score').value.trim(); const v = num(d.score), [lo,hi] = d.test==='gre'?[260,340]:d.test==='gmat_classic'?[200,800]:[205,805]; return set('score', d.score && (v===null||v<lo||v>hi) ? `Enter a score from ${lo} to ${hi}, or skip for now.` : ''); }
   if (id === 'gpa') { d.gpa = $('#q-gpa').value.trim(); const v = num(d.gpa), mx = d.gpaScale==='10'?10:4; return set('gpa', d.gpa && (v===null||v<0||v>mx) ? `Enter a GPA from 0 to ${mx}, or skip for now.` : ''); }
   return true;
 }
@@ -961,7 +1094,8 @@ function bindStep(id, d, rerender){
     rf.onchange = () => { const f = rf.files[0]; if (!f) return; d.resume = f.name; log('user','Uploaded resume', f.name); log('ai','Resume read', SIM.resume.facts.join('; ')); rerender(); }; }
   const inp = root.querySelector('.big-input'); if (inp) inp.addEventListener('input', () => { const btn = $('#ob-next'); if (btn) btn.textContent = nextLabel(id, {...d, [id==='name'?'name':id==='test'?'score':'gpa']: inp.value.trim()}); });
 }
-const hasValue = (id, d) => id==='name'? !!d.name : id==='test'? !!d.score : id==='gpa'? !!d.gpa : id==='resume'? !!d.resume : id==='goals'? !!((d.focus||[]).length || d.goal) : id==='budget'? !!(d.tuition || d.sponsor || d.legacy) : (d.years!=='' || !!d.industry);
+const hasValue = (id, d) => id === 'about' ? !!(d.nationality || d.gender || d.ethnicity) : hasValue0(id, d);
+const hasValue0 = (id, d) => id==='name'? !!d.name : id==='test'? !!d.score : id==='gpa'? !!d.gpa : id==='resume'? !!d.resume : id==='goals'? !!((d.focus||[]).length || d.goal) : id==='budget'? !!(d.tuition || d.sponsor || d.legacy) : (d.years!=='' || !!d.industry);
 
 /* ============================ screens ============================ */
 const screens = {
@@ -985,7 +1119,7 @@ const screens = {
     setStatus(false);
     const steps = SIM.onboarding, o = S.ob, st = steps[o.step], last = o.step === steps.length - 1;
     V().innerHTML = `<div class="ob">
-      <div class="ob-top"><span class="ob-step">Step ${o.step+1} of ${steps.length}</span><button class="exit" id="ob-exit">Save and exit</button></div>
+      <div class="ob-top"><span class="ob-step">Step ${o.step+1} of ${steps.length}</span><button class="exit" id="ob-exit">Finish later</button></div>
       <div class="scroll"><h1 class="h1">${esc(st.title)}</h1><p class="p">${esc(st.help)}</p>
         <div class="ob-body">${stepBody(st.id, o.draft)}</div>
         ${st.skip ? `<button class="skip-link" id="ob-skip">${esc(st.skip)}</button>` : ''}</div>
@@ -1010,20 +1144,16 @@ const screens = {
     const more = P.objectives.filter(o => o.id !== 'assess');
     V().innerHTML = `<div class="top-gap"></div><div class="scroll">
       <div class="hello"><div><div class="cap">${greet}</div><h1 class="h1" style="font-size:28px">${p.name ? 'Hi ' + esc(p.name) : 'Welcome'}</h1></div><button id="av" aria-label="Open profile">${avatar()}</button></div>
-      ${m.length ? `<button class="strength" id="complete">${ring(pct(p))}<span class="t"><b>${fill(H.complete_title,{pct:pct(p)})}</b><span class="cap">${fill(H.complete_sub,{missing:m.slice(0,2).join(' and ')})}</span></span>${ic('chev',2)}</button>`
-        : `<div class="statrow">${stat(n.gmat, p.test==='gre'?'GMAT equiv.':'GMAT')}${stat(p.gpa ? p.gpa + (p.gpaScale==='10'?'/10':'') : null,'GPA')}${stat(n.years,'Years exp.')}</div>`}
       ${S.results ? `<div class="sect" style="padding-top:18px">${outcomeCard(true)}</div>` : ''}
-      <div class="hero"><div class="art">${scene('#34457A','hero','dome')}<span class="tag">${ic('clock',2.2)}About 1 minute</span></div>
-        <div class="body"><h2 class="h2">${esc(H.hero_title)}</h2><p class="p">${esc(H.hero_sub)}</p>
-        <button class="btn" id="assess">${has ? esc(H.hero_cta_again) : esc(H.hero_cta)}</button></div></div>
+      <div class="sect" style="padding-top:18px">${journeyHTML()}</div>
       ${trendingCard()}
       <div class="sect"><h2 class="h3">${esc(H.more_title)}</h2><div class="rows">${more.map(o => `
         <button class="rowbtn ${o.in_prototype?'':'off'}" data-obj="${o.id}"><span class="ico">${ic(o.icon)}</span><span class="t"><b>${esc(o.label)}</b><span>${esc(o.sub)}</span></span>${o.in_prototype ? `<span class="chev">${ic('chev',2)}</span>` : `<span class="soon">Soon</span>`}</button>`).join('')}</div></div>
       <div style="height:28px"></div></div>${tabbar()}`;
-    bindTabs(); bindOutcomeButtons();
+    bindTabs(); bindOutcomeButtons(); requestAnimationFrame(drawJourney); checkMilestones();
     $('#av').onclick = () => go('profile', {tab:'profile'});
     const c = $('#complete'); if (c) c.onclick = () => { log('user','Tapped complete profile',''); go('profile', {tab:'profile'}); };
-    $('#assess').onclick = () => { log('user','Objective selected', has ? 'View my school list' : 'Check my fit'); has ? go('list', {tab:'list'}) : go('assess'); };
+    if ($('#assess')) $('#assess').onclick = () => { log('user','Objective selected', has ? 'View my school list' : 'Check my fit'); has ? go('list', {tab:'list'}) : go('assess'); };
     V().querySelectorAll('[data-obj]').forEach(b => b.onclick = () => {
       const o = P.objectives.find(x => x.id === b.dataset.obj); log('user','Objective selected', o.label);
       if (o.id === 'advice') { if (S.results) { go('list', {tab:'list'}); toast(P.advice_pick_note); } else { go('assess'); toast(P.advice_redirect_note, 'info'); } }
@@ -1181,12 +1311,13 @@ const screens = {
     setStatus(false);
     const p = S.profile, n = norm(p), ind = SIM.industries.find(i => i.id === p.industry);
     const row = (key, label, val) => `<button class="det-row" data-edit="${key}"><span class="t"><b>${label}</b>${val ? `<span>${esc(val)}</span>` : `<span class="add">Add</span>`}</span><span class="edit">${val ? 'Edit' : ''}</span></button>`;
-    const scoreTxt = p.score ? `${p.score} ${p.test==='gre'?'GRE (about '+n.gmat+' GMAT Focus)':'GMAT Focus'}` : '';
+    const scoreTxt = p.score ? `${p.score} ${p.test==='gre'?'GRE (about '+n.gmat+' GMAT Focus)':p.test==='gmat_classic'?'GMAT legacy (about '+n.gmat+' GMAT Focus)':'GMAT Focus'}` : '';
     V().innerHTML = `<div class="top-gap"></div><div class="scroll">
       <div class="pad"><h1 class="h1">Profile</h1></div>
       <div class="pcard">${avatar()}<div><div class="h2">${p.name ? esc(p.name) : 'Your profile'}</div><div class="cap" style="margin-top:2px">MBA applicant</div></div><div style="margin-left:auto">${ring(pct(p))}</div></div>
       <div class="sect" style="padding-top:28px"><h2 class="h2">Your details</h2><p class="cap" style="margin-top:4px">Admit Pal uses these to estimate your chances. Changes update your school list.</p>
         ${row('name','First name', p.name)}
+        ${row('about', SIM.about.profile_label, [SIM.about.nationalities, SIM.about.genders, SIM.about.ethnicities].map((l, i) => (l.find(o => o.id === [p.nationality, p.gender, p.ethnicity][i]) || {}).label).filter(Boolean).join(', '))}
         ${row('test','Test score', scoreTxt)}
         ${row('gpa','Undergrad GPA', p.gpa ? `${p.gpa} on a ${p.gpaScale==='10'?'10 point':'4.0'} scale` : '')}
         ${row('work','Work experience and industry', [p.years!==''?`${p.years} year${+p.years===1?'':'s'}`:'', ind?ind.label:''].filter(Boolean).join(', '))}
@@ -1197,7 +1328,7 @@ const screens = {
       <button class="signout" id="so">Log out</button></div>${tabbar()}`;
     bindTabs();
     V().querySelectorAll('[data-edit]').forEach(b => b.onclick = () => editSheet(b.dataset.edit));
-    $('#so').onclick = () => { log('user','Logged out',''); S = fresh(); render(); };
+    $('#so').onclick = async () => { if (ACCT.email) { await saveNow(); await acctCall('logout', {email:ACCT.email, token:ACCT.token}); log('user','Logged out', ACCT.email); } clearSession(); S = fresh(); render(); };
   }
 };
 function nextLabel(id, d, last){ if (last === undefined) last = S.ob && S.ob.step === SIM.onboarding.length - 1; return last ? 'Finish' : hasValue(id, d) ? 'Next' : 'Skip'; }
@@ -1256,6 +1387,7 @@ function outcomeProgress(){ const n = S.selected.length, k = S.selected.filter(h
 function outcomeCard(compact){
   const O = SIM.outcomes, {n, k} = outcomeProgress();
   if (!S.results || !n) return '';
+  if (!S.season && !S.selected.some(id => outcomeOf(id) !== 'waiting')) return '';     // nothing to report before results season
   return `<div class="ocard ${compact?'compact':''}"><div class="oc-top"><span class="oc-ic">${ic('pulse',2)}</span><div><b>${esc(compact ? O.home_title : O.nudge_title)}</b><p>${esc(compact ? O.home_body : O.nudge_body)}</p></div></div>
     <div class="oc-prog"><div><i style="width:${n ? k/n*100 : 0}%"></i></div><span>${esc(fill(O.progress,{k,n}))}</span></div>
     <button class="btn dark oc-btn" data-outcomes="1">${esc(O.nudge_cta)}</button></div>`;
@@ -1285,7 +1417,7 @@ function recordOutcomes(next, share){
     else log('data','Outcome reported (training label)', {school:sc.short, predicted:t.c + '%', tier:t.b.label + (t.capped?' (capped)':''), outcome:o, support:t.cf.k});
     if (o === 'noinvite' && t.c >= 45) miss.push({id, c:t.c});
     if ((o === 'invite' || o === 'admit') && t.c < 30) beat.push({id, c:t.c});
-    if (share && TRACKED.includes(o)) { const c = comm(); c.outcomes++; const tr = c.threads.find(x => x.school === id && x.tracker); if (tr){ const k = o === 'noinvite' ? 'noinvite' : 'invites'; tr.tracker[k]++; } }
+    if (share && TRACKED.includes(o)) { const c = comm(); c.outcomes++; c.gave = true; const tr = c.threads.find(x => x.school === id && x.tracker); if (tr){ const k = o === 'noinvite' ? 'noinvite' : 'invites'; tr.tracker[k]++; } }
   });
   S.outcomes = {...S.outcomes, ...next};
   const planMsgs = changed.map(id => planStatus(id, next[id])).filter(Boolean);
@@ -1335,6 +1467,7 @@ function diagCard(){
   return `<button class="summary diag" id="diag"><div class="read"><span class="sp">${ic('bulb',2)}</span><div><b>${esc(D.label)}</b><p>${esc(has ? D.headline : D.no_resume)}</p><span class="dlink">${esc(has ? D.cta : D.no_resume_cta)}</span></div></div></button>`;
 }
 function diagSheet(){
+  S.resumeSeen = true;
   const D = SIM.diagnosis, X = diagnosis();
   const items = list => list.map(it => `<div class="adv"><span class="ai">${ic(it.icon,1.6)}</span><div><b>${esc(it.label)}</b><p>${esc(it.text)}</p></div></div>`).join('');
   overlay(`<div class="sheet" role="dialog">${sheetHd(D.sheet_title)}<div class="sheet-body"><h2 class="h2">${esc(X.headline)}</h2>
@@ -1469,11 +1602,12 @@ screens.work = function(){
       ${a.assistant === 'essay' ? `<div class="livetag ${live ? 'on' : ''}"><i></i>${live ? `${esc(fill(W.live.badge, {model:''})).trim()} <select id="llmPick" aria-label="${esc(W.live.model_label)}">${LLM.models.map(m => `<option value="${esc(m.id)}" ${m.id === LLM.model ? 'selected' : ''} ${m.ready ? '' : 'disabled'}>${esc(m.label)}${m.ready ? '' : ' (no key)'}</option>`).join('')}</select>` : esc(W.live.offline)}</div>` : ''}
       <div class="hr" style="margin:20px 0 4px"></div><div id="chat"></div>
     </div><div style="height:20px"></div></div>
+    <div class="sugs" id="sugs">${(W.suggestions[a.assistant] || W.suggestions.default).map(t => `<button class="chip sug" data-sug="${esc(t)}">${esc(t)}</button>`).join('')}</div>
     <div class="composer"><input id="cm" placeholder="${esc(fill(W.input_ph, v))}" aria-label="${esc(fill(W.input_ph, v))}" autocomplete="off"><button id="send" aria-label="Send" disabled>${ic('send',2)}</button></div>`;
   const wsc = () => document.querySelector('#pane .scroll') || $('#sc');   // the workspace's own scroll area
   const drawChat = () => { $('#chat').innerHTML = S.chats[ck].map(m => `<div class="cmt ${m.who==='me'?'mine':''}"><span class="cav">${m.who==='me' ? esc(initial() || 'Y') : ic('sparkle',2)}</span><div class="cbody"><div class="cap"><b>${m.who==='me' ? 'You' : esc(A.name)}</b>${m.llm && m.model ? ` <span class="cap">· ${esc((LLM.models.find(x => x.id === m.model) || {}).label || m.model)}</span>` : ''}</div><p class="${m.llm || m.wait ? 'llm' : ''} ${m.wait ? 'wait' : ''} ${m.err ? 'err' : ''}">${esc(m.wait ? W.live.thinking : m.text)}</p></div></div>`).join(''); };
   drawChat();
-  const back = () => from === 'advisor' ? go('advisor') : goPlan(id);
+  const back = () => from === 'advisor' ? go('advisor') : from === 'essays' ? go('essays', {tab:'essays'}) : goPlan(id);
   $('#bk').onclick = back;
   $('#docBtn').onclick = () => $('#docUp').click();
   /* The upload is the only way in: every document is captured with its school and item (the data loop).
@@ -1488,6 +1622,7 @@ screens.work = function(){
   const cm = $('#cm'), send = $('#send');
   cm.oninput = () => { send.disabled = !cm.value.trim(); };
   cm.onkeydown = e => { if (e.key === 'Enter' && cm.value.trim()) send.click(); };
+  V().querySelectorAll('[data-sug]').forEach(b => b.onclick = () => { cm.value = b.dataset.sug; send.disabled = false; log('user','Used a suggested prompt', b.dataset.sug); send.click(); });
   const pick = $('#llmPick'); if (pick) pick.onchange = () => { LLM.model = pick.value; log('user','Picked Essay Coach model', llmName()); };
   send.onclick = () => {
     const text = cm.value.trim(); if (!text) return;
@@ -1509,6 +1644,229 @@ screens.work = function(){
   };
   $('#complete').onclick = () => { a.done = true; log('user','Marked plan item complete', `${s.short}: ${a.title}`); log('data','Plan progress', {school:s.short, item:key, done:true}); back(); toast(esc(fill(W.done_toast, {title:a.title})), 'check'); };
   $('#toadv').onclick = () => { log('user','Asked for advisor review from workspace', `${s.short}: ${a.title}`); S.advPick = ck; go('advisor'); };
+};
+
+/* ===================== Journey: the home dashboard as a roadmap ===================== */
+function storyAns(){ if (!S.story) S.story = {answers:{}, reviewed:false, q:0}; return S.story; }
+const answered = x => !!(x && ((x.chips && x.chips.length) || (x.text && x.text.trim())));
+const wordsIn = t => ((t || '').trim().match(/\S+/g) || []).length;
+function storyCount(){ const a = storyAns().answers; return SIM.story.questions.filter(q => answered(a[q.id])).length; }
+function journeyState(){
+  const J = SIM.journey, T = J.steps, p = S.profile, n = norm(p), plan = Object.values(S.plan || {}).flat(), pd = plan.filter(a => a.done).length;
+  const sk = storyCount(), sn = SIM.story.questions.length, st = storyAns();
+  const R = S.results;
+  const st4 = {
+    schools:[{t:T.scores, done:n.gmat !== null && n.gpa4 !== null, act:'profile'}, {t:T.fit, done:!!R, act:'assess'}, {t:T.balance, done:!!(R && R.safe.length && R.target.length), act:'list'}],
+    resume:[{t:T.upload_resume, done:!!p.resume, act:'resume'}, {t:T.review_resume, done:!!S.resumeSeen, act:'diag'}],
+    story:[{t:fill(T.answer, {k:sk, n:sn}), done:sk >= SIM.story.complete_at, act:'story'}, {t:T.review_story, done:!!st.reviewed, act:'storycard'}],
+    apps:[{t:fill(T.plan, {k:pd, n:plan.length}), done:!!plan.length && pd === plan.length, act:'apps'}]
+  };
+  const out = J.stages.map(s => { const steps = st4[s.id], k = steps.filter(x => x.done).length; return {...s, steps, k, done:k === steps.length,
+    pct: s.id === 'apps' ? (plan.length ? Math.round(pd / plan.length * 100) : 0) : s.id === 'story' ? Math.round((Math.min(sk, SIM.story.complete_at) / SIM.story.complete_at * 0.8 + (st.reviewed ? 0.2 : 0)) * 100) : Math.round(k / steps.length * 100)}; });
+  const cur = out.findIndex(s => !s.done);
+  return {stages:out, cur: cur < 0 ? out.length : cur};
+}
+function journeyXP(){
+  const X = SIM.journey.xp, js = journeyState(), a = storyAns().answers;
+  let xp = js.stages.filter(s => s.done).length * X.stage;
+  SIM.story.questions.forEach(q => { const x = a[q.id]; if (answered(x)) xp += X.answer + (wordsIn(x.text) >= X.rich_words ? X.rich_answer : 0); });
+  xp += Object.values(S.plan || {}).flat().filter(i => i.done).length * X.plan_item;
+  const L = SIM.journey.levels; let lv = 0; L.forEach((l, i) => { if (xp >= l.xp) lv = i; });
+  const nextL = L[lv + 1];
+  return {xp, level:lv + 1, name:L[lv].name, next: nextL ? nextL.xp : null, pct: nextL ? Math.round((xp - L[lv].xp) / (nextL.xp - L[lv].xp) * 100) : 100};
+}
+function stageCTA(s, i, cur){
+  const C = SIM.journey.cta, nx = s.id === 'apps' ? nextItems(1)[0] : null;
+  if (s.id === 'schools') return s.done ? [C.schools_done, 'list'] : !S.results ? [C.schools, 'assess'] : [C.schools_done, 'list'];
+  if (s.id === 'resume') return !S.profile.resume ? [C.resume, 'resume'] : !S.resumeSeen ? [C.resume_review, 'diag'] : [C.resume_done, 'resume'];
+  if (s.id === 'story') return s.done ? [C.story_done, 'storycard'] : storyCount() ? [C.story_continue, 'story'] : [C.story, 'story'];
+  return s.done ? [C.apps_done, 'list'] : nx ? [C.apps_next, 'next:' + nx.id + '|' + nx.a.key] : [C.apps, 'apps'];
+}
+function journeyAct(act){
+  log('user','Journey action', act);
+  if (act === 'profile') return go('profile', {tab:'profile'});
+  if (act === 'assess') return go('assess');
+  if (act === 'list') return go('list', {tab:'list'});
+  if (act === 'resume') return editSheet('resume');
+  if (act === 'diag') { S.resumeSeen = true; return S.profile.resume ? diagSheet() : editSheet('resume'); }
+  if (act === 'story') { S.storyView = 'q'; return go('story'); }
+  if (act === 'storycard') { S.storyView = 'card'; return go('story'); }
+  if (act === 'apps') return go('essays', {tab:'essays'});
+  if (act.startsWith('next:')) { const [id, key] = act.slice(5).split('|'); S.work = {id, key, from:'home'}; return go('work'); }
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-jact]'); if (b) { e.preventDefault(); journeyAct(b.dataset.jact); } });
+function journeyHTML(){
+  const J = SIM.journey, js = journeyState(), X = journeyXP(), CH = J.chips;
+  const stage = (s, i) => {
+    const state = s.done ? 'done' : i === js.cur ? 'cur' : 'todo', [label, act] = stageCTA(s, i, js.cur);
+    const chip = s.done ? CH.done : i === js.cur ? CH.here : i === js.cur + 1 ? CH.next : CH.later;
+    return `<div class="jstage ${state} ${i % 2 ? 'odd' : 'even'}" data-stage="${s.id}">
+      <div class="jnode" aria-hidden="true"><span class="jn-ring"></span><span class="jn-in">${s.done ? ic('check', 3) : ic(s.icon, 2)}</span><span class="jn-num">${i + 1}</span></div>
+      <div class="jcard"><div class="jc-top"><span class="jchip ${state}">${esc(chip)}</span><span class="cap">${s.pct}%</span></div>
+        <h3>${esc(s.title)}</h3><p class="cap">${esc(s.sub)}</p>
+        <div class="jbar"><i style="width:${s.pct}%"></i></div>
+        <ul class="jsteps">${s.steps.map(x => `<li class="${x.done ? 'ok' : ''}"><button data-jact="${x.act}"><span class="jtick">${x.done ? ic('check', 3) : ''}</span>${esc(x.t)}</button></li>`).join('')}</ul>
+        <button class="btn ${state === 'cur' ? '' : 'soft'} jcta" data-jact="${act}">${esc(label)}${ic('chev', 2.4)}</button></div></div>`;
+  };
+  return `<div class="jhead"><div><h2 class="h2">${esc(J.title)}</h2><p class="cap" style="margin-top:4px">${esc(J.sub)}</p></div>
+      <div class="xpbox" title="${X.xp} XP"><div class="xp-lv"><b>${X.level}</b></div><div class="xp-t"><b>${esc(X.name)}</b><span class="cap">${X.xp} XP${X.next ? ` / ${X.next}` : ''}</span><div class="xpbar"><i style="width:${X.pct}%"></i></div></div></div></div>
+    <div class="journey" id="journey"><svg class="jpath" id="jpath" aria-hidden="true"></svg>
+      ${js.stages.map(stage).join('')}
+      <div class="jstage finish ${js.cur >= js.stages.length ? 'done' : 'todo'} ${js.stages.length % 2 ? 'odd' : 'even'}"><div class="jnode"><span class="jn-ring"></span><span class="jn-in">${ic('trophy', 2)}</span></div>
+        <div class="jcard flat"><h3>${esc(J.finish.title)}</h3><p class="cap">${esc(J.finish.sub)}</p></div></div>
+    </div>`;
+}
+/* The winding road between the stage nodes: grey for the whole route, coloured up to where the user is. */
+function drawJourney(){
+  const box = $('#journey'), svg = $('#jpath'); if (!box || !svg) return;
+  const r0 = box.getBoundingClientRect(), pts = [...box.querySelectorAll('.jnode')].map(n => { const r = n.getBoundingClientRect(); return [r.left - r0.left + r.width / 2, r.top - r0.top + r.height / 2]; });
+  if (pts.length < 2) return;
+  svg.setAttribute('viewBox', `0 0 ${r0.width} ${r0.height}`); svg.setAttribute('width', r0.width); svg.setAttribute('height', r0.height);
+  const seg = (a, b) => { const my = (a[1] + b[1]) / 2; return `C ${a[0]} ${my}, ${b[0]} ${my}, ${b[0]} ${b[1]}`; };
+  const path = k => `M ${pts[0][0]} ${pts[0][1]} ` + pts.slice(1, k + 1).map((p, i) => seg(pts[i], p)).join(' ');
+  const cur = journeyState().cur;
+  svg.innerHTML = `<path d="${path(pts.length - 1)}" class="jp-all"/><path d="${path(Math.min(cur, pts.length - 1))}" class="jp-done"/>`;
+}
+window.addEventListener('resize', () => { if (S.screen === 'home') drawJourney(); });
+function celebrate(text){
+  const c = document.createElement('div'); c.className = 'confetti';
+  c.innerHTML = Array.from({length:42}, (_, i) => `<i style="left:${Math.random() * 100}%;background:${['#B3123C','#F1C400','#0F7B6C','#34457A','#E86A33'][i % 5]};animation-delay:${Math.random() * .4}s;transform:rotate(${Math.random() * 360}deg)"></i>`).join('');
+  $('#screen').appendChild(c); setTimeout(() => c.remove(), 2600); toast(text, 'trophy');
+}
+function checkMilestones(){
+  const js = journeyState(), done = js.stages.filter(s => s.done).map(s => s.id), prev = S.jDone;
+  if (prev) { const fresh_ = done.filter(id => !prev.includes(id)); if (fresh_.length) { const s = js.stages.find(x => x.id === fresh_[0]); setTimeout(() => celebrate(fill(SIM.journey.celebrate, {stage:s.title, xp:SIM.journey.xp.stage})), 300); log('data','Journey stage completed', s.title); } }
+  S.jDone = done;
+}
+
+/* ===================== Story quest: one question at a time ===================== */
+function storyText(){
+  const a = storyAns().answers;
+  return SIM.story.questions.filter(q => answered(a[q.id])).map(q => { const x = a[q.id]; return `${q.title} ${[...(x.chips || []), x.text || ''].filter(Boolean).join('; ')}`; }).join('\n');
+}
+function extractStory(text){
+  const Q = SIM.story.questions, a = storyAns().answers, sents = text.replace(/\s+/g, ' ').split(/(?<=[.!?])\s+/), low = text.toLowerCase(); let k = 0;
+  Q.forEach(q => {
+    const hits = sents.filter(t => q.find.some(f => t.toLowerCase().includes(f))).slice(0, 2);
+    const chips = q.options.filter(o => o.toLowerCase().split(/[^a-z]+/).filter(w => w.length > 4).some(w => low.includes(w))).slice(0, q.mode === 'multi' ? (q.max || 3) : 1);
+    if (hits.length || chips.length) { a[q.id] = {chips: hits.length ? chips : chips.slice(0, 1), text: hits.join(' '), src:'doc'}; k++; }
+  });
+  log('ai','Story extracted from document', `${k} of ${Q.length} questions filled`);
+  return k;
+}
+screens.story = function(){
+  setStatus(false);
+  const Y = SIM.story, Q = Y.questions, st = storyAns(), X = SIM.journey.xp;
+  if (S.storyView === 'card') {
+    st.reviewed = true;
+    V().innerHTML = `<div class="nav"><button class="circle-btn flat" id="bk" aria-label="Back">${ic('back',2.2)}</button></div><div class="scroll" id="sc"><div class="pad story-wrap">
+      <h1 class="h1">${esc(Y.card_title)}</h1><p class="p" style="margin-top:6px">${esc(Y.card_sub)}</p>
+      <div class="scard">${Q.map((q, i) => { const x = st.answers[q.id]; return `<button class="sc-row" data-goq="${i}"><span class="sc-sec">${esc(q.section)}</span><b>${esc(q.title)}</b>
+        ${answered(x) ? `<span class="sc-ans">${(x.chips || []).map(c => `<em>${esc(c)}</em>`).join('')}${x.text ? `<span>${esc(x.text)}</span>` : ''}</span>` : `<span class="cap add">${esc(Y.card_empty)}</span>`}</button>`; }).join('')}</div>
+      <p class="evid" style="margin-top:16px">${ic('sparkle',2)}<span>${esc(Y.coach_note)}</span></p>
+      <button class="btn" id="tojr" style="margin-top:18px">${esc(Y.back_to_journey)}</button><div style="height:30px"></div></div></div>`;
+    $('#bk').onclick = $('#tojr').onclick = () => go('home', {tab:'home'});
+    V().querySelectorAll('[data-goq]').forEach(b => b.onclick = () => { st.q = +b.dataset.goq; S.storyView = 'q'; render(); });
+    return;
+  }
+  const i = Math.min(st.q || 0, Q.length - 1), q = Q[i], cur = st.answers[q.id] || {chips:[], text:''}, sk = storyCount();
+  const earned = SIM.story.questions.reduce((t, qq) => { const x = st.answers[qq.id]; return t + (answered(x) ? X.answer + (wordsIn(x.text) >= X.rich_words ? X.rich_answer : 0) : 0); }, 0);
+  V().innerHTML = `<div class="nav"><button class="circle-btn flat" id="bk" aria-label="Back to journey">${ic('back',2.2)}</button><span class="cap"><b style="color:var(--ink)">${esc(Y.title)}</b></span><span class="xpchip">${ic('sparkle',2)}${earned} XP</span></div>
+    <div class="scroll" id="sc"><div class="pad story-wrap">
+      <div class="qdots">${Q.map((qq, k) => `<button class="qdot ${answered(st.answers[qq.id]) ? 'ok' : ''} ${k === i ? 'on' : ''}" data-goq="${k}" aria-label="Question ${k + 1}"></button>`).join('')}</div>
+      ${i === 0 && !st.uploaded ? `<div class="supload"><div><b>${esc(Y.upload_title)}</b><p class="cap">${esc(Y.upload_sub)}</p></div>
+        <div class="su-acts"><input type="file" id="sfile" accept=".txt,.md,.docx,.pdf" hidden><button class="btn soft" id="sup">${ic('doc',2)}${esc(Y.upload_btn)}</button><button class="link" id="spaste">${esc(Y.paste_btn)}</button></div>
+        <div id="pastebox" hidden><textarea id="ptext" rows="5" placeholder="${esc(Y.paste_ph)}"></textarea><button class="btn dark" id="pgo" style="margin-top:8px;height:44px">${esc(Y.extract_btn)}</button></div></div>` : ''}
+      <div class="qcard2"><div class="q-meta"><span class="jchip cur">${esc(q.section)}</span><span class="cap">Question ${i + 1} of ${Q.length}</span>${cur.src === 'doc' ? `<span class="jchip done">${esc(Y.from_essay)}</span>` : ''}</div>
+        <h1 class="h1 q-title">${esc(q.title)}</h1><p class="p">${esc(q.help)}</p>
+        <div class="qopts">${q.options.map(o => `<button class="chip qopt" data-opt="${esc(o)}" aria-pressed="${(cur.chips || []).includes(o)}">${esc(o)}</button>`).join('')}</div>
+        <label class="cap q-own">${esc(Y.own_words)}</label>
+        <textarea id="qtext" rows="3" placeholder="${esc(q.placeholder)}">${esc(cur.text || '')}</textarea>
+        <div class="q-wc"><span class="cap" id="qwc">${esc(fill(Y.words, {n:wordsIn(cur.text)}))}</span><span class="cap rich" id="qrich" ${wordsIn(cur.text) >= X.rich_words ? '' : 'hidden'}>${ic('sparkle',2)}${esc(fill(Y.rich, {xp:X.rich_answer}))}</span></div>
+      </div>
+      <div class="q-acts"><button class="link" id="qprev" ${i === 0 ? 'style="visibility:hidden"' : ''}>Back</button><span style="flex:1"></span><button class="link" id="qskip">Skip</button><button class="btn dark" id="qnext" style="width:auto;padding:0 28px">${i === Q.length - 1 ? 'See my story' : 'Next'}</button></div>
+      <div style="height:30px"></div></div></div>`;
+  const save = () => { const t = $('#qtext').value; const chips = [...V().querySelectorAll('.qopt[aria-pressed=true]')].map(b => b.dataset.opt);
+    const was = st.answers[q.id]; st.answers[q.id] = {chips, text:t, src: was && was.src === 'doc' && t === was.text && String(chips) === String(was.chips) ? 'doc' : 'user'}; };
+  V().querySelectorAll('.qopt').forEach(b => b.onclick = () => {
+    const on = b.getAttribute('aria-pressed') === 'true';
+    if (q.mode === 'single') V().querySelectorAll('.qopt').forEach(x => x.setAttribute('aria-pressed', 'false'));
+    else if (!on && V().querySelectorAll('.qopt[aria-pressed=true]').length >= (q.max || 3)) return toast(`Pick up to ${q.max || 3}`, 'info');
+    b.setAttribute('aria-pressed', String(!on)); });
+  const ta = $('#qtext'); ta.oninput = () => { const w = wordsIn(ta.value); $('#qwc').textContent = fill(Y.words, {n:w}); $('#qrich').hidden = w < X.rich_words; ta.style.height = 'auto'; ta.style.height = Math.min(320, ta.scrollHeight) + 'px'; };
+  ta.oninput();
+  const move = k => { save(); st.q = k; render(); $('#sc') && ($('#sc').scrollTop = 0); };
+  $('#bk').onclick = () => { save(); go('home', {tab:'home'}); };
+  $('#qprev').onclick = () => move(i - 1);
+  $('#qskip').onclick = () => { log('user','Skipped story question', q.id); if (i === Q.length - 1) { save(); S.storyView = 'card'; render(); } else move(i + 1); };
+  $('#qnext').onclick = () => { save(); const x = st.answers[q.id];
+    if (answered(x)) { log('user','Answered story question', `${q.id}: ${[...(x.chips || []), x.text].filter(Boolean).join(' | ').slice(0, 160)}`); log('data','Story answer captured', {question:q.id, chips:(x.chips || []).length, words:wordsIn(x.text), source:x.src});
+      toast(esc(q.nudge) + ` <b>+${X.answer + (wordsIn(x.text) >= X.rich_words ? X.rich_answer : 0)} XP</b>`, 'sparkle'); }
+    if (i === Q.length - 1) { S.storyView = 'card'; render(); } else move(i + 1); };
+  V().querySelectorAll('[data-goq]').forEach(b => b.onclick = () => move(+b.dataset.goq));
+  const fillFrom = text => { const k = extractStory(text); st.uploaded = true; st.q = 0; render(); toast(esc(k ? fill(Y.found, {k, n:Q.length}) : Y.found_none), k ? 'check' : 'info'); };
+  const up = $('#sup'); if (up) {
+    up.onclick = () => $('#sfile').click();
+    $('#spaste').onclick = () => { $('#pastebox').hidden = false; $('#ptext').focus(); };
+    $('#pgo').onclick = () => { const t = $('#ptext').value.trim(); if (t) { log('user','Pasted text into the story quest', `${wordsIn(t)} words`); fillFrom(t); } };
+    $('#sfile').onchange = async e => { const f = e.target.files[0]; if (!f) return; let text = '';
+      if (/\.(txt|md)$/i.test(f.name)) text = await f.text();
+      else if (location.protocol !== 'file:') { try { const r = await (await fetch('api/essay/extract', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name:f.name, data:await b64(f), want_text:true})})).json(); text = r.text || ''; } catch(e) {} }
+      log('user','Uploaded a document to the story quest', f.name); log('data','Document captured (training data)', {stage:'story', file:f.name, words:wordsIn(text)});
+      if (!text) { $('#pastebox').hidden = false; return toast('We couldn\'t read that file here. Paste the text instead.', 'info'); }
+      fillFrom(text); };
+  }
+};
+
+/* ===== Essays hub: every essay on the list in one place, and a school can be added right here ===== */
+function essayItems(){
+  if (S.selected.length && !Object.keys(S.plan || {}).length) buildPlan();
+  return S.selected.map(id => ({s:school(id), items:(S.plan[id] || []).filter(a => a.assistant === 'essay' && a.prompt)})).filter(r => r.items.length);
+}
+/* The next unfinished plan items across all schools, soonest first. */
+function nextItems(k){
+  const seen = new Set();          // one test is one task, however many schools need it
+  return Object.entries(S.plan || {}).flatMap(([id, acts]) => acts.filter(a => !a.done).map(a => ({id, a}))).sort((x, y) => x.a.date.localeCompare(y.a.date))
+    .filter(({id, a}) => { const k = a.assistant === 'test_prep' ? 'test' : id + '|' + a.key; if (seen.has(k)) return false; seen.add(k); return true; }).slice(0, k);
+}
+function nextUpCard(){
+  const N = SIM.next_up, items = nextItems(3);
+  if (!items.length) return `<div class="nextup"><div class="nu-hd">${ic('check',2.2)}<b>${esc(N.all_done)}</b></div><button class="btn soft auto" data-golist="1" style="height:44px;margin-top:12px">${esc(N.view_list)}</button></div>`;
+  const days = iso => Math.round((new Date(iso + 'T12:00:00') - new Date()) / 864e5);
+  const [f, ...rest] = items, d0 = days(f.a.date);
+  return `<div class="nextup"><div class="nu-hd">${ic('clock',2.2)}<b>${esc(N.title)}</b><span class="cap">${esc(d0 === 0 ? N.due_today : fill(d0 < 0 ? N.overdue : N.due_in, {n:Math.abs(d0)}))}</span></div>
+    <h2 class="h2" style="margin-top:8px">${esc(f.a.title)}</h2><p class="p" style="margin-top:2px">${esc(school(f.id).name)}, ${esc(fill(N.due, {date:dFmt(f.a.date)}))}</p>
+    <div class="nu-acts"><button class="btn" data-next="${f.id}|${f.a.key}">${esc(f.a.assistant === 'essay' && f.a.prompt ? N.open_essay : N.open_item)}</button><button class="btn soft" data-golist="1">${esc(N.view_list)}</button></div>
+    ${rest.length ? `<div class="nu-then"><span class="cap">${esc(N.then)}</span>${rest.map(r => `<button class="nu-row" data-next="${r.id}|${r.a.key}"><b>${esc(r.a.title)}</b><span class="cap">${esc(school(r.id).short)}, ${esc(dFmt(r.a.date))}</span>${ic('chev',2)}</button>`).join('')}</div>` : ''}</div>`;
+}
+document.addEventListener('click', e => {
+  const n = e.target.closest('[data-next]'); if (n) { const [id, key] = n.dataset.next.split('|'); S.work = {id, key, from:'home'}; log('user','Opened next step from Home', `${school(id).short}: ${key}`); go('work'); return; }
+  const l = e.target.closest('[data-golist]'); if (l) go('list', {tab:'list'});
+});
+function essaysCard(){
+  const E = SIM.essays_copy, n = essayItems().reduce((k, r) => k + r.items.length, 0);
+  return `<div class="sect" style="padding-top:22px"><button class="trend ess-card" id="toEssays"><div class="trend-top"><span class="oc-ic">${ic('doc',2)}</span><b style="margin:0">${esc(E.home_title)}</b></div>
+    <span class="cap">${esc(n ? fill(E.home_sub_n, {n}) : E.home_sub_none)}</span></button></div>`;
+}
+document.addEventListener('click', e => { const b = e.target.closest('#toEssays'); if (b) { log('user','Opened Essays from Home',''); go('essays', {tab:'essays'}); } });
+screens.essays = function(){
+  setStatus(false);
+  const E = SIM.essays_copy, rows = essayItems(), q = (S.essayQ || '').trim().toLowerCase();
+  const picks = SIM.schools.filter(sc => !S.selected.includes(sc.id) && (!q || (sc.name + ' ' + sc.short).toLowerCase().includes(q))).slice(0, q ? 8 : 6);
+  V().innerHTML = `<div class="top-gap"></div><div class="scroll" id="sc">
+    <div class="pad"><h1 class="h1">${esc(E.title)}</h1><p class="p" style="margin-top:6px">${esc(rows.length ? E.sub : E.sub_empty)}</p></div>
+    ${rows.map(r => `<section class="ess-sch"><div class="ess-hd">${schoolChip(r.s.id)}<span class="cap">${esc(fill(E.due, {date:dFmt(r.items[r.items.length - 1].date)}))}</span></div>
+      ${r.items.map(a => { const up = S.uploads[r.s.id + '|' + a.key], chat = (S.chats[r.s.id + '|' + a.key] || []).length > 1; return `<button class="ess-item" data-ess="${r.s.id}|${a.key}">
+        <span class="t"><b>${esc(a.title)}</b><span class="cap ess-q">${a.words ? esc(fill(E.words, {n:a.words})) + ' ' : ''}${esc(a.prompt || '')}</span></span>
+        <span class="ess-st ${a.done ? 'done' : up ? 'up' : ''}">${esc(a.done ? E.st_done : up ? E.st_draft : chat ? E.st_started : E.st_new)}</span>${ic('chev',2)}</button>`; }).join('')}</section>`).join('')}
+    <div class="pad" style="margin-top:26px"><h2 class="h3">${esc(E.add_title)}</h2><p class="cap" style="margin-top:2px">${esc(E.add_sub)}</p></div>
+    <label class="searchpill" style="margin-top:12px">${ic('search',2.2)}<input id="eq" placeholder="${esc(E.search)}" value="${esc(S.essayQ || '')}" autocomplete="off"></label>
+    <div class="ess-picks">${picks.map(sc => `<button class="ess-pick" data-addess="${sc.id}"><span class="th">${schoolArt(sc)}</span><span><b>${esc(sc.name)}</b><span class="cap">${esc(fill(E.n_essays, {n:sc.requirements.essays.length}))}</span></span>${ic('plus',2.4)}</button>`).join('')}</div>
+    <div style="height:30px"></div></div>${tabbar()}`;
+  bindTabs();
+  V().querySelectorAll('[data-ess]').forEach(b => b.onclick = () => { const [id, key] = b.dataset.ess.split('|'); S.work = {id, key, from:'essays'}; log('user','Opened essay from Essays', `${school(id).short}: ${key}`); go('work'); });
+  V().querySelectorAll('[data-addess]').forEach(b => b.onclick = () => { const id = b.dataset.addess; S.selected = [...S.selected, id]; runAssessment(); log('user','Added a school from Essays', school(id).short); S.essayQ = ''; render(); toast(esc(fill(E.added, {short:school(id).short})), 'check'); });
+  const qi = $('#eq'); qi.oninput = () => { S.essayQ = qi.value; const pos = qi.selectionStart, t = $('#sc').scrollTop; render(); const n2 = $('#eq'); n2.focus(); n2.setSelectionRange(pos, pos); $('#sc').scrollTop = t; };
 };
 
 /* ===== Talk to an advisor: the simulated Expert Review (no real handoff) ===== */
@@ -1564,30 +1922,148 @@ function overlay(html, center){ closeOverlay(); document.querySelectorAll('.toas
 function closeOverlay(){ const o = $('#overlay'); if (o) o.remove(); }
 const sheetHd = t => `<div class="sheet-hd"><button class="x" aria-label="Close">${ic('x',2.4)}</button><h3>${esc(t)}</h3><span></span></div>`;
 
-function signUpSheet(){
+/* ===== Accounts =====
+   With essay_server.py running, accounts live on the server (accounts/ folder, passwords hashed), so a user
+   can log in from any browser that reaches the server. Without it (static hosting, the offline file) they live
+   in this browser's storage. Either way, everything the user does is saved to their email and restored. */
+const ACCT = {email:null, token:null, mode:null, serverOk:null};
+async function acctAvailable(){
+  if (ACCT.serverOk !== null) return ACCT.serverOk;
+  if (location.protocol === 'file:') return ACCT.serverOk = false;
+  try { const r = await fetch('api/essay/status', {cache:'no-store'}); ACCT.serverOk = r.ok && !!(await r.json()).accounts; } catch(e) { ACCT.serverOk = false; }
+  return ACCT.serverOk;
+}
+async function acctCall(action, body){
+  if (await acctAvailable()) {
+    try { const r = await fetch('api/account/' + action, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)}); return {status:r.status, body: await r.json().catch(() => ({}))}; }
+    catch(e) { return {status:0, body:{error:'offline'}}; }
+  }
+  return localAcct(action, body);
+}
+async function sha(t){ const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2,'0')).join(''); }
+const rid = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
+function localDB(){ try { return JSON.parse(localStorage.getItem('admitpal.accounts') || '{}'); } catch(e) { return {}; } }
+function localPut(db){ try { localStorage.setItem('admitpal.accounts', JSON.stringify(db)); return true; } catch(e) { return false; } }
+async function localAcct(action, b){
+  const db = localDB(), email = String(b.email || '').trim().toLowerCase(), a = db[email];
+  if (action === 'signup') {
+    if (a) return {status:409, body:{error:'exists'}};
+    if (String(b.password || '').length < 6) return {status:400, body:{error:'Use at least 6 characters for your password.'}};
+    const salt = rid(), token = rid(); db[email] = {salt, hash: await sha(salt + b.password), token, state:null};
+    return localPut(db) ? {status:200, body:{token, state:null}} : {status:500, body:{error:'storage'}};
+  }
+  if (action === 'login') {
+    if (!a) return {status:404, body:{error:'none'}};
+    if (a.hash !== await sha(a.salt + (b.password || ''))) return {status:401, body:{error:'password'}};
+    a.token = rid(); localPut(db); return {status:200, body:{token:a.token, state:a.state}};
+  }
+  if (!a || a.token !== b.token) return {status:401, body:{error:'session'}};
+  if (action === 'resume') return {status:200, body:{state:a.state}};
+  if (action === 'save') { a.state = b.state; return localPut(db) ? {status:200, body:{ok:true}} : {status:413, body:{error:'too large'}}; }
+  if (action === 'logout') { a.token = null; localPut(db); return {status:200, body:{ok:true}}; }
+  return {status:404, body:{}};
+}
+const SAVE_KEYS = ['story','resumeSeen','jDone','season','profile','selected','results','outcomes','calib','checks','plan','chats','uploads','reviews','program','comm'];
+function snapshot(){
+  const o = {}; SAVE_KEYS.forEach(k => o[k] = S[k]);
+  o.chats = Object.fromEntries(Object.entries(S.chats || {}).map(([k, v]) => [k, v.filter(m => !m.wait)]));
+  if (ACCT.mode === 'local') o.uploads = Object.fromEntries(Object.entries(S.uploads || {}).map(([k, u]) => [k, {...u, data:null}]));   // browser storage is small
+  return JSON.parse(JSON.stringify(o));
+}
+let saveT = null;
+function scheduleSave(){ if (!ACCT.email) return; clearTimeout(saveT); saveT = setTimeout(saveNow, 700); }
+async function saveNow(){
+  if (!ACCT.email) return; clearTimeout(saveT);
+  const r = await acctCall('save', {email:ACCT.email, token:ACCT.token, state:snapshot()});
+  if (r.status === 200 && !ACCT.saved) { ACCT.saved = true; log('data','Account saved', `${ACCT.email} (${ACCT.mode === 'server' ? 'Admit Pal server' : 'this browser'})`); }
+}
+window.addEventListener('beforeunload', () => {
+  if (!ACCT.email) return;
+  if (ACCT.mode === 'server') navigator.sendBeacon('api/account/save', JSON.stringify({email:ACCT.email, token:ACCT.token, state:snapshot()}));
+  else { const db = localDB(); if (db[ACCT.email]) { db[ACCT.email].state = snapshot(); localPut(db); } }
+});
+function setSession(email, token){
+  ACCT.email = email; ACCT.token = token; ACCT.mode = ACCT.serverOk ? 'server' : 'local'; ACCT.saved = false;
+  try { localStorage.setItem('admitpal.session', JSON.stringify({email, token})); localStorage.setItem('admitpal.lastEmail', email); } catch(e) {}
+}
+function clearSession(){ ACCT.email = null; ACCT.token = null; try { localStorage.removeItem('admitpal.session'); } catch(e) {} }
+function restore(state){
+  const keepComm = S.comm;
+  S = {...fresh(), ...(state || {})};
+  if (!state || !state.comm) S.comm = keepComm;
+  S.profile = {...blank(), ...(S.profile || {})};
+  const started = S.profile.name || S.profile.score || S.selected.length;
+  S.screen = started ? 'home' : 'onboarding'; S.tab = 'home';
+  if (!started) S.ob = {step:0, draft:{...S.profile}};
+}
+async function resumeSession(){
+  let ss = null; try { ss = JSON.parse(localStorage.getItem('admitpal.session') || 'null'); } catch(e) {}
+  if (!ss) return false;
+  const r = await acctCall('resume', ss);
+  if (r.status !== 200) { clearSession(); return false; }
+  setSession(ss.email, ss.token); restore(r.body.state);
+  log('data','Session resumed', ss.email); return true;
+}
+const lastEmail = () => { try { return localStorage.getItem('admitpal.lastEmail') || ''; } catch(e) { return ''; } };
+function ssoNote(){ toast(SIM.auth.sso_note, 'info'); log('user','Tapped single sign-on (not connected in the prototype)',''); }
+function signUpSheet(prefill){
   const A = SIM.auth;
   overlay(`<div class="sheet" role="dialog" aria-label="${esc(A.signup_title)}">${sheetHd(A.signup_title)}<div class="sheet-body">
     <h2 class="h2">Welcome to Admit Pal</h2><p class="p" style="margin:6px 0 20px">${esc(A.signup_sub)}</p>
-    <div class="fieldset"><label class="fld"><span>Email</span><input id="em" type="email" autocomplete="email" placeholder=" "></label></div><div class="err" id="e-em"></div>
-    <button class="btn" id="cont" style="margin-top:16px">${esc(A.continue)}</button>
+    <div class="fieldset"><label class="fld"><span>Email</span><input id="em" type="email" autocomplete="email" value="${esc(prefill || '')}" placeholder=" "></label>
+      <label class="fld"><span>Create a password</span><input id="pw" type="password" autocomplete="new-password" placeholder=" "></label></div><div class="err" id="e-em"></div>
+    <p class="cap" style="margin-top:8px">${esc(A.password_hint)}</p>
+    <button class="btn" id="cont" style="margin-top:16px">${esc(A.create_button)}</button>
     <div class="or">or</div>
     <div style="display:flex;flex-direction:column;gap:12px"><button class="btn soft" data-sso="Google">${GOOGLE}${esc(A.google)}</button><button class="btn soft" data-sso="Apple">${APPLE}${esc(A.apple)}</button></div>
+    <button class="link" id="toLogin" style="display:block;margin:18px auto 0;font-size:14px">${esc(A.have_account)}</button>
   </div></div>`);
-  const start = how => { log('user','Signed up (simulated)', how); log('data','Account created (mock, nothing stored)',''); S.ob = {step:0, draft: S._sample ? {...S._sample} : blank()}; S._sample = null; go('onboarding'); };
-  $('#cont').onclick = () => { const v = $('#em').value.trim(); if (!/^\S+@\S+\.\S+$/.test(v)) { $('#e-em').innerHTML = ic('info') + SIM.auth.email_error; return; } start('Email'); };
-  $('#em').onkeydown = e => { if (e.key === 'Enter') $('#cont').click(); };
-  document.querySelectorAll('[data-sso]').forEach(b => b.onclick = () => start(b.dataset.sso));
+  const err = m => { $('#e-em').innerHTML = ic('info') + m; };
+  $('#cont').onclick = async () => {
+    const email = $('#em').value.trim().toLowerCase(), password = $('#pw').value;
+    if (!/^\S+@\S+\.\S+$/.test(email)) return err(A.email_error);
+    if (password.length < 6) return err(A.password_short);
+    $('#cont').disabled = true;
+    const r = await acctCall('signup', {email, password}); $('#cont').disabled = false;
+    if (r.status === 409) { err(A.exists_error); return; }
+    if (r.status !== 200) return err(r.body.error || A.generic_error);
+    setSession(email, r.body.token);
+    log('user','Signed up', email); log('data','Account created', `${email} (${ACCT.mode === 'server' ? 'saved on the Admit Pal server' : 'saved in this browser'})`);
+    S.ob = {step:0, draft: S._sample ? {...S._sample} : blank()}; S._sample = null; go('onboarding');
+  };
+  $('#pw').onkeydown = e => { if (e.key === 'Enter') $('#cont').click(); };
+  $('#toLogin').onclick = () => signInSheet($('#em').value.trim());
+  document.querySelectorAll('[data-sso]').forEach(b => b.onclick = ssoNote);
 }
-function signInSheet(){
+function signInSheet(prefill){
   const A = SIM.auth;
   overlay(`<div class="sheet" role="dialog" aria-label="Log in">${sheetHd('Log in')}<div class="sheet-body">
     <h2 class="h2">${esc(A.signin_title)}</h2><p class="p" style="margin:6px 0 20px">${esc(A.signin_sub)}</p>
-    <div class="fieldset"><label class="fld"><span>Email</span><input id="em" type="email" value="${esc(A.demo_email)}"></label><label class="fld"><span>Password</span><input type="password" value="prototype"></label></div>
+    <div class="fieldset"><label class="fld"><span>Email</span><input id="em" type="email" autocomplete="email" value="${esc(prefill || lastEmail())}" placeholder=" "></label>
+      <label class="fld"><span>Password</span><input id="pw" type="password" autocomplete="current-password" placeholder=" "></label></div><div class="err" id="e-em"></div>
     <button class="btn" id="si" style="margin-top:16px">${esc(A.signin_button)}</button>
     <div class="or">or</div><div style="display:flex;flex-direction:column;gap:12px"><button class="btn soft" id="si-g">${GOOGLE}${esc(A.google)}</button></div>
+    <button class="link" id="toSignup" style="display:block;margin:18px auto 0;font-size:14px">${esc(A.no_account)}</button>
+    <button class="link" id="demo" style="display:block;margin:10px auto 0;font-size:13px;color:var(--sub)">${esc(A.demo_link)}</button>
   </div></div>`);
-  const go2 = () => { const sp = SIM.sample_profile; S.profile = {...blank(), ...Object.fromEntries(Object.entries(sp).map(([k,v]) => [k, Array.isArray(v) ? [...v] : String(v)]))}; log('user','Logged in (simulated)',''); log('data','Saved profile loaded', profileSummary(S.profile)); go('home',{tab:'home'}); toast(`Welcome back, ${esc(S.profile.name)}`); };
-  $('#si').onclick = go2; $('#si-g').onclick = go2;
+  const err = m => { $('#e-em').innerHTML = ic('info') + m; };
+  $('#si').onclick = async () => {
+    const email = $('#em').value.trim().toLowerCase(), password = $('#pw').value;
+    if (!/^\S+@\S+\.\S+$/.test(email)) return err(A.email_error);
+    $('#si').disabled = true;
+    const r = await acctCall('login', {email, password}); $('#si').disabled = false;
+    if (r.status === 404) return err(A.no_account_error);
+    if (r.status === 401) return err(A.password_error);
+    if (r.status !== 200) return err(r.body.error || A.generic_error);
+    setSession(email, r.body.token); restore(r.body.state);
+    log('user','Logged in', email); log('data','Saved account loaded', S.profile.name ? profileSummary(S.profile) : 'New account, no profile yet');
+    closeOverlay(); render(); toast(S.profile.name ? `Welcome back, ${esc(S.profile.name)}` : 'Welcome back', 'check');
+  };
+  $('#pw').onkeydown = e => { if (e.key === 'Enter') $('#si').click(); };
+  $('#si-g').onclick = ssoNote;
+  $('#toSignup').onclick = () => signUpSheet($('#em').value.trim());
+  $('#demo').onclick = () => { clearSession(); const sp = SIM.sample_profile; S.profile = {...blank(), ...Object.fromEntries(Object.entries(sp).map(([k,v]) => [k, Array.isArray(v) ? [...v] : String(v)]))};
+    log('user','Opened the demo profile (not saved)',''); go('home',{tab:'home'}); toast(`Demo profile: ${esc(S.profile.name)}. Nothing is saved.`, 'info'); };
 }
 function soonDialog(o){
   overlay(`<div class="dialog" role="dialog"><span class="ico">${ic(o.icon)}</span><h2 class="h2" style="font-size:20px">${esc(SIM.home.soon_title)}</h2><p class="p">${esc(fill(SIM.home.soon_body,{label:o.label}))}</p><button class="btn dark" id="dok">Check my fit</button><button class="link" id="dno" style="margin-top:14px;font-size:14px">Not now</button></div>`, true);
@@ -1664,8 +2140,19 @@ function bindVotes(root, describe){
   }));
 }
 const schoolChip = id => { const sc = id && school(id); return sc ? `<span class="schip"><i style="background:${sc.color}">${esc(sc.mono)}</i>${esc(sc.short)}</span>` : `<span class="schip"><i style="background:var(--ink)">${ic('users',2)}</i>General</span>`; };
+const gaveResult = () => !!(S.comm && S.comm.gave);
+const hiddenResults = () => comm().threads.reduce((k, x) => k + (x.tracker ? x.tracker.invites + x.tracker.noinvite + x.tracker.waiting : 0), 0);
+function lockCard(t){
+  const G = SIM.community.gate, tr = t && t.tracker, n = tr ? tr.invites + tr.noinvite + tr.waiting : 0;
+  return `<div class="tracker locked"><div class="trk-top">${ic('lock',2)}<b>${esc(tr ? fill(G.title_n, {n:n.toLocaleString(), short:school(t.school).short}) : G.title)}</b></div>
+    ${tr ? `<div class="trk-bar blur"><i class="inv" style="width:${tr.invites/n*100}%"></i><i class="no" style="width:${tr.noinvite/n*100}%"></i></div>` : ''}
+    <p class="cap" style="margin:6px 0 10px">${esc(fill(G.body, {total:hiddenResults().toLocaleString()}))}</p>
+    <button class="btn dark" data-unlock="${t && t.school || ''}" style="height:42px;font-size:14px">${esc(G.cta)}</button></div>`;
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-unlock]'); if (b) { e.stopPropagation(); log('user','Tapped unlock live results',''); shareSheet(b.dataset.unlock || undefined); } }, true);
 function trackerHTML(t){
   if (!t.tracker) return '';
+  if (!gaveResult()) return lockCard(t);
   const tr = t.tracker, tot = tr.invites + tr.noinvite + tr.waiting;
   return `<div class="tracker"><div class="trk-top">${ic('pulse',2)}<b>Live tracker</b><span>${tot.toLocaleString()} applicant${tot===1?'':'s'} reporting</span></div>
     <div class="trk-bar"><i class="inv" style="width:${tr.invites/tot*100}%"></i><i class="no" style="width:${tr.noinvite/tot*100}%"></i></div>
@@ -1692,7 +2179,7 @@ screens.community = function(){
   V().innerHTML = `<div class="nav" style="height:96px"><h1 class="h1">${esc(C.title)}</h1><button class="circle-btn" id="compose" aria-label="New post">${ic('plus',2.4)}</button></div>
     <div class="scroll" id="sc">
       <div class="netcard"><div class="nc-stats"><div><b>${C.stats.members}</b><span>members</span></div><div><b>${C.stats.online}</b><span>online now</span></div><div><b>${c.outcomes.toLocaleString()}</b><span>results shared</span></div></div>
-        <div class="nc-body"><b>${esc(C.network_title)}</b><p>${esc(fill(C.network_body,{outcomes:c.outcomes.toLocaleString()}))}</p><button class="btn soft" id="share" style="height:44px;font-size:14px;margin-top:12px">${ic('pulse',2)}${esc(C.share_cta)}</button></div></div>
+        <div class="nc-body"><b>${esc(C.network_title)}</b><p>${esc(fill(C.network_body,{outcomes:c.outcomes.toLocaleString()}))}</p><button class="btn soft" id="share" style="height:44px;font-size:14px;margin-top:12px">${ic(gaveResult() ? 'pulse' : 'lock',2)}${esc(gaveResult() ? C.share_cta : C.gate.header_cta)}</button></div></div>
       <label class="searchpill" style="margin-top:18px">${ic('search',2.2)}<input id="cq" placeholder="${esc(C.search)}" value="${esc(c.q)}" autocomplete="off" aria-label="${esc(C.search)}">${c.q?`<button class="clr" id="cclr" aria-label="Clear">${ic('x',2.6)}</button>`:''}</label>
       <div class="filters"><div class="pad"><div class="seg" role="tablist">${C.sorts.map(x => `<button data-sort="${x.id}" aria-pressed="${c.sort===x.id}">${esc(x.label)}</button>`).join('')}</div></div>
       <div class="chips" style="padding-top:10px">${C.topics.map(x => `<button class="chip" data-topic="${x.id}" aria-pressed="${c.topic===x.id}">${esc(x.label)}</button>`).join('')}</div></div>
@@ -1717,18 +2204,19 @@ screens.community = function(){
 };
 screens.thread = function(){
   setStatus(false);
-  const C = SIM.community, c = comm(), t = c.threads.find(x => x.id === S.threadId);
+  const C = SIM.community, c = comm(), t = c.threads.find(x => x.id === S.threadId), locked = !gaveResult() && ['invites','decisions'].includes(t.topic);
   const cmts = [...t.comments].map((m,i) => ({...m, key:`${t.id}-c${m.k ?? i}`})).sort((a,b) => (a.mine?-1:0) - (b.mine?-1:0) || score(b.votes,b.key) - score(a.votes,a.key));
   V().innerHTML = `<div class="nav" style="height:96px;align-items:flex-end"><button class="circle-btn flat" id="bk" aria-label="Back to community">${ic('back',2.2)}</button>${schoolChip(t.school)}<span style="width:36px"></span></div>
     <div class="scroll" id="sc"><div class="pad">
       <div class="th-meta">${t.live?'<span class="live">Live</span>':''}<span class="cap"><b style="color:var(--ink);font-weight:600">${esc(t.author)}</b>, ${esc(t.flair)}, ${ago(t.mins)} ago</span></div>
       <h1 class="h2" style="margin-top:8px;font-size:24px">${esc(t.title)}</h1>
       <p class="body">${esc(t.body)}</p>
-      ${trackerHTML(t)}${t.tracker?`<button class="btn soft" id="share" style="margin-top:12px;height:46px;font-size:14px">${ic('pulse',2)}Share your result for ${esc(school(t.school).short)}</button>`:''}
+      ${trackerHTML(t)}${t.tracker && !locked ?`<button class="btn soft" id="share" style="margin-top:12px;height:46px;font-size:14px">${ic('pulse',2)}Share your result for ${esc(school(t.school).short)}</button>`:''}
       <div class="th-foot" style="margin-top:18px">${voteBox(t.id, t.votes,'lg')}<span class="cmts">${ic('chat',1.8)}${t.comments.length} comments</span></div>
       <div class="hr" style="margin:20px 0 4px"></div>
       ${cmts.length ? '' : `<div class="empty" style="padding:30px 0">${ic('chat',1.6)}No replies yet. Start the conversation.</div>`}
-      ${cmts.map(m => `<div class="cmt ${m.mine?'mine':''}"><span class="cav">${esc(m.author.slice(0,1).toUpperCase())}</span><div class="cbody"><div class="cap"><b>${esc(m.author)}</b> ${esc(m.flair)}, ${ago(m.mins)}</div><p>${esc(m.text)}</p>${voteBox(m.key, m.votes,'sm')}</div></div>`).join('')}
+      ${locked && cmts.length > 1 && !t.tracker ? lockCard(t) : ''}
+      ${(locked ? cmts.slice(0, 1) : cmts).map(m => `<div class="cmt ${m.mine?'mine':''}"><span class="cav">${esc(m.author.slice(0,1).toUpperCase())}</span><div class="cbody"><div class="cap"><b>${esc(m.author)}</b> ${esc(m.flair)}, ${ago(m.mins)}</div><p>${esc(m.text)}</p>${voteBox(m.key, m.votes,'sm')}</div></div>`).join('')}
     </div><div style="height:20px"></div></div>
     <div class="composer"><input id="cm" placeholder="${esc(C.comment_ph)}" aria-label="${esc(C.comment_ph)}" autocomplete="off"><button id="send" aria-label="Post comment" disabled>${ic('send',2)}</button></div>`;
   $('#bk').onclick = () => go('community', {tab:'community', keepScroll:true});
@@ -1749,7 +2237,7 @@ function myFlair(){
   if (me && me.visibility === 'details'){
     const ind = SIM.industries.find(i => i.id === me.industry);
     const bits = [me.country, me.gender, ind && ind.label, me.stats && n.gmat ? n.gmat : null, me.stats && n.years !== null ? n.years + ' yrs' : null].filter(Boolean);
-    if (bits.length) return bits.join(', ');
+    if (bits.length) return bits.join(', ') + (S.comm && S.comm.verified ? ', verified result' : '');
   }
   return fill(SIM.community.me.flair_template, {gmat: n.gmat ? ', ' + n.gmat : ''});
 }
@@ -1792,13 +2280,18 @@ function shareSheet(defId){
         <label class="check"><input type="checkbox" id="sh-s" ${d.stats?'checked':''}><span>${esc(D.stats_label)}</span></label>
         <div class="flairprev"><span class="cap">Others will see</span><b id="fp">${esc(preview())}</b></div>
         <p class="cap" style="margin-top:10px">${ic('info',2)}${esc(D.fairness_note)}</p></div>` : ''}
+      <label class="proof"><input type="file" id="sh-proof" accept="image/*,.pdf" hidden><span class="btn soft" style="height:44px;font-size:13.5px">${ic('doc',2)}${esc(d.proof ? fill(C.gate.proof_added, {file:d.proof}) : C.gate.proof_cta)}</span></label>
+      <p class="cap" style="margin-top:6px">${esc(C.gate.proof_note)}</p>
       <button class="btn" id="ssend" style="margin-top:24px">${d.visibility === 'details' ? esc(D.post_cta) : esc(D.anon_cta)}</button></div></div>`);
     document.querySelectorAll('[data-rd]').forEach(b => b.onclick = () => { snap(); d.round = b.dataset.rd; draw(); });
     document.querySelectorAll('[data-res]').forEach(b => b.onclick = () => { snap(); d.result = b.dataset.res; draw(); });
     document.querySelectorAll('[data-vis]').forEach(b => b.onclick = () => { snap(); d.visibility = b.dataset.vis; draw(); });
+    const pf = $('#sh-proof'); if (pf) pf.onchange = () => { snap(); d.proof = pf.files[0] ? pf.files[0].name : ''; draw(); };
     ['sh-c','sh-g','sh-i','sh-s'].forEach(id => { const e = $('#'+id); if (e) e.onchange = () => { snap(); $('#fp').textContent = preview(); }; });
     $('#ssend').onclick = () => {
-      snap(); const c = comm(), sc = school(d.school), res = C.share_results.find(r => r.id === d.result).label; c.outcomes++;
+      snap(); const c = comm(), sc = school(d.school), res = C.share_results.find(r => r.id === d.result).label; c.outcomes++; const firstGive = !c.gave; c.gave = true;
+      const thanks = msg => firstGive ? fill(C.gate.unlocked_toast, {n:hiddenResults().toLocaleString()}) : msg;
+      if (d.proof) { c.verified = true; log('data','Result proof uploaded (verified badge)', `${sc.short}: ${d.proof}`); }
       let t = c.threads.find(x => x.school === d.school && x.tracker);
       const home = t || [...c.threads].filter(x => x.school === d.school && x.topic === 'invites').sort((a,b) => a.mins - b.mins)[0];
       if (t){ const k = d.result === 'invite' ? 'invites' : d.result === 'noinvite' ? 'noinvite' : 'waiting'; t.tracker[k]++; }
@@ -1812,8 +2305,8 @@ function shareSheet(defId){
         t = home;
         if (!t){ t = {id:'u'+(c.posted++), school:d.school, topic:'invites', title:`${sc.short} ${d.round}: ${res}`, body:text, author:'you', flair:myFlair(), mins:0, votes:1, comments:[], mine:true, tags:[], tracker:{invites:d.result==='invite'?1:0, noinvite:d.result==='noinvite'?1:0, waiting:d.result==='waiting'?1:0}}; c.threads.unshift(t); }
         else t.comments.push({author:'you', flair:myFlair(), mins:0, votes:1, text, mine:true, result:d.result, k:'m'+(c.posted++)});
-        closeOverlay(); S.threadId = t.id; go('thread'); toast(D.posted_toast,'users');
-      } else { closeOverlay(); render(); toast(fill(C.share_thanks,{members:C.stats.members}),'users'); }
+        closeOverlay(); S.threadId = t.id; go('thread'); toast(thanks(D.posted_toast),'users');
+      } else { closeOverlay(); render(); toast(thanks(fill(C.share_thanks,{members:C.stats.members})),'users'); }
     };
   };
   draw(); log('user','Opened share a result', defId ? school(defId).short : '');
@@ -1824,7 +2317,7 @@ const isWeb = () => document.body.classList.contains('web');
 function renderNav(){
   const nav = $('#webnav'), show = isWeb() && !['welcome','onboarding'].includes(S.screen);
   nav.style.display = show ? '' : 'none'; if (!show) return;
-  const tabs = [['home','home','Home'],['list','list','My list'],['plan','grid','Plan'],['community','chat','Community'],['profile','person','Profile']];
+  const tabs = [['home','home','Home'],['list','list','My list'],['plan','grid','Plan'],['essays','doc','Essays'],['community','chat','Community'],['profile','person','Profile']];
   if (split()) { tabs.splice(tabs.findIndex(t => t[0] === 'plan'), 1); tabs.find(t => t[0] === 'list')[2] = 'List and plan'; }
   nav.innerHTML = `<div class="wn-in"><button class="wn-brand" data-wn="home">${LOGO}<span>Admit Pal</span></button>
     <nav>${tabs.map(([id,icn,l]) => `<button data-wn="${id}" aria-current="${S.tab===id}">${ic(icn,1.9)}${l}</button>`).join('')}</nav>
@@ -1836,10 +2329,10 @@ function render(){
   const sp = split(), v = V(); wasSplit = sp;
   if (sp && S.screen === 'plan') { S.screen = 'list'; S.tab = 'list'; S.pane = 'plan'; if (S.planSchool) S.schoolId = S.planSchool; }
   if (sp && S.screen === 'advice') { S.screen = 'list'; S.tab = 'list'; }
-  if (sp && S.screen === 'work' && S.results) { S.screen = 'list'; S.tab = 'list'; S.pane = 'work'; S.schoolId = S.work.id; }
+  if (sp && S.screen === 'work' && S.results && S.work.from !== 'essays') { S.screen = 'list'; S.tab = 'list'; S.pane = 'work'; S.schoolId = S.work.id; }
   const ps0 = document.querySelector('#pane .scroll'), keep = S.screen === 'list' && v.dataset.screen === 'list' && v.dataset.split === '1' && { l: ($('#sc') || {}).scrollTop, r: ps0 && ps0.scrollTop, id: (document.querySelector('#pane') || {dataset:{}}).dataset.id };
   v.dataset.screen = S.screen; v.dataset.split = sp && S.screen === 'list' && S.results ? '1' : '';
-  screens[S.screen](); renderNav();
+  screens[S.screen](); renderNav(); scheduleSave();
   if (keep && sp) { if ($('#sc')) $('#sc').scrollTop = keep.l || 0; const ps = document.querySelector('#pane .scroll'); if (ps && keep.id === S.schoolId + '|' + S.pane) ps.scrollTop = keep.r || 0; }
 }
 window.addEventListener('resize', () => { if (SIM && split() !== wasSplit) { closeOverlay(); render(); } });
@@ -1861,7 +2354,8 @@ function coachProfile(){
   const p = S.profile, ind = SIM.industries.find(i => i.id === p.industry), g = SIM.career_goals.find(x => x.id === p.goal);
   return {name:p.name, test:p.score ? `${p.test.toUpperCase()} ${p.score}` : '', gpa:p.gpa ? `${p.gpa} of ${p.gpaScale}` : '', experience:p.years ? `${p.years} years` : '',
     industry:ind ? ind.label : '', focus_areas:labelsOf(SIM.focus_areas, p.focus || []), career_goal:g ? g.label : '', sponsored:p.sponsor === 'yes' ? 'yes' : '',
-    legacy:p.legacy === 'yes' && p.legacySchool ? school(p.legacySchool).name : '', positioning_advice:SIM.diagnosis.lead_story};
+    legacy:p.legacy === 'yes' && p.legacySchool ? school(p.legacySchool).name : '', positioning_advice:SIM.diagnosis.lead_story,
+    goals_and_story_from_the_story_quest: storyText()};
 }
 /* What the app already worked out about the candidate, for the live coach: the resume summary, the profile diagnosis
    (both only once a resume is added, as on screen) and this school's strengths, weaknesses and opportunity. */
@@ -1898,9 +2392,9 @@ async function loadSim(){
   try { const r = await fetch('simulated_responses.json', {cache:'no-store'}); if (!r.ok) throw 0; return await r.json(); }
   catch(e){ const t = $('#sim-inline').textContent.trim(); if (t) return JSON.parse(t); throw e; }
 }
-loadSim().then(d => { SIM = d; drawTestMode(); render(); log('data','Session started','Simulated responses loaded'); checkLLM(); })
+loadSim().then(async d => { SIM = d; drawTestMode(); render(); log('data','Session started','Simulated responses loaded'); checkLLM(); if (await resumeSession()) render(); })
   .catch(() => { V().innerHTML = `<div class="emptystate"><h1 class="h2">Responses file not found</h1><p class="p">Run python3 -m http.server in this folder, or open admit_pal_prototype.html.</p></div>`; });
-$('#restart').onclick = () => { S = fresh(); $('#entries').innerHTML=''; log('data','Journey restarted',''); render(); };
+$('#restart').onclick = () => { clearSession(); S = fresh(); $('#entries').innerHTML=''; log('data','Journey restarted',''); render(); };
 $('#fillSample').onclick = () => {
   const sp = Object.fromEntries(Object.entries(SIM.sample_profile).map(([k,v]) => [k, Array.isArray(v) ? [...v] : String(v)]));
   if (S.screen === 'onboarding') { S.ob.draft = {...blank(), ...sp}; log('user','Tester filled sample profile', sp.name); render(); }
@@ -1909,11 +2403,12 @@ $('#fillSample').onclick = () => {
 };
 function testMode(key){
   const T = SIM.scenarios.test_mode[key];
+  clearSession();      // test presets never overwrite a real account
   const keepComm = S.comm; S = fresh(); S.comm = keepComm;
   S.profile = {...blank(), ...T.profile}; S.selected = [...T.selected];
   log('data', `Test mode: ${T.label}`, profileSummary(S.profile));
   if (key === 's1') { go('assess'); toast('Test mode: Priya picked 5 famous schools. Tap Check my fit.', 'info'); }
-  else if (key === 's3') { runAssessment(); go('home', {tab:'home'}); toast('Test mode: R1 results are out. Tap Update my results.', 'info'); }
+  else if (key === 's3') { S.season = true; runAssessment(); go('home', {tab:'home'}); toast('Test mode: R1 results are out. Tap Update my results.', 'info'); }
   else { runAssessment(); go('list', {tab:'list'}); toast('Test mode: thin-data profile loaded. Look for Low confidence.', 'info'); }
   $('#log').classList.remove('open');
 }
