@@ -351,6 +351,20 @@ keywords: scholarship, financial aid, reconsideration, merit
 - Be gracious and specific: thank the school, state clearly that it is your first choice if true, share the
   competing offer or new information, and make a concrete request. Never frame it as an ultimatum.
 
+## Test prep and retakes
+keywords: retake, take the gmat, study plan, test prep, practice test, test date, data insights
+- Start with a full, timed diagnostic test. Plan from the gap between that score and the school's median, not from
+  a guess.
+- Typical prep is 8 to 12 weeks at 10 to 15 hours a week; less for a retake that targets one section. Spread study
+  across the week rather than cramming at weekends.
+- Book the test date early, at least 3 to 4 weeks before the deadline, so there is room for a retake and for the
+  official score to reach the school.
+- GMAT Focus has Quant, Verbal and Data Insights; spend the most time on the weakest section and review every
+  error by type, not just by count.
+- GMAT Focus and GRE are both accepted at most programs; switch only if practice tests clearly favour the other.
+- A score below the median is not disqualifying. If a retake won't move it, show quantitative strength elsewhere
+  (graded quant courses, analytical work) and keep any explanation to one factual sentence.
+
 ## School: Chicago Booth
 keywords: booth, chicago
 Essay formats seen (confirm current): an immediate post-MBA goal and a long-term goal in 1-2 lines each, then "How

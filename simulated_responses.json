@@ -7135,7 +7135,7 @@
     "requires": "Requires {list}."
   },
   "assistants": {
-    "_note": "Assistant workspaces opened from plan items. Each assistant answers with the first reply whose keyword appears in the user's message, otherwise default_reply. Documents are uploaded so each one is captured with its school and plan item (the data loop). requires_upload means the item can't be completed or sent for expert review without a document. The Essay Coach is live when the page is served by essay_server.py with an API key: replies come from the model picked in the workspace (Anthropic, OpenAI, DeepSeek or Gemini, see live below) and the keyword replies are the offline fallback.",
+    "_note": "Assistant workspaces opened from plan items. Each assistant answers with the first reply whose keyword appears in the user's message, otherwise default_reply. Documents are uploaded so each one is captured with its school and plan item (the data loop). requires_upload means the item can't be completed or sent for expert review without a document. Every assistant is live when the page is served by essay_server.py with an API key (a coach's live_intro and thinking replace the live defaults): replies come from the model picked in the workspace (Anthropic, OpenAI, DeepSeek or Gemini, see live below) and the keyword replies are the offline fallback.",
     "prompt_label": "Essay question",
     "prompt_head": "{short} essay question",
     "due": "{school}, due {date}",
@@ -7226,7 +7226,9 @@
             "reply": "From your notes, your manager is the strongest choice. Make sure the second recommender has seen you lead, not just analyze."
           }
         ],
-        "default_reply": "Recommenders should know your work well and be able to give specific examples. Ask me 'who should I pick?' or 'how do I brief them?'."
+        "default_reply": "Recommenders should know your work well and be able to give specific examples. Ask me 'who should I pick?' or 'how do I brief them?'.",
+        "live_intro": "Hi {name}, I'm your Recommender Advisor for {short}. {short} asks for {recommenders}. Tell me who you're considering, or upload notes on them above, and I'll help you choose, plan which stories each one covers, and brief them. The letters stay theirs.",
+        "thinking": "Reading your notes..."
       },
       "test_prep": {
         "name": "GMAT Coach",
@@ -7257,7 +7259,9 @@
             "reply": "Do two timed reading comprehension passages a day and review every wrong answer."
           }
         ],
-        "default_reply": "I can build a study plan, focus on Quant or Verbal, or help you pick a test date. What would help?"
+        "default_reply": "I can build a study plan, focus on Quant or Verbal, or help you pick a test date. What would help?",
+        "live_intro": "Hi {name}, I'm your GMAT Coach for {short}. Its median GMAT is {median}. Tell me your latest score or practice results, or upload a practice log above, and I'll build a dated study plan that fits the deadline.",
+        "thinking": "Building your plan..."
       },
       "interview": {
         "name": "Interview Coach",
@@ -7289,7 +7293,9 @@
             "reply": "For 'Why {short}?', name two specific things (a class, a club, a professor) and connect each to your goal."
           }
         ],
-        "default_reply": "I can run a mock question, review an answer, or help you prepare 'Why {short}?'. Type 'mock' to start."
+        "default_reply": "I can run a mock question, review an answer, or help you prepare 'Why {short}?'. Type 'mock' to start.",
+        "live_intro": "Hi {name}, I'm your Interview Coach for {short}. Type 'mock' and I'll ask you one practice question at a time, or paste or upload an answer above for feedback.",
+        "thinking": "Thinking about your answer..."
       }
     },
     "replace": "Replace document",
@@ -7304,6 +7310,7 @@
       "thinking": "Reading your draft...",
       "error": "The coach couldn't answer just now: {error}",
       "intro": "Hi {name}! I'm your Essay Coach for {short}. The prompt is: \"{essayPrompt}\" ({wordLimit}-word limit). Upload your draft above and ask me anything: where to start, whether it answers the prompt, what to cut. I'll give feedback on your writing, but the words stay yours.",
+      "intro_task": "Hi {name}! I'm your Essay Coach for {short}. This item: {title}. Upload your draft above and ask me anything: where to start, what to include, what to cut. I'll give feedback on your writing, but the words stay yours.",
       "model_label": "Model"
     }
   },

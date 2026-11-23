@@ -1,4 +1,6 @@
-"""Serves the prototype and connects the Essay Coach to a live model.
+"""Serves the prototype and connects the plan assistants (Essay Coach, Recommender Advisor, GMAT Coach,
+Interview Coach) to a live model. Each has its own instructions in ROLES below; the chat request's
+"assistant" field picks one ("essay" when missing).
 
     ~/.admitpal-venv/bin/python essay_server.py         # http://localhost:8010
     ~/.admitpal-venv/bin/python essay_server.py 8020    # another port
@@ -115,10 +117,60 @@ B. "I convinced [stakeholder] to [decision], which [result]."
 A. "Right after the MBA I plan to join [type of firm] as [role], focused on [sector]."
 B. "My first step is [role] at [type of organisation], where I can [skill you will build]."
 
-Which opening feels closer to your voice, A or B, or would you keep your own?"""
+Which opening feels closer to your voice, A or B, or would you keep your own?
+
+Some plan items are not an essay question (tailoring the resume, short-answer questions, a waitlist update letter). For those the brief gives a Task instead of an essay prompt: coach that task in the same style, and don't treat it as the school's main essay."""
+
+# Rules every assistant other than the Essay Coach follows (the Essay Coach has its own copy above).
+RULES = """
+Rules:
+- Plain text: no markdown headings, no bold or italics markers. Numbered points and "A.", "B.", "C." options on their own lines are fine.
+- Use only facts from the profile, the resume summary, the brief and any uploaded document. Where a fact is missing, use a placeholder in square brackets such as [result], [team size] or [company]. Never invent names, numbers, events, dates or school features.
+- You also get Admit Pal's diagnosis of the profile and its read of the candidate's case for this school. Use them to tailor your advice to this candidate and this school.
+- Never write the finished deliverable for the candidate. Give examples to adapt, not text to paste.
+- If you mention a school fact (format, policy, dates), keep it general or say it should be confirmed on the school's site.
+- Be honest and encouraging. Every point must add value for this candidate: no padding, no generic advice.
+- Keep replies under 500 words. End with one question that moves the work forward.
+- The PLAYBOOK's patterns come from top programs but apply to any school: adapt them to the school in front of you."""
+
+ROLES = {
+    "essay": SYSTEM,
+    "recommender": """You are Recommender Advisor inside Admit Pal, an app that helps people apply to full-time MBA programs. You help one candidate choose and brief recommenders for one school. The recommenders write the letters; you never draft a letter.
+
+What you help with:
+- Who to ask: people who know the candidate's work closely and can give specific examples of impact and growth. Closeness beats seniority; a direct supervisor is usually expected. Name the trade-offs for the people the candidate mentions.
+- How many: the brief says how many letters this school asks for.
+- The brief packet: the 2 or 3 stories each recommender should cover (taken from the resume summary and diagnosis), the strengths each one is best placed to show, how they complement each other, the deadline, and the school's questions if the candidate has them.
+- How to ask: timing (several weeks before the deadline), a short ask, and polite reminders.
+- If the candidate uploads notes on their recommenders, review them against all of the above.
+
+Reply format: one sentence on where they stand, then numbered points, most important first. Where wording helps (an ask email line, a story to suggest), give 2 or 3 short options as "A.", "B.", "C.".""" + RULES,
+    "test_prep": """You are GMAT Coach inside Admit Pal, an app that helps people apply to full-time MBA programs. You help one candidate plan the GMAT Focus or GRE for one school.
+
+What you help with:
+- The target: the school's median GMAT (in the brief) and the candidate's current score, if any. Say how far they are from it and what a realistic aim is.
+- A study plan worked back from the school deadline: when to book the test, leaving time for a retake and for the score to arrive before the deadline. Lay it out as dated weeks ("Week of [date]: ..."), using the due date and deadline in the brief.
+- Where to focus: Quant, Verbal and Data Insights; diagnostic test first if they have no recent score.
+- GMAT Focus vs GRE when they ask, and how schools treat each (to be confirmed on the school's site).
+- If they upload a practice log, read it and adjust the plan to their weakest areas.
+- If the score is a real gap, mention briefly that other parts of the application (an alternative transcript, the optional essay) can help, without dwelling on it.
+
+Reply format: one sentence on where they stand, then the plan or numbered points. Don't invent practice scores; ask for them.""" + RULES,
+    "interview": """You are Interview Coach inside Admit Pal, an app that helps people apply to full-time MBA programs. You prepare one candidate for one school's interview or video essay.
+
+What you help with:
+- Mock interviews: when the candidate asks to practice, ask ONE question, then stop and wait for their answer. Typical questions: tell me about yourself / walk me through your resume, why an MBA, why now, why this school, a leadership example, a failure or setback, a difficult decision, questions for the interviewer. Pick questions that probe this candidate's diagnosis gaps.
+- Feedback on an answer: one sentence overall, then numbered points (what works, what to fix, why it matters), with 2 or 3 short ways to sharpen a line as "A.", "B.", "C.". Check structure (situation, action, result), length (about 2 minutes spoken), and that their own role is clear. Then offer the next question.
+- Video essays and recorded answers: short prep time, one clear story, look at the camera, practice with a timer. The brief says when the item is a video essay.
+- If they upload practice answers, give feedback on them as above.
+
+Never script full answers; give structure and example lines to adapt.""" + RULES,
+}
+WORKSPACE = {"essay": "Essay draft", "recommender": "Recommender notes", "test_prep": "Practice log", "interview": "Practice answers"}
+NAMES = {"essay": "Essay Coach", "recommender": "Recommender Advisor", "test_prep": "GMAT Coach", "interview": "Interview Coach"}
 
 # Admissions playbook: coach_playbook.md in this folder. "## " headings start sections. A section is sent when
-# its keywords line matches the school or essay prompt, or when its keywords include "always".
+# its keywords line matches the school, essay prompt or plan item, or when its keywords include "always" (Essay Coach only).
 PLAYBOOK = HERE / "coach_playbook.md"
 PLAYBOOK_CHAR_BUDGET = int(os.environ.get("ADMITPAL_PLAYBOOK_CHARS", "24000"))
 
@@ -141,13 +193,17 @@ def playbook_sections():
 
 
 def playbook_for(c):
-    """The playbook sections that fit this school and essay prompt, within the character budget."""
+    """The playbook sections that fit this school and essay prompt, within the character budget.
+    The "always" sections are essay-writing principles, so only the Essay Coach gets them."""
+    essay = (c.get("assistant") or "essay") == "essay"
     prof = " ".join(str(v) for v in (c.get("profile") or {}).values())
-    hay = " ".join(str(c.get(k, "")) for k in ("school", "prompt", "item")).lower() + " " + prof.lower()
+    hay = " ".join(str(c.get(k, "")) for k in ("school", "prompt", "item", "title")).replace("_", " ").lower() + " " + prof.lower()
     hist = " ".join(m.get("text", "") for m in c.get("history", [])[-2:]).lower()
     picked = []
     for s in playbook_sections():
         keys = s["keys"]
+        if "always" in keys and not essay:
+            continue
         hit = "always" in keys or ("fallback" not in keys and any(k and re.search(r"\b" + re.escape(k), hay + " " + hist) for k in keys))
         if hit:
             picked.append(s)
@@ -201,21 +257,35 @@ def background_lines(b):
 
 
 def context_text(c):
-    """First user turn: the essay brief, the candidate's profile and the draft, as plain text so every provider reads it the same way."""
-    p = c.get("profile") or {}
-    lines = [
-        f"School: {c.get('school', '')}",
-        f"Essay prompt: {c.get('prompt', '')}",
-        f"Word limit: {c.get('wordLimit', '')}",
+    """First user turn: the item brief, the candidate's profile and any uploaded document, as plain text so every provider reads it the same way."""
+    p, who = c.get("profile") or {}, c.get("assistant") or "essay"
+    lines = [f"School: {c.get('school', '')}"]
+    if c.get("title"):
+        lines.append(f"Plan item: {c['title']}" + (f" (due {c['due']})" if c.get("due") else ""))
+    if c.get("deadline"):
+        lines.append(f"Application deadline: {c['deadline']}")
+    if who == "essay":
+        if c.get("prompt"):
+            lines += [f"Essay prompt: {c['prompt']}", f"Word limit: {c.get('wordLimit', '')}"]
+        else:
+            lines.append(f"Task: {c.get('title', '')} (this is not the school's main essay question)")
+    elif who == "recommender":
+        lines.append(f"Recommendation letters required: {c.get('recommenders', '')}")
+    elif who == "test_prep":
+        lines.append(f"School median GMAT: {c.get('median', '')}")
+        lines.append(f"Candidate's current score: {p.get('test') or 'none yet'}")
+    elif who == "interview":
+        lines.append("Format: recorded video essay" if c.get("item") == "video_essay" else "Format: admissions interview")
+    lines += [
         "",
         "Candidate profile:",
         *[f"- {k.replace('_', ' ')}: {v}" for k, v in p.items() if v not in (None, "", [])],
         "",
         *background_lines(c.get("background") or {}),
     ]
-    doc = c.get("doc")
+    doc, label = c.get("doc"), WORKSPACE.get(who, "document").lower()
     if not doc:
-        lines.append("No draft uploaded yet.")
+        lines.append("No draft uploaded yet." if who == "essay" else f"No {label} uploaded.")
         return "\n".join(lines)
     raw = base64.b64decode(doc["data"])
     if len(raw) > MAX_DOC_BYTES:
@@ -227,7 +297,8 @@ def context_text(c):
     if not text:
         lines.append(f"The candidate uploaded {doc['name']}, but its text can't be read. Ask them to upload it as .docx, .txt or a text-based PDF.")
     else:
-        lines += [f"The candidate's current draft ({doc['name']}, {len(text.split())} words):", "<draft>", text, "</draft>"]
+        what, tag = ("current draft", "draft") if who == "essay" else (label, "document")
+        lines += [f"The candidate's {what} ({doc['name']}, {len(text.split())} words):", f"<{tag}>", text, f"</{tag}>"]
     return "\n".join(lines)
 
 
@@ -293,15 +364,19 @@ class Handler(SimpleHTTPRequestHandler):
         prov = BY_ID.get(c.get("model"))
         if not prov or not prov["ready"]:
             return self._json(503, {"error": "That model has no API key on the server."})
+        who = c.get("assistant") or "essay"
+        if who not in ROLES:
+            return self._json(400, {"error": f"Unknown assistant: {who}"})
         try:
             first = context_text(c)
         except ValueError as e:
             return self._json(400, {"error": str(e)})
         pb, used = playbook_for(c)
-        system = SYSTEM + ("\n\nPLAYBOOK (Admit Pal's admissions guidance; use it, don't quote it at length):\n" + pb if pb else "")
-        print(f"  coach -> {prov['model']} | school: {c.get('school', '')} | playbook: {', '.join(used) or 'none'}", flush=True)
+        system = ROLES[who] + ("\n\nPLAYBOOK (Admit Pal's admissions guidance; use it, don't quote it at length):\n" + pb if pb else "")
+        print(f"  {NAMES[who]} -> {prov['model']} | school: {c.get('school', '')} | item: {c.get('item', '')} | playbook: {', '.join(used) or 'none'}", flush=True)
+        doc_word = "your draft" if who == "essay" else "your " + WORKSPACE[who].lower()
         messages = [{"role": "system", "content": system}, {"role": "user", "content": first},
-                    {"role": "assistant", "content": "Got it. I have the prompt, your profile" + (", and your draft." if c.get("doc") else ". No draft yet.")}]
+                    {"role": "assistant", "content": "Got it. I have the brief, your profile" + (f", and {doc_word}." if c.get("doc") else ".")}]
         for m in c.get("history", []):
             if m.get("role") not in ("user", "assistant") or not m.get("text"):
                 continue

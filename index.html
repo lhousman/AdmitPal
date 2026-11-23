@@ -1455,9 +1455,9 @@ screens.plan = function(){
 screens.work = function(){
   setStatus(false);
   const {id, key, from} = S.work, s = school(id), a = S.plan[id].find(x => x.key === key), W = SIM.assistants, A = W.coaches[a.assistant], ck = id + '|' + key;
-  const v = {name:S.profile.name || 'there', school:s.name, short:s.short, median:s.gmat, essayPrompt:a.prompt || s.requirements.essays[0].prompt, wordLimit:a.words || s.requirements.essays[0].words, leadStory:SIM.diagnosis.lead_story, assistant:A.name};
-  const up = S.uploads[ck], need = !!A.requires_upload && !up, live = a.assistant === 'essay' && LLM.live;
-  if (!S.chats[ck]) { S.chats[ck] = [{who:'ai', text:fill(live ? W.live.intro : A.intro, v)}]; log('ai', `${A.name} opened`, `${s.short}: ${a.title}`); }
+  const v = {name:S.profile.name || 'there', school:s.name, short:s.short, median:s.gmat, essayPrompt:a.prompt || s.requirements.essays[0].prompt, wordLimit:a.words || s.requirements.essays[0].words, leadStory:SIM.diagnosis.lead_story, assistant:A.name, title:a.title, recommenders:plural(s.requirements.recommenders, 'recommender')};
+  const up = S.uploads[ck], need = !!A.requires_upload && !up, live = !!a.assistant && LLM.live;
+  if (!S.chats[ck]) { S.chats[ck] = [{who:'ai', text:fill(live ? A.live_intro || (a.prompt ? W.live.intro : W.live.intro_task) : A.intro, v)}]; log('ai', `${A.name} opened`, `${s.short}: ${a.title}`); }
   V().innerHTML = `<div class="nav" style="height:96px;align-items:flex-end"><button class="circle-btn flat" id="bk" aria-label="Back">${ic('back',2.2)}</button>${schoolChip(id)}<span style="width:36px"></span></div>
     <div class="scroll" id="sc"><div class="pad">
       <h1 class="h2" style="font-size:24px">${esc(a.title)}</h1><p class="cap" style="margin-top:4px">${esc(fill(W.due, {school:s.name, date:dFmt(a.date)}))}</p>
@@ -1466,12 +1466,12 @@ screens.work = function(){
       <input type="file" id="docUp" accept=".txt,.md,.pdf,.doc,.docx" hidden>
       <div class="wsacts"><button class="btn ${up ? 'soft' : ''}" id="docBtn">${ic('doc',2)}${esc(up ? W.replace : W.upload)}</button><button class="btn dark" id="complete" ${a.done || need ? 'disabled' : ''}>${a.done ? ic('check',2.4) + esc(W.done) : esc(W.mark_done)}</button></div>
       <button class="link" id="toadv" style="display:block;margin-top:16px;font-size:14px">${esc(W.advisor_cta)}</button>
-      ${a.assistant === 'essay' ? `<div class="livetag ${live ? 'on' : ''}"><i></i>${live ? `${esc(fill(W.live.badge, {model:''})).trim()} <select id="llmPick" aria-label="${esc(W.live.model_label)}">${LLM.models.map(m => `<option value="${esc(m.id)}" ${m.id === LLM.model ? 'selected' : ''} ${m.ready ? '' : 'disabled'}>${esc(m.label)}${m.ready ? '' : ' (no key)'}</option>`).join('')}</select>` : esc(W.live.offline)}</div>` : ''}
+      ${a.assistant ? `<div class="livetag ${live ? 'on' : ''}"><i></i>${live ? `${esc(fill(W.live.badge, {model:''})).trim()} <select id="llmPick" aria-label="${esc(W.live.model_label)}">${LLM.models.map(m => `<option value="${esc(m.id)}" ${m.id === LLM.model ? 'selected' : ''} ${m.ready ? '' : 'disabled'}>${esc(m.label)}${m.ready ? '' : ' (no key)'}</option>`).join('')}</select>` : esc(W.live.offline)}</div>` : ''}
       <div class="hr" style="margin:20px 0 4px"></div><div id="chat"></div>
     </div><div style="height:20px"></div></div>
     <div class="composer"><input id="cm" placeholder="${esc(fill(W.input_ph, v))}" aria-label="${esc(fill(W.input_ph, v))}" autocomplete="off"><button id="send" aria-label="Send" disabled>${ic('send',2)}</button></div>`;
   const wsc = () => document.querySelector('#pane .scroll') || $('#sc');   // the workspace's own scroll area
-  const drawChat = () => { $('#chat').innerHTML = S.chats[ck].map(m => `<div class="cmt ${m.who==='me'?'mine':''}"><span class="cav">${m.who==='me' ? esc(initial() || 'Y') : ic('sparkle',2)}</span><div class="cbody"><div class="cap"><b>${m.who==='me' ? 'You' : esc(A.name)}</b>${m.llm && m.model ? ` <span class="cap">· ${esc((LLM.models.find(x => x.id === m.model) || {}).label || m.model)}</span>` : ''}</div><p class="${m.llm || m.wait ? 'llm' : ''} ${m.wait ? 'wait' : ''} ${m.err ? 'err' : ''}">${esc(m.wait ? W.live.thinking : m.text)}</p></div></div>`).join(''); };
+  const drawChat = () => { $('#chat').innerHTML = S.chats[ck].map(m => `<div class="cmt ${m.who==='me'?'mine':''}"><span class="cav">${m.who==='me' ? esc(initial() || 'Y') : ic('sparkle',2)}</span><div class="cbody"><div class="cap"><b>${m.who==='me' ? 'You' : esc(A.name)}</b>${m.llm && m.model ? ` <span class="cap">· ${esc((LLM.models.find(x => x.id === m.model) || {}).label || m.model)}</span>` : ''}</div><p class="${m.llm || m.wait ? 'llm' : ''} ${m.wait ? 'wait' : ''} ${m.err ? 'err' : ''}">${esc(m.wait ? A.thinking || W.live.thinking : m.text)}</p></div></div>`).join(''); };
   drawChat();
   const back = () => from === 'advisor' ? go('advisor') : goPlan(id);
   $('#bk').onclick = back;
@@ -1488,7 +1488,7 @@ screens.work = function(){
   const cm = $('#cm'), send = $('#send');
   cm.oninput = () => { send.disabled = !cm.value.trim(); };
   cm.onkeydown = e => { if (e.key === 'Enter' && cm.value.trim()) send.click(); };
-  const pick = $('#llmPick'); if (pick) pick.onchange = () => { LLM.model = pick.value; log('user','Picked Essay Coach model', llmName()); };
+  const pick = $('#llmPick'); if (pick) pick.onchange = () => { LLM.model = pick.value; log('user','Picked assistant model', `${A.name}: ${llmName()}`); };
   send.onclick = () => {
     const text = cm.value.trim(); if (!text) return;
     if (live) {                                  // live model via essay_server.py
@@ -1497,7 +1497,7 @@ screens.work = function(){
       S.chats[ck].push({who:'me', text}, msg); cm.value = ''; send.disabled = true; drawChat(); wsc().scrollTop = 1e6;
       log('user', `Asked ${A.name}`, text);
       const here = () => $('#chat') && S.work && S.work.id + '|' + S.work.key === ck;
-      coachReply(ck, {school:s.name, short:s.short, item:key, prompt:v.essayPrompt, wordLimit:v.wordLimit}, msg, () => { if (here()) { const el = wsc(), end = el.scrollHeight - el.scrollTop - el.clientHeight < 80; drawChat(); if (end) el.scrollTop = 1e6; } });
+      coachReply(ck, {assistant:a.assistant, name:A.name, school:s.name, short:s.short, item:key, title:a.title, due:a.date, deadline:s.deadline, prompt:a.prompt || '', wordLimit:a.prompt ? a.words : '', median:s.gmat, recommenders:s.requirements.recommenders}, msg, () => { if (here()) { const el = wsc(), end = el.scrollHeight - el.scrollTop - el.clientHeight < 80; drawChat(); if (end) el.scrollTop = 1e6; } });
       return;
     }
     const lower = text.toLowerCase(), wc = up ? up.words : 0, hit = A.replies.find(r => r.keywords.some(k => lower.includes(k)));
@@ -1843,9 +1843,9 @@ function render(){
   if (keep && sp) { if ($('#sc')) $('#sc').scrollTop = keep.l || 0; const ps = document.querySelector('#pane .scroll'); if (ps && keep.id === S.schoolId + '|' + S.pane) ps.scrollTop = keep.r || 0; }
 }
 window.addEventListener('resize', () => { if (SIM && split() !== wasSplit) { closeOverlay(); render(); } });
-/* Live Essay Coach: essay_server.py holds the API keys and calls the model through LiteLLM, so the
+/* Live assistants (Essay Coach, Recommender Advisor, GMAT Coach, Interview Coach): essay_server.py holds the API keys and calls the model through LiteLLM, so the
    provider is a setting (Anthropic, OpenAI, DeepSeek, Gemini). Without the server or without any key
-   (plain http.server, the offline file) the Essay Coach keeps the keyword replies from simulated_responses.json. */
+   (plain http.server, the offline file) the assistants keep the keyword replies from simulated_responses.json. */
 const LLM = {live:false, models:[], model:''};
 const llmName = () => (LLM.models.find(m => m.id === LLM.model) || {}).label || LLM.model;
 async function checkLLM(){
@@ -1853,7 +1853,7 @@ async function checkLLM(){
   try { const r = await fetch('api/essay/status', {cache:'no-store'}); if (!r.ok) return; const j = await r.json();
     LLM.models = j.models || []; LLM.live = LLM.models.some(m => m.ready); const keep = LLM.models.find(m => m.id === LLM.model && m.ready);
     LLM.model = keep ? keep.id : ((LLM.models.find(m => m.id === j.default && m.ready) || LLM.models.find(m => m.ready) || {}).id || '');
-    log('data','Essay Coach mode', LLM.live ? `Live (${llmName()})` : 'Simulated (server has no API keys)'); if (S.screen === 'work' || S.pane === 'work') render(); } catch(e){}
+    log('data','Assistants mode', LLM.live ? `Live (${llmName()})` : 'Simulated (server has no API keys)'); if (S.screen === 'work' || S.pane === 'work') render(); } catch(e){}
 }
 const b64 = f => new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(',')[1]); r.onerror = no; r.readAsDataURL(f); });
 /* What the coach knows about the candidate: the same profile fields the fit model and advice use. */
@@ -1878,7 +1878,7 @@ async function coachReply(ck, ctx, msg, redraw){
   msg.model = LLM.model;
   try {
     const r = await fetch('api/essay/chat', {method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({...ctx, model:LLM.model, profile:coachProfile(), background:coachBackground(ck.split('|')[0]), doc:up && up.data ? {name:up.name, data:up.data} : null, history})});
+      body:JSON.stringify({...ctx, name:undefined, model:LLM.model, profile:coachProfile(), background:coachBackground(ck.split('|')[0]), doc:up && up.data ? {name:up.name, data:up.data} : null, history})});
     if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || `HTTP ${r.status}`);
     const rd = r.body.getReader(), dec = new TextDecoder(); let buf = '';
     for (;;) { const {value, done} = await rd.read(); if (done) break; buf += dec.decode(value, {stream:true});
@@ -1889,8 +1889,8 @@ async function coachReply(ck, ctx, msg, redraw){
     if (!msg.text) throw new Error('Empty reply');
   } catch(e) { msg.err = true; msg.text = (msg.text ? msg.text + '\n\n' : '') + fill(W.live.error, {error:e.message}); }
   msg.wait = false; msg.llm = true; redraw();
-  log('ai', `Essay Coach reply (${msg.err ? 'error, ' : ''}${msg.model})`, msg.text);
-  log('data','Coaching exchange captured (training data)', {school:ctx.short, item:ctx.item, model:msg.model, draft:up ? up.name : null, resume_summary:!!S.profile.resume, reply_words:(msg.text.match(/\S+/g) || []).length});
+  log('ai', `${ctx.name} reply (${msg.err ? 'error, ' : ''}${msg.model})`, msg.text);
+  log('data','Coaching exchange captured (training data)', {assistant:ctx.assistant, school:ctx.short, item:ctx.item, model:msg.model, draft:up ? up.name : null, resume_summary:!!S.profile.resume, reply_words:(msg.text.match(/\S+/g) || []).length});
 }
 async function loadSim(){
   const t0 = $('#sim-inline').textContent.trim();
